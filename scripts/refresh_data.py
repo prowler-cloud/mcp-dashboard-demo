@@ -145,7 +145,7 @@ def js_literal(obj, indent=2):
     return json.dumps(obj, indent=indent, ensure_ascii=False)
 
 
-def rewrite(html_path, providers, overview, sev_counts, findings, top):
+def rewrite(html_path, out_path, providers, overview, sev_counts, findings, top):
     html = open(html_path, encoding="utf-8").read()
     now = dt.datetime.now(dt.timezone.utc).isoformat()
 
@@ -188,12 +188,20 @@ def rewrite(html_path, providers, overview, sev_counts, findings, top):
         "/* ==PROWLER_DATA_END== */"
     )
 
-    html = re.sub(r"<!-- ==PROWLER_HEADER_START==.*?==PROWLER_HEADER_END== -->",
-                  header, html, count=1, flags=re.S)
-    html = re.sub(r"/\* ==PROWLER_DATA_START== \*/.*?/\* ==PROWLER_DATA_END== \*/",
-                  data, html, count=1, flags=re.S)
-    open(html_path, "w", encoding="utf-8").write(html)
-    print(f"Rewrote {html_path}: {len(findings)} findings, "
+    if "==PROWLER_HEADER_START==" in html:
+        html = re.sub(r"<!-- ==PROWLER_HEADER_START==.*?==PROWLER_HEADER_END== -->",
+                      header, html, count=1, flags=re.S)
+        html = re.sub(r"/\* ==PROWLER_DATA_START== \*/.*?/\* ==PROWLER_DATA_END== \*/",
+                      data, html, count=1, flags=re.S)
+    else:
+        # Original un-sentineled dashboard: replace first comment + data object,
+        # inserting sentinels so every future run hits the branch above.
+        html = re.sub(r"<!--.*?-->", header, html, count=1, flags=re.S)
+        html = re.sub(r"const PROWLER_DATA = \{.*?\n\};", data, html, count=1, flags=re.S)
+        # trend anchor must follow the snapshot date, not a hard-coded day
+        html = html.replace("new Date('2026-05-20')", "new Date(PROWLER_DATA.generatedAt)")
+    open(out_path, "w", encoding="utf-8").write(html)
+    print(f"Wrote {out_path}: {len(findings)} findings, "
           f"{len(providers)} provider(s), FAIL={overview['fail']}")
 
 
@@ -202,6 +210,8 @@ def main():
     ap.add_argument("--base-url", default=os.environ.get("PROWLER_API_BASE", DEFAULT_BASE))
     ap.add_argument("--html", default=os.path.join(
         os.path.dirname(__file__), "..", "index.html"))
+    ap.add_argument("--out", default=None,
+                    help="output path (defaults to overwriting --html)")
     args = ap.parse_args()
 
     key = os.environ.get("PROWLER_API_KEY")
@@ -209,7 +219,8 @@ def main():
         sys.exit("PROWLER_API_KEY environment variable is required")
 
     providers, overview, sev_counts, findings, top = fetch(args.base_url, key)
-    rewrite(os.path.abspath(args.html), providers, overview, sev_counts, findings, top)
+    rewrite(os.path.abspath(args.html), os.path.abspath(args.out or args.html),
+            providers, overview, sev_counts, findings, top)
 
 
 if __name__ == "__main__":
