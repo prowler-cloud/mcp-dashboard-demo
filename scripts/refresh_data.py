@@ -43,8 +43,12 @@ def api_get(base, key, path, params=None):
         "Authorization": f"Api-Key {key}",
         "Accept": "application/vnd.api+json",
     })
-    with urllib.request.urlopen(req, timeout=60) as r:
-        return json.load(r)
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return json.load(r)
+    except urllib.error.HTTPError as e:
+        body = e.read().decode("utf-8", "replace")[:2000]
+        sys.exit(f"Prowler API error {e.code} on {path}\n{body}")
 
 
 def fetch(base, key):
@@ -76,9 +80,11 @@ def fetch(base, key):
 
     findings, severity_counts = [], {}
     for sev in SEVERITIES:
+        since = (dt.date.today() - dt.timedelta(days=30)).isoformat()
         page = api_get(base, key, "/findings", {
             "filter[severity]": sev,
             "filter[status]": "FAIL",
+            "filter[inserted_at__gte]": since,  # required: an inserted_at variant
             "page[size]": PER_SEVERITY_MIN,
             "sort": "-inserted_at",
         })
