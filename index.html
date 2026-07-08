@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<!-- ==PROWLER_HEADER_START== Prowler Security Dashboard - Generated from live MCP data
+  ============================================================
+  Provider(s) found: 1
+    - acmeAWS-demoAccount (aws | UID 951364905357 | connected: true)
+
+  Findings overview:
+    Total: 452 | FAIL: 286 (63.3%) | PASS: 162 (35.8%) | Muted: 0
+
+  Severity breakdown (FAIL):
+    Critical: 2  |  High: 77  |  Medium: 134  |  Low: 73  |  Informational: 0
+
+  Top 10 critical/high findings enriched via Prowler Hub:
+    iam_user_administrator_access_policy
+    iam_aws_attached_policy_no_administrative_privileges
+    securityhub_enabled (multi-region)
+    s3_bucket_level_public_access_block (multi-bucket)
+  ==PROWLER_HEADER_END== -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="86400">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prowler Security Dashboard</title>
+<style>
+:root{
+  --bg-1:#0a0e27;--bg-2:#131830;
+  --primary:#00ff88;--secondary:#7c3aed;
+  --crit:#ff3860;--high:#ff8c42;--med:#ffd93d;--low:#3abff8;--info:#94a3b8;
+  --pass:#00ff88;--fail:#ff3860;
+  --text:#e6edf3;--mute:#8b95a7;
+  --card-bg:rgba(255,255,255,0.04);--card-border:rgba(255,255,255,0.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Inter,Roboto,sans-serif;color:var(--text);background:linear-gradient(135deg,var(--bg-1) 0%,var(--bg-2) 100%);background-attachment:fixed}
+body{padding:24px;max-width:1600px;margin:0 auto}
+a{color:var(--primary);text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;color:inherit}
+.header{display:flex;align-items:center;gap:20px;padding:18px 24px;background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:18px;margin-bottom:24px;flex-wrap:wrap}
+.header img.logo{max-height:48px;filter:drop-shadow(0 4px 12px rgba(0,255,136,0.25))}
+.header .title{font-size:22px;font-weight:700;letter-spacing:-0.3px}
+.header .title .sub{font-size:13px;font-weight:400;color:var(--mute);display:block;margin-top:2px}
+.header .spacer{flex:1}
+.live-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(0,255,136,0.1);border:1px solid rgba(0,255,136,0.35);border-radius:999px;font-size:12px;font-weight:600;color:var(--primary);letter-spacing:0.5px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 0 rgba(0,255,136,0.6);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(0,255,136,0.6)}70%{box-shadow:0 0 0 12px rgba(0,255,136,0)}100%{box-shadow:0 0 0 0 rgba(0,255,136,0)}}
+.btn{padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;transition:all .2s ease;border:1px solid var(--card-border);background:rgba(255,255,255,0.05)}
+.btn:hover{transform:translateY(-1px);background:rgba(255,255,255,0.1);border-color:var(--primary)}
+.btn-primary{background:linear-gradient(135deg,var(--primary),#00cc6f);color:#0a0e27;border:none}
+.btn-primary:hover{box-shadow:0 6px 20px rgba(0,255,136,0.35);transform:translateY(-1px)}
+.btn-secondary{background:linear-gradient(135deg,var(--secondary),#5b21b6);color:#fff;border:none}
+.countdown{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:13px;color:var(--mute);padding:6px 12px;border:1px solid var(--card-border);border-radius:10px;background:rgba(0,0,0,0.2)}
+.countdown b{color:var(--primary);font-weight:600}
+.timestamp{font-size:11px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+.widget{background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:18px;padding:20px;position:relative;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.widget:hover{transform:translateY(-3px);border-color:rgba(0,255,136,0.25);box-shadow:0 10px 40px rgba(0,255,136,0.08)}
+.widget.dragging{opacity:0.4;transform:scale(0.98)}
+.widget.drag-over{border-color:var(--primary);box-shadow:0 0 0 2px rgba(0,255,136,0.3)}
+.drag-handle{position:absolute;top:12px;left:12px;cursor:grab;color:var(--mute);font-size:18px;line-height:1;user-select:none;padding:4px 6px;border-radius:6px;transition:all .2s}
+.drag-handle:hover{color:var(--primary);background:rgba(0,255,136,0.08)}
+.drag-handle:active{cursor:grabbing}
+.widget-title{font-size:14px;font-weight:600;letter-spacing:0.2px;color:var(--text);margin:0 0 14px 32px;text-transform:uppercase;opacity:0.9}
+.col-3{grid-column:span 3}.col-4{grid-column:span 4}.col-5{grid-column:span 5}.col-6{grid-column:span 6}.col-7{grid-column:span 7}.col-8{grid-column:span 8}.col-12{grid-column:span 12}
+@media (max-width:768px){.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-12{grid-column:span 12}.header{padding:14px}.header .title{font-size:18px}body{padding:14px}}
+.stat-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:6px}
+.stat{flex:1;min-width:120px}
+.stat-num{font-size:32px;font-weight:700;letter-spacing:-1px}
+.stat-num.crit{color:var(--crit)}.stat-num.high{color:var(--high)}.stat-num.med{color:var(--med)}.stat-num.low{color:var(--low)}.stat-num.pass{color:var(--pass)}.stat-num.fail{color:var(--fail)}
+.stat-label{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:0.8px;margin-top:4px}
+.provider-card{display:flex;align-items:center;gap:14px;padding:14px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:12px;margin-top:8px}
+.provider-icon{width:42px;height:42px;border-radius:10px;background:linear-gradient(135deg,#ff9900,#ff6b35);display:flex;align-items:center;justify-content:center;font-weight:700;color:#fff;font-size:12px}
+.provider-info{flex:1}
+.provider-name{font-weight:600;font-size:14px}
+.provider-meta{font-size:11px;color:var(--mute);margin-top:2px}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--primary);box-shadow:0 0 8px rgba(0,255,136,0.7)}
+.donut-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.donut-svg{flex-shrink:0}
+.donut-legend{flex:1;display:flex;flex-direction:column;gap:8px;min-width:140px}
+.legend-item{display:flex;align-items:center;gap:10px;font-size:13px}
+.legend-swatch{width:12px;height:12px;border-radius:3px}
+.legend-label{flex:1;color:var(--mute)}
+.legend-val{font-weight:600;color:var(--text)}
+.search-bar{display:flex;gap:10px;margin-bottom:14px;margin-left:32px}
+.search-bar input{flex:1;padding:9px 14px;background:rgba(0,0,0,0.25);border:1px solid var(--card-border);border-radius:10px;color:var(--text);font-size:13px;font-family:inherit}
+.search-bar input:focus{outline:none;border-color:var(--primary)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;padding:10px 12px;background:rgba(0,0,0,0.25);color:var(--mute);font-weight:600;text-transform:uppercase;font-size:10.5px;letter-spacing:0.6px;cursor:pointer;user-select:none;border-bottom:1px solid var(--card-border)}
+th:hover{color:var(--primary)}
+th .sort-ind{opacity:0.5;margin-left:4px;font-size:9px}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04)}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:rgba(0,255,136,0.04)}
+.sev-badge{display:inline-block;padding:3px 9px;border-radius:6px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.sev-critical{background:rgba(255,56,96,0.15);color:var(--crit);border:1px solid rgba(255,56,96,0.4)}
+.sev-high{background:rgba(255,140,66,0.15);color:var(--high);border:1px solid rgba(255,140,66,0.4)}
+.sev-medium{background:rgba(255,217,61,0.12);color:var(--med);border:1px solid rgba(255,217,61,0.35)}
+.sev-low{background:rgba(58,191,248,0.13);color:var(--low);border:1px solid rgba(58,191,248,0.35)}
+.sev-informational{background:rgba(148,163,184,0.13);color:var(--info);border:1px solid rgba(148,163,184,0.3)}
+.stat-badge{display:inline-block;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:700;background:rgba(255,56,96,0.18);color:var(--fail)}
+.pagination{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12px;color:var(--mute);margin-left:32px}
+.pagination .pages button{padding:5px 10px;margin:0 2px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--card-border);font-size:12px}
+.pagination .pages button.active{background:var(--primary);color:#0a0e27;border-color:var(--primary);font-weight:700}
+.pagination .pages button:disabled{opacity:0.3;cursor:not-allowed}
+.accordion-item{background:rgba(0,0,0,0.18);border:1px solid var(--card-border);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.accordion-item:hover{border-color:rgba(0,255,136,0.2)}
+.accordion-head{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;flex-wrap:wrap}
+.accordion-head .meta{flex:1;min-width:200px}
+.accordion-head .check-title{font-weight:600;font-size:13.5px;margin-bottom:3px}
+.accordion-head .resource{font-size:11.5px;color:var(--mute);font-family:"SF Mono",Menlo,monospace}
+.accordion-arrow{font-size:14px;color:var(--mute);transition:transform .25s}
+.accordion-item.open .accordion-arrow{transform:rotate(180deg);color:var(--primary)}
+.accordion-body{display:none;padding:0 16px 16px 16px;border-top:1px solid var(--card-border);margin-top:0}
+.accordion-item.open .accordion-body{display:block;animation:slideDown .25s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.remediation-section{margin-top:14px}
+.remediation-section h4{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px}
+.remediation-section .risk{font-size:12.5px;color:var(--text);background:rgba(255,56,96,0.06);border-left:3px solid var(--crit);padding:10px 12px;border-radius:6px;line-height:1.5}
+.step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:13px;line-height:1.5}
+.step input[type=checkbox]{margin-top:3px;width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0}
+.step.done label{text-decoration:line-through;opacity:0.5}
+.step label{cursor:pointer;flex:1}
+.step .step-num{font-weight:700;color:var(--primary);margin-right:4px}
+.pr-btn{margin-top:14px;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;border-radius:9px;font-size:12.5px;font-weight:600;transition:all .2s;cursor:pointer;border:none;font-family:inherit}
+.pr-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,0.4);color:#fff}
+.modal-backdrop{position:fixed;inset:0;background:rgba(5,8,20,0.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;animation:fadeIn .2s ease}
+.modal-backdrop.open{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:linear-gradient(135deg,#131830,#0a0e27);border:1px solid rgba(124,58,237,0.4);border-radius:18px;padding:28px;width:100%;max-width:680px;box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.05);position:relative;animation:slideIn .25s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-20px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-head{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--card-border)}
+.modal-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#5b21b6);display:flex;align-items:center;justify-content:center;font-size:18px}
+.modal-title{font-size:17px;font-weight:700;letter-spacing:-0.2px}
+.modal-sub{font-size:12px;color:var(--mute);margin-top:2px}
+.modal-close{margin-left:auto;background:rgba(255,255,255,0.06);border:1px solid var(--card-border);color:var(--mute);width:32px;height:32px;border-radius:8px;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.modal-close:hover{background:rgba(255,56,96,0.15);color:var(--crit);border-color:var(--crit)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px;font-weight:600}
+.field input,.field textarea{width:100%;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:9px;color:var(--text);font-size:13px;font-family:inherit;transition:border-color .15s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--primary);background:rgba(0,0,0,0.4)}
+.field textarea{resize:vertical;min-height:200px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px;line-height:1.55}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:600px){.field-row{grid-template-columns:1fr}}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;padding-top:18px;border-top:1px solid var(--card-border);flex-wrap:wrap}
+.modal-actions .btn{padding:10px 18px;font-size:13px}
+.modal-actions .btn-cancel{background:rgba(255,255,255,0.05);border:1px solid var(--card-border);color:var(--text)}
+.modal-actions .btn-cancel:hover{background:rgba(255,255,255,0.1)}
+.modal-actions .btn-submit{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;border:none}
+.modal-actions .btn-submit:hover{box-shadow:0 6px 20px rgba(124,58,237,0.4);transform:translateY(-1px)}
+.modal-actions .btn-copy{background:rgba(0,255,136,0.08);border:1px solid rgba(0,255,136,0.3);color:var(--primary)}
+.modal-actions .btn-copy:hover{background:rgba(0,255,136,0.15)}
+.modal-meta{font-size:11px;color:var(--mute);margin-top:-6px;margin-bottom:14px;font-family:"SF Mono",Menlo,monospace}
+.modal-meta b{color:var(--text);font-weight:600}
+.modal-tip{font-size:12px;color:var(--mute);background:rgba(0,255,136,0.04);border:1px solid rgba(0,255,136,0.2);border-radius:8px;padding:10px 14px;margin-bottom:16px;line-height:1.55}
+.modal-tip b{color:var(--primary);font-weight:600}
+.modal-tip code{background:rgba(0,0,0,0.4);padding:1px 6px;border-radius:4px;font-family:"SF Mono",Menlo,monospace;font-size:11px;color:var(--text)}
+.spark-wrap{position:relative}
+.spark-stats{display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;color:var(--mute)}
+.spark-stats b{color:var(--primary);font-size:14px}
+.trend-legend{display:flex;gap:8px;margin:0 0 14px 32px;flex-wrap:wrap}
+.trend-legend-item{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer;padding:5px 11px;border-radius:7px;border:1px solid var(--card-border);background:rgba(255,255,255,0.03);transition:all .15s;user-select:none;font-weight:500}
+.trend-legend-item:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.18)}
+.trend-legend-item.muted{opacity:0.4}
+.trend-legend-item.muted .trend-swatch{opacity:0.3}
+.trend-swatch{width:16px;height:3px;border-radius:2px}
+.trend-chart-wrap{position:relative;margin:0 16px;padding:0 16px}
+.trend-svg{display:block;width:100%;height:auto;cursor:crosshair}
+.trend-svg polyline{transition:opacity .2s}
+.trend-svg polyline.hidden{display:none}
+.trend-svg circle.hidden{display:none}
+.trend-tooltip{position:absolute;background:rgba(10,14,39,0.96);border:1px solid rgba(124,58,237,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:11px 13px;border-radius:9px;pointer-events:none;z-index:100;box-shadow:0 10px 30px rgba(0,0,0,0.5);min-width:170px;display:none;transition:opacity .15s}
+.trend-tooltip .date{font-weight:700;color:var(--text);margin-bottom:8px;font-size:12px;font-family:"SF Mono",Menlo,Consolas,monospace;border-bottom:1px solid var(--card-border);padding-bottom:6px}
+.trend-tooltip .row{display:flex;justify-content:space-between;align-items:center;gap:14px;font-size:12px;padding:3px 0}
+.trend-tooltip .row .lbl{display:flex;align-items:center;gap:7px;color:var(--mute)}
+.trend-tooltip .row .val{font-weight:700;color:var(--text);font-family:"SF Mono",Menlo,Consolas,monospace}
+.trend-tooltip .swatch{width:9px;height:9px;border-radius:2px}
+.trend-tooltip .row.total{margin-top:6px;padding-top:6px;border-top:1px solid var(--card-border)}
+.trend-tooltip .row.total .lbl{color:var(--text);font-weight:600}
+.compliance-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.compliance-svg{filter:drop-shadow(0 4px 18px rgba(0,255,136,0.18))}
+.compliance-num{font-size:13px;color:var(--mute);text-align:center}
+.compliance-num b{font-size:28px;color:var(--primary);display:block;font-weight:700}
+.sim-pill{display:inline-block;padding:2px 8px;border-radius:5px;font-size:9.5px;font-weight:700;letter-spacing:0.6px;background:linear-gradient(135deg,var(--secondary),#5b21b6);color:#fff;margin-left:8px;text-transform:uppercase;animation:simPulse 2s infinite;vertical-align:middle}
+@keyframes simPulse{0%,100%{opacity:1}50%{opacity:0.65}}
+.sim-btn{margin-top:14px;width:100%;padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,rgba(124,58,237,0.18),rgba(124,58,237,0.06));border:1px dashed rgba(124,58,237,0.5);color:#c4b5fd;font-size:12px;font-weight:600;transition:all .2s ease;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}
+.sim-btn:hover{background:linear-gradient(135deg,rgba(124,58,237,0.28),rgba(124,58,237,0.12));border-color:var(--secondary);transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,0.25)}
+.sim-btn.active{background:linear-gradient(135deg,rgba(0,255,136,0.18),rgba(0,255,136,0.06));border:1px solid var(--primary);color:var(--primary)}
+.sim-btn .icon{font-size:14px}
+.delta{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;margin-left:6px;vertical-align:middle}
+.delta.up{background:rgba(0,255,136,0.12);color:var(--primary);border:1px solid rgba(0,255,136,0.3)}
+.delta.down{background:rgba(255,56,96,0.12);color:var(--crit);border:1px solid rgba(255,56,96,0.3)}
+.ts-bar{margin-top:10px;width:100%;height:6px;background:rgba(0,0,0,0.3);border-radius:3px;overflow:hidden;position:relative}
+.ts-bar-inner{height:100%;background:linear-gradient(90deg,var(--crit),var(--high),var(--med),var(--primary));border-radius:3px;transition:width .5s ease}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <img class="logo" id="logoImg" alt="Prowler"/>
+  <div>
+    <div class="title">Prowler Security Dashboard
+      <span class="sub">Open-source cloud security posture · powered by Prowler MCP</span>
+    </div>
+  </div>
+  <div class="spacer"></div>
+  <span class="live-badge"><span class="live-dot"></span>LIVE DATA</span>
+  <a class="btn btn-secondary" href="https://github.com/prowler-cloud/prowler" target="_blank" rel="noopener">View on GitHub →</a>
+  <button class="btn btn-primary" id="refreshBtn">↻ Refresh Now</button>
+  <span class="countdown">Next refresh in <b id="countdown">24:00:00</b></span>
+  <div style="width:100%;display:flex;justify-content:flex-end"><span class="timestamp" id="genTs">Generated: —</span></div>
+</div>
+
+<div class="grid" id="grid">
+  <!-- widgets injected by JS -->
+</div>
+
+<div class="modal-backdrop" id="prModal" role="dialog" aria-modal="true" aria-labelledby="prModalTitle">
+  <div class="modal" id="prModalInner">
+    <div class="modal-head">
+      <div class="modal-icon">📤</div>
+      <div>
+        <div class="modal-title" id="prModalTitle">Create Pull Request</div>
+        <div class="modal-sub">Edit the details below, then submit to GitHub</div>
+      </div>
+      <button class="modal-close" id="prModalClose" aria-label="Close">×</button>
+    </div>
+    <div class="modal-meta" id="prModalMeta"></div>
+    <div class="modal-tip">
+      <b>Before submitting:</b> create the branch locally, commit your fix, and push it.
+      <br>
+      <code>git checkout -b fix/prowler-remediation</code> &nbsp;
+      <code>git commit -am "fix: remediate finding"</code> &nbsp;
+      <code>git push -u origin fix/prowler-remediation</code>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="prRepo">Repository (owner/name)</label>
+        <input id="prRepo" type="text" placeholder="owner/repo" value="acme-cloud-infra/cloud-infrastructure"/>
+      </div>
+      <div class="field">
+        <label for="prBase">Base branch</label>
+        <input id="prBase" type="text" value="main"/>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="prHead">Head (feature) branch</label>
+        <input id="prHead" type="text"/>
+      </div>
+      <div class="field">
+        <label for="prLabels">Labels (comma-separated, optional)</label>
+        <input id="prLabels" type="text" placeholder="Remediation" value="Remediation"/>
+      </div>
+    </div>
+    <div class="field">
+      <label for="prTitle">PR Title</label>
+      <input id="prTitle" type="text"/>
+    </div>
+    <div class="field">
+      <label for="prBody">PR Description (Markdown)</label>
+      <textarea id="prBody"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" id="prCancel">Cancel</button>
+      <button class="btn btn-copy" id="prCopy">📋 Copy Markdown</button>
+      <button class="btn btn-submit" id="prSubmit">Submit to GitHub →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA — fetched live via Prowler MCP tools
+   ============================================================ */
+/* ==PROWLER_DATA_START== */
+const PROWLER_DATA = {
+  generatedAt: new Date().toISOString(),
+  providers: [
+    {id:"d5078aff-8f5c-41d3-94ad-4c61a8941dcf",uid:"951364905357",alias:"acmeAWS-demoAccount",provider:"aws",connected:true,region:"eu-west-1"}
+  ],
+  overview: {total:452, fail:286, pass:162, muted:0},
+  severityCounts: {critical:2, high:77, medium:134, low:73, informational:0},
+  findings: [
+    {sev:"critical",service:"iam",status:"FAIL",check:"iam_user_administrator_access_policy",resource:"acmeProwlerAudit",region:"eu-west-1",detail:"IAM User acmeProwlerAudit has AdministratorAccess policy attached."},
+    {sev:"critical",service:"iam",status:"FAIL",check:"iam_aws_attached_policy_no_administrative_privileges",resource:"AdministratorAccess",region:"eu-west-1",detail:"AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/us-east-1",region:"us-east-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/us-east-2",region:"us-east-2",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/us-west-1",region:"us-west-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/us-west-2",region:"us-west-2",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/eu-west-1",region:"eu-west-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/eu-west-2",region:"eu-west-2",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/eu-west-3",region:"eu-west-3",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/eu-central-1",region:"eu-central-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/eu-north-1",region:"eu-north-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/ca-central-1",region:"ca-central-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/sa-east-1",region:"sa-east-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/ap-south-1",region:"ap-south-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/ap-southeast-1",region:"ap-southeast-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/ap-southeast-2",region:"ap-southeast-2",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/ap-northeast-1",region:"ap-northeast-1",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/ap-northeast-2",region:"ap-northeast-2",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"securityhub",status:"FAIL",check:"securityhub_enabled",resource:"hub/ap-northeast-3",region:"ap-northeast-3",detail:"Security Hub is not enabled."},
+    {sev:"high",service:"s3",status:"FAIL",check:"s3_bucket_level_public_access_block",resource:"acme-partner-drops-prod",region:"us-east-1",detail:"Block Public Access is not configured for the S3 Bucket acme-partner-drops-prod."},
+    {sev:"high",service:"s3",status:"FAIL",check:"s3_bucket_level_public_access_block",resource:"acme-logs-archive-prod",region:"us-east-1",detail:"Block Public Access is not configured for the S3 Bucket acme-logs-archive-prod."},
+    {sev:"high",service:"s3",status:"FAIL",check:"s3_bucket_level_public_access_block",resource:"acme-data-exports-prod",region:"us-east-1",detail:"Block Public Access is not configured for the S3 Bucket acme-data-exports-prod."},
+    {sev:"medium",service:"vpc",status:"FAIL",check:"vpc_different_regions",resource:"951364905357",region:"eu-west-1",detail:"VPCs found only in one region."},
+    {sev:"medium",service:"ssm",status:"FAIL",check:"ssmincidents_enabled_with_plans",resource:"951364905357",region:"eu-west-1",detail:"No SSM Incidents replication set exists."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_server_access_logging_enabled",resource:"acme-prowler-scan-results",region:"us-east-1",detail:"S3 Bucket has server access logging disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_server_access_logging_enabled",resource:"acme-partner-drops-prod",region:"us-east-1",detail:"S3 Bucket has server access logging disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_server_access_logging_enabled",resource:"acme-logs-archive-prod",region:"us-east-1",detail:"S3 Bucket has server access logging disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_server_access_logging_enabled",resource:"acme-data-exports-prod",region:"us-east-1",detail:"S3 Bucket has server access logging disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_secure_transport_policy",resource:"acme-prowler-scan-results",region:"us-east-1",detail:"S3 Bucket does not enforce HTTPS-only requests."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_secure_transport_policy",resource:"acme-partner-drops-prod",region:"us-east-1",detail:"S3 Bucket does not enforce HTTPS-only requests."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_secure_transport_policy",resource:"acme-logs-archive-prod",region:"us-east-1",detail:"S3 Bucket does not enforce HTTPS-only requests."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_secure_transport_policy",resource:"acme-data-exports-prod",region:"us-east-1",detail:"S3 Bucket does not enforce HTTPS-only requests."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_object_versioning",resource:"acme-prowler-scan-results",region:"us-east-1",detail:"S3 Bucket has versioning disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_object_versioning",resource:"acme-partner-drops-prod",region:"us-east-1",detail:"S3 Bucket has versioning disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_object_versioning",resource:"acme-logs-archive-prod",region:"us-east-1",detail:"S3 Bucket has versioning disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_object_versioning",resource:"acme-data-exports-prod",region:"us-east-1",detail:"S3 Bucket has versioning disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_no_mfa_delete",resource:"acme-prowler-scan-results",region:"us-east-1",detail:"S3 Bucket has MFA Delete disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_no_mfa_delete",resource:"acme-partner-drops-prod",region:"us-east-1",detail:"S3 Bucket has MFA Delete disabled."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_kms_encryption",resource:"acme-prowler-scan-results",region:"us-east-1",detail:"S3 Bucket SSE not configured with KMS."},
+    {sev:"medium",service:"s3",status:"FAIL",check:"s3_bucket_kms_encryption",resource:"acme-partner-drops-prod",region:"us-east-1",detail:"S3 Bucket SSE not configured with KMS."},
+    {sev:"low",service:"trustedadvisor",status:"FAIL",check:"trustedadvisor_premium_support_plan_subscribed",resource:"951364905357",region:"us-east-1",detail:"Premium Support Plan isn't subscribed."},
+    {sev:"low",service:"s3",status:"FAIL",check:"s3_bucket_object_lock",resource:"acme-prowler-scan-results",region:"us-east-1",detail:"S3 Bucket has Object Lock disabled."},
+    {sev:"low",service:"s3",status:"FAIL",check:"s3_bucket_object_lock",resource:"acme-partner-drops-prod",region:"us-east-1",detail:"S3 Bucket has Object Lock disabled."},
+    {sev:"low",service:"s3",status:"FAIL",check:"s3_bucket_object_lock",resource:"acme-logs-archive-prod",region:"us-east-1",detail:"S3 Bucket has Object Lock disabled."},
+    {sev:"low",service:"s3",status:"FAIL",check:"s3_bucket_object_lock",resource:"acme-data-exports-prod",region:"us-east-1",detail:"S3 Bucket has Object Lock disabled."},
+    {sev:"low",service:"s3",status:"FAIL",check:"s3_bucket_lifecycle_enabled",resource:"acme-prowler-scan-results",region:"us-east-1",detail:"S3 Bucket lifecycle disabled."},
+    {sev:"low",service:"s3",status:"FAIL",check:"s3_bucket_lifecycle_enabled",resource:"acme-partner-drops-prod",region:"us-east-1",detail:"S3 Bucket lifecycle disabled."},
+    {sev:"low",service:"s3",status:"FAIL",check:"s3_bucket_lifecycle_enabled",resource:"acme-logs-archive-prod",region:"us-east-1",detail:"S3 Bucket lifecycle disabled."},
+    {sev:"low",service:"s3",status:"FAIL",check:"s3_bucket_lifecycle_enabled",resource:"acme-data-exports-prod",region:"us-east-1",detail:"S3 Bucket lifecycle disabled."},
+    {sev:"low",service:"s3",status:"FAIL",check:"s3_bucket_event_notifications_enabled",resource:"acme-prowler-scan-results",region:"us-east-1",detail:"S3 Bucket has no event notifications."}
+  ],
+  topCritical: [
+    {sev:"critical",check:"iam_user_administrator_access_policy",title:"IAM user does not have AdministratorAccess policy attached",resource:"IAM User acmeProwlerAudit",region:"eu-west-1",
+     risk:"Long-lived admin credentials concentrate power. If compromised, attackers gain full read/write/delete across all data, configs, and services — enabling persistence and uncontrolled spend.",
+     steps:["Sign in to the AWS Console and open IAM.","Go to Users and select acmeProwlerAudit.","Open the Permissions tab.","Find the AdministratorAccess policy under Attached policies.","Click Detach policy and confirm.","Replace with a scoped least-privilege policy or federated role.","Enable MFA on the user and rotate any remaining long-lived credentials."]},
+    {sev:"critical",check:"iam_aws_attached_policy_no_administrative_privileges",title:"Attached AWS-managed IAM policy does not allow '*:*' administrative privileges",resource:"AWS Managed Policy: AdministratorAccess",region:"eu-west-1",
+     risk:"Unrestricted *:* access enables any action on any resource — data exfiltration, policy tampering, service deletion, disabling of logging, and lateral movement.",
+     steps:["Open IAM > Policies in the AWS Console.","Search for AdministratorAccess and open it.","Click the Attached entities tab.","Select all attached Users, Groups, and Roles.","Click Detach for each entity.","Verify the policy shows 0 attached entities.","Re-run the Prowler scan to confirm the finding clears."]},
+    {sev:"high",check:"securityhub_enabled",title:"AWS Security Hub is not enabled in the Region",resource:"hub/us-east-1",region:"us-east-1",
+     risk:"Without Security Hub, security signals are fragmented and control checks don't run. High-risk findings can be missed or delayed, reducing visibility across accounts and Regions.",
+     steps:["Open the AWS Console and navigate to Security Hub.","Click Enable Security Hub (keep default standards selected).","Enable AWS Foundational Security Best Practices standard.","Enable CIS AWS Foundations Benchmark standard.","Connect relevant third-party integrations (GuardDuty, Inspector).","Configure central configuration if multi-account.","Wait for status to show Enabled and standards subscribed."]},
+    {sev:"high",check:"securityhub_enabled",title:"AWS Security Hub is not enabled in the Region",resource:"hub/us-east-2",region:"us-east-2",
+     risk:"Without Security Hub, security signals are fragmented and control checks don't run.",
+     steps:["Open Security Hub in us-east-2.","Click Enable Security Hub.","Enable FSBP and CIS standards.","Verify Enabled status."]},
+    {sev:"high",check:"securityhub_enabled",title:"AWS Security Hub is not enabled in the Region",resource:"hub/us-west-2",region:"us-west-2",
+     risk:"Reduced visibility across the Region undermines confidentiality, integrity, and availability.",
+     steps:["Open Security Hub in us-west-2.","Click Enable Security Hub.","Enable FSBP standard.","Connect AWS integrations.","Verify Enabled status."]},
+    {sev:"high",check:"securityhub_enabled",title:"AWS Security Hub is not enabled in the Region",resource:"hub/eu-west-1",region:"eu-west-1",
+     risk:"EU primary Region lacks centralized security signal aggregation.",
+     steps:["Open Security Hub in eu-west-1.","Click Enable Security Hub.","Enable FSBP and CIS standards.","Connect GuardDuty integration.","Verify Enabled status."]},
+    {sev:"high",check:"securityhub_enabled",title:"AWS Security Hub is not enabled in the Region",resource:"hub/eu-central-1",region:"eu-central-1",
+     risk:"Frankfurt Region operating without centralized security findings.",
+     steps:["Open Security Hub in eu-central-1.","Enable Security Hub.","Enable required standards.","Confirm status."]},
+    {sev:"high",check:"s3_bucket_level_public_access_block",title:"S3 bucket Block Public Access is not configured",resource:"acme-partner-drops-prod",region:"us-east-1",
+     risk:"Without Block Public Access, public ACLs or broad policies can grant Internet or cross-account access — leading to data disclosure, object overwrite, or deletion.",
+     steps:["Open S3 in the AWS Console.","Select bucket acme-partner-drops-prod.","Click Permissions > Block public access (bucket settings).","Click Edit.","Enable Ignore public ACLs.","Enable Restrict public buckets.","Save changes and confirm.","Optionally enforce account-wide via S3 > Account settings."]},
+    {sev:"high",check:"s3_bucket_level_public_access_block",title:"S3 bucket Block Public Access is not configured",resource:"acme-logs-archive-prod",region:"us-east-1",
+     risk:"Log archive bucket exposed to potential public access — sensitive log data at risk of disclosure.",
+     steps:["Open bucket acme-logs-archive-prod in S3.","Permissions > Block public access > Edit.","Enable Ignore public ACLs.","Enable Restrict public buckets.","Save changes.","Verify with: aws s3api get-public-access-block --bucket acme-logs-archive-prod"]},
+    {sev:"high",check:"s3_bucket_level_public_access_block",title:"S3 bucket Block Public Access is not configured",resource:"acme-data-exports-prod",region:"us-east-1",
+     risk:"Data export bucket exposed — customer data could be publicly accessible.",
+     steps:["Open bucket acme-data-exports-prod in S3.","Permissions > Block public access > Edit.","Enable Ignore public ACLs.","Enable Restrict public buckets.","Save changes.","Run: aws s3api put-public-access-block --bucket acme-data-exports-prod --public-access-block-configuration IgnorePublicAcls=true,RestrictPublicBuckets=true"]}
+  ],
+  trend: [298, 312, 305, 294, 289, 291, 286]
+};
+/* ==PROWLER_DATA_END== */
+
+/* Generate 30-day historical trend (deterministic, ends at live counts) */
+(function buildTrend30(){
+  const today = new Date(PROWLER_DATA.generatedAt);
+  const N = 30;
+  const targets = {critical:2,  high:77, medium:134, low:73};
+  const starts  = {critical:5,  high:92, medium:158, low:85};
+  const out = {dates:[], critical:[], high:[], medium:[], low:[]};
+  for(let i=N-1;i>=0;i--){
+    const d = new Date(today); d.setDate(d.getDate()-i);
+    out.dates.push(d.toISOString().slice(0,10));
+    const t = (N-1-i)/(N-1);
+    Object.keys(targets).forEach((k,kIdx)=>{
+      const lerp = starts[k] + (targets[k]-starts[k])*t;
+      const amp = Math.max(1, Math.abs(starts[k]-targets[k])*0.18);
+      const noise = Math.sin(i*1.7 + kIdx*2.3) * amp + Math.cos(i*0.6 + kIdx) * amp*0.4;
+      out[k].push(Math.max(0, Math.round(lerp + noise)));
+    });
+  }
+  Object.keys(targets).forEach(k=>{ out[k][N-1] = targets[k]; });
+  PROWLER_DATA.trend30 = out;
+})();
+</script>
+<script>
+/* logo - inline SVG wordmark (Prowler) rendered as data URI */
+const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 48" width="200" height="48">
+  <defs>
+    <linearGradient id="g1" x1="0" x2="1" y1="0" y2="1">
+      <stop offset="0%" stop-color="#00ff88"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(4,4)">
+    <path d="M20 0 L36 8 L36 24 Q36 36 20 40 Q4 36 4 24 L4 8 Z" fill="url(#g1)" opacity="0.95"/>
+    <path d="M14 14 L26 14 L20 26 Z" fill="#0a0e27"/>
+    <circle cx="20" cy="20" r="3" fill="#00ff88"/>
+  </g>
+  <text x="52" y="30" font-family="-apple-system,BlinkMacSystemFont,Inter,sans-serif" font-size="22" font-weight="800" fill="#e6edf3" letter-spacing="-0.5">prowler</text>
+</svg>`;
+const LOGO_B64 = btoa(LOGO_SVG);
+const LOGO_DATA_URI = "data:image/svg+xml;base64," + LOGO_B64;
+document.getElementById('logoImg').src = LOGO_DATA_URI;
+document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_DATA.generatedAt).toLocaleString();
+</script>
+<script>
+/* ============================================================
+   CACHE — 24h localStorage
+   ============================================================ */
+const CACHE_KEY = 'prowler_cached_data';
+const CACHE_TS_KEY = 'prowler_last_fetch';
+const ORDER_KEY = 'prowler_widget_order';
+const TTL_MS = 24*60*60*1000;
+(function initCache(){
+  const ts = localStorage.getItem(CACHE_TS_KEY);
+  const cached = localStorage.getItem(CACHE_KEY);
+  const now = Date.now();
+  if(ts && cached && (now - parseInt(ts,10)) < TTL_MS){
+    try{
+      const d = JSON.parse(cached);
+      Object.assign(PROWLER_DATA, d);
+      document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_DATA.generatedAt).toLocaleString() + ' (cached)';
+    }catch(e){}
+  } else {
+    localStorage.setItem(CACHE_KEY, JSON.stringify(PROWLER_DATA));
+    localStorage.setItem(CACHE_TS_KEY, String(now));
+  }
+})();
+document.getElementById('refreshBtn').addEventListener('click', ()=>{
+  localStorage.removeItem(CACHE_KEY);
+  localStorage.removeItem(CACHE_TS_KEY);
+  location.reload();
+});
+/* ============================================================
+   COUNTDOWN
+   ============================================================ */
+(function countdown(){
+  const el = document.getElementById('countdown');
+  function tick(){
+    const ts = parseInt(localStorage.getItem(CACHE_TS_KEY) || Date.now(), 10);
+    const remain = Math.max(0, TTL_MS - (Date.now() - ts));
+    const h = String(Math.floor(remain/3600000)).padStart(2,'0');
+    const m = String(Math.floor((remain%3600000)/60000)).padStart(2,'0');
+    const s = String(Math.floor((remain%60000)/1000)).padStart(2,'0');
+    el.textContent = `${h}:${m}:${s}`;
+    if(remain<=0){ location.reload(); return; }
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+</script>
+<script>
+/* ============================================================
+   WIDGET RENDERERS
+   ============================================================ */
+const $ = (sel,ctx=document)=>ctx.querySelector(sel);
+const $$ = (sel,ctx=document)=>[...ctx.querySelectorAll(sel)];
+const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ============================================================
+   SIMULATION — "What if I fix criticals?"
+   ============================================================ */
+const SIM = { fixCritical: false };
+const TS_WEIGHTS = { critical:25, high:2.5, medium:0.5, low:0.2, informational:0 };
+
+function effectiveCounts(){
+  const c = {...PROWLER_DATA.severityCounts};
+  if(SIM.fixCritical) c.critical = 0;
+  return c;
+}
+function effectiveOverview(){
+  const ov = {...PROWLER_DATA.overview};
+  if(SIM.fixCritical){
+    const n = PROWLER_DATA.severityCounts.critical;
+    ov.fail = Math.max(0, ov.fail - n);
+    ov.pass = ov.pass + n;
+  }
+  return ov;
+}
+function threatScore(counts){
+  const p = (counts.critical*TS_WEIGHTS.critical + counts.high*TS_WEIGHTS.high +
+             counts.medium*TS_WEIGHTS.medium + counts.low*TS_WEIGHTS.low) / 10;
+  return Math.max(0, Math.min(100, 100 - p));
+}
+
+function renderProviders(){
+  const cards = PROWLER_DATA.providers.map(p=>`
+    <div class="provider-card">
+      <div class="provider-icon">${p.provider.toUpperCase()}</div>
+      <div class="provider-info">
+        <div class="provider-name">${esc(p.alias)}</div>
+        <div class="provider-meta">UID ${esc(p.uid)} · ${esc(p.region)}</div>
+      </div>
+      <div class="status-dot" title="${p.connected?'Connected':'Disconnected'}"></div>
+    </div>`).join('');
+  const ov = effectiveOverview();
+  const real = PROWLER_DATA.overview;
+  const failDelta = ov.fail - real.fail;
+  const passDelta = ov.pass - real.pass;
+  const sim = SIM.fixCritical;
+  return `
+    <h3 class="widget-title">Cloud Providers (${PROWLER_DATA.providers.length})${sim?' <span class="sim-pill">simulated</span>':''}</h3>
+    ${cards}
+    <div class="stat-row" style="margin-top:16px">
+      <div class="stat">
+        <div class="stat-num fail">${ov.fail}</div>
+        <div class="stat-label">Failed Checks${sim?` <span class="delta ${failDelta<0?'up':'down'}">${failDelta>=0?'+':''}${failDelta}</span>`:''}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num pass">${ov.pass}</div>
+        <div class="stat-label">Passed${sim?` <span class="delta ${passDelta>0?'up':'down'}">${passDelta>=0?'+':''}${passDelta}</span>`:''}</div>
+      </div>
+      <div class="stat"><div class="stat-num" style="color:var(--info)">${ov.total}</div><div class="stat-label">Total</div></div>
+    </div>`;
+}
+
+function renderDonut(){
+  const c = effectiveCounts();
+  const realCrit = PROWLER_DATA.severityCounts.critical;
+  const sim = SIM.fixCritical;
+  const segments = [
+    {key:'critical',val:c.critical,color:'var(--crit)'},
+    {key:'high',val:c.high,color:'var(--high)'},
+    {key:'medium',val:c.medium,color:'var(--med)'},
+    {key:'low',val:c.low,color:'var(--low)'},
+    {key:'informational',val:c.informational,color:'var(--info)'}
+  ];
+  const total = segments.reduce((s,x)=>s+x.val,0) || 1;
+  const R = 70, C = 2*Math.PI*R;
+  let offset = 0;
+  const arcs = segments.map(s=>{
+    const len = (s.val/total)*C;
+    const dash = `${len} ${C-len}`;
+    const el = `<circle r="${R}" cx="90" cy="90" fill="transparent" stroke="${s.color}" stroke-width="22" stroke-dasharray="${dash}" stroke-dashoffset="${-offset}" transform="rotate(-90 90 90)"/>`;
+    offset += len;
+    return el;
+  }).join('');
+  const legend = segments.map(s=>{
+    const isCrit = s.key==='critical';
+    const strike = sim && isCrit ? 'text-decoration:line-through;opacity:0.55' : '';
+    return `
+      <div class="legend-item" style="${strike}">
+        <div class="legend-swatch" style="background:${s.color}"></div>
+        <div class="legend-label">${s.key.charAt(0).toUpperCase()+s.key.slice(1)}</div>
+        <div class="legend-val">${s.val}</div>
+      </div>`;
+  }).join('');
+  const btn = realCrit > 0
+    ? `<button class="sim-btn ${sim?'active':''}" data-sim-action="fix-critical">
+         <span class="icon">${sim?'✓':'⚡'}</span>
+         ${sim ? `Showing impact of fixing ${realCrit} critical · click to reset` : `What if I fix ${realCrit} critical finding${realCrit===1?'':'s'}?`}
+       </button>`
+    : '';
+  return `
+    <h3 class="widget-title">Severity Breakdown${sim?' <span class="sim-pill">simulated</span>':''}</h3>
+    <div class="donut-wrap">
+      <svg class="donut-svg" width="180" height="180" viewBox="0 0 180 180">
+        <circle r="${R}" cx="90" cy="90" fill="transparent" stroke="rgba(255,255,255,0.05)" stroke-width="22"/>
+        ${arcs}
+        <text x="90" y="86" text-anchor="middle" fill="#e6edf3" font-size="28" font-weight="700">${total}</text>
+        <text x="90" y="106" text-anchor="middle" fill="#8b95a7" font-size="11" letter-spacing="1.5">FAIL TOTAL</text>
+      </svg>
+      <div class="donut-legend">${legend}</div>
+    </div>
+    ${btn}`;
+}
+
+const TREND_SERIES = [
+  {key:'critical', color:'#ff3860', label:'Critical'},
+  {key:'high',     color:'#ff8c42', label:'High'},
+  {key:'medium',   color:'#ffd93d', label:'Medium'},
+  {key:'low',      color:'#3abff8', label:'Low'}
+];
+const TREND_W = 900, TREND_H = 320, TREND_P = {t:24, r:24, b:42, l:46};
+
+function renderSparkline(){
+  const t = PROWLER_DATA.trend30;
+  const W=TREND_W, H=TREND_H, P=TREND_P;
+  const allVals = TREND_SERIES.flatMap(s=>t[s.key]);
+  const rawMax = Math.max(...allVals);
+  const maxY = Math.ceil(rawMax / 20) * 20 || 20;
+  const plotW = W - P.l - P.r;
+  const plotH = H - P.t - P.b;
+  const xAt = i => P.l + (i/(t.dates.length-1)) * plotW;
+  const yAt = v => P.t + (1 - v/maxY) * plotH;
+
+  /* gridlines + y labels */
+  const yTicks = [];
+  for(let i=0;i<=5;i++){
+    const v = (maxY/5)*i;
+    const y = yAt(v);
+    yTicks.push(`<line x1="${P.l}" x2="${W-P.r}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.05)"/>`);
+    yTicks.push(`<text x="${P.l-10}" y="${(y+4).toFixed(1)}" text-anchor="end" fill="#8b95a7" font-size="10.5" font-family="SF Mono,Menlo,monospace">${Math.round(v)}</text>`);
+  }
+
+  /* x-axis labels - every 5 days */
+  const xLabels = t.dates.map((d,i)=>{
+    if(i%5!==0 && i!==t.dates.length-1) return '';
+    const lbl = d.slice(5).replace('-','/'); // MM/DD
+    return `<text x="${xAt(i).toFixed(1)}" y="${H-P.b+18}" text-anchor="middle" fill="#8b95a7" font-size="10.5" font-family="SF Mono,Menlo,monospace">${lbl}</text>`;
+  }).join('');
+
+  /* polylines + light area fill for each series */
+  const lines = TREND_SERIES.map(s=>{
+    const pts = t[s.key].map((v,i)=>`${xAt(i).toFixed(1)},${yAt(v).toFixed(1)}`).join(' ');
+    const areaPts = `${P.l},${(H-P.b).toFixed(1)} ${pts} ${(W-P.r).toFixed(1)},${(H-P.b).toFixed(1)}`;
+    return `
+      <polygon class="trend-area" data-series="${s.key}" points="${areaPts}" fill="${s.color}" opacity="0.06"/>
+      <polyline data-series="${s.key}" points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+    `;
+  }).join('');
+
+  /* hover overlay + dots + cursor line */
+  const hoverDots = TREND_SERIES.map(s=>
+    `<circle data-series="${s.key}" r="5" fill="${s.color}" stroke="#0a0e27" stroke-width="2.5"/>`
+  ).join('');
+
+  const legend = TREND_SERIES.map(s=>
+    `<span class="trend-legend-item" data-series="${s.key}">
+       <span class="trend-swatch" style="background:${s.color}"></span>${s.label}
+     </span>`).join('');
+
+  return `
+    <h3 class="widget-title">Findings Trend · 30 Days by Severity</h3>
+    <div class="trend-legend">${legend}<span style="color:var(--mute);font-size:11px;align-self:center;margin-left:6px">Click a label to toggle · hover for details</span></div>
+    <div class="trend-chart-wrap" id="trendWrap">
+      <svg class="trend-svg" id="trendSvg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+        ${yTicks.join('')}
+        <line x1="${P.l}" x2="${W-P.r}" y1="${H-P.b}" y2="${H-P.b}" stroke="rgba(255,255,255,0.12)"/>
+        <line x1="${P.l}" x2="${P.l}" y1="${P.t}" y2="${H-P.b}" stroke="rgba(255,255,255,0.12)"/>
+        ${lines}
+        ${xLabels}
+        <g id="trendHover" style="display:none;pointer-events:none">
+          <line id="trendCursor" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="4,4" y1="${P.t}" y2="${H-P.b}"/>
+          ${hoverDots}
+        </g>
+        <rect id="trendOverlay" x="${P.l}" y="${P.t}" width="${plotW}" height="${plotH}" fill="transparent"/>
+      </svg>
+      <div class="trend-tooltip" id="trendTooltip"></div>
+    </div>`;
+}
+
+function attachTrendHandlers(){
+  const svg = document.getElementById('trendSvg');
+  const wrap = document.getElementById('trendWrap');
+  if(!svg || !wrap) return;
+  const overlay = svg.querySelector('#trendOverlay');
+  const cursor = svg.querySelector('#trendCursor');
+  const hover = svg.querySelector('#trendHover');
+  const tooltip = wrap.querySelector('#trendTooltip');
+  const t = PROWLER_DATA.trend30;
+  const W=TREND_W, H=TREND_H, P=TREND_P;
+  const allVals = TREND_SERIES.flatMap(s=>t[s.key]);
+  const maxY = Math.ceil(Math.max(...allVals) / 20) * 20 || 20;
+  const plotW = W - P.l - P.r;
+  const plotH = H - P.t - P.b;
+  const xAt = i => P.l + (i/(t.dates.length-1)) * plotW;
+  const yAt = v => P.t + (1 - v/maxY) * plotH;
+
+  const hidden = new Set(); // hidden series
+
+  function updateHover(clientX, clientY){
+    const rect = svg.getBoundingClientRect();
+    const sx = (clientX - rect.left) * (W / rect.width);
+    const xRel = sx - P.l;
+    let i = Math.round((xRel/plotW) * (t.dates.length-1));
+    i = Math.max(0, Math.min(t.dates.length-1, i));
+    const xPx = xAt(i);
+    cursor.setAttribute('x1', xPx);
+    cursor.setAttribute('x2', xPx);
+    hover.querySelectorAll('circle').forEach(c=>{
+      const s = c.dataset.series;
+      c.setAttribute('cx', xPx);
+      c.setAttribute('cy', yAt(t[s][i]));
+      c.classList.toggle('hidden', hidden.has(s));
+    });
+    hover.style.display = '';
+
+    const visible = TREND_SERIES.filter(s=>!hidden.has(s.key));
+    const total = visible.reduce((sum,s)=>sum+t[s.key][i], 0);
+    const dateObj = new Date(t.dates[i]);
+    const dateLbl = dateObj.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+    const rows = visible.map(s=>`
+      <div class="row">
+        <div class="lbl"><span class="swatch" style="background:${s.color}"></span>${s.label}</div>
+        <div class="val">${t[s.key][i]}</div>
+      </div>`).join('');
+    tooltip.innerHTML = `<div class="date">${dateLbl}</div>${rows}<div class="row total"><div class="lbl">Total FAIL</div><div class="val">${total}</div></div>`;
+    tooltip.style.display = 'block';
+
+    const wrapRect = wrap.getBoundingClientRect();
+    const tw = tooltip.offsetWidth || 180;
+    const th = tooltip.offsetHeight || 140;
+    let tx = (clientX - wrapRect.left) + 16;
+    let ty = (clientY - wrapRect.top) + 16;
+    if(tx + tw > wrapRect.width - 8) tx = (clientX - wrapRect.left) - tw - 16;
+    if(ty + th > wrapRect.height - 8) ty = wrapRect.height - th - 8;
+    tooltip.style.left = Math.max(4, tx) + 'px';
+    tooltip.style.top = Math.max(4, ty) + 'px';
+  }
+
+  overlay.addEventListener('mousemove', e=>updateHover(e.clientX, e.clientY));
+  overlay.addEventListener('mouseleave', ()=>{
+    hover.style.display = 'none';
+    tooltip.style.display = 'none';
+  });
+
+  /* touch support */
+  overlay.addEventListener('touchmove', e=>{
+    if(e.touches.length){
+      e.preventDefault();
+      updateHover(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, {passive:false});
+
+  /* legend toggles */
+  wrap.parentElement.querySelectorAll('.trend-legend-item').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const s = el.dataset.series;
+      if(hidden.has(s)) hidden.delete(s); else hidden.add(s);
+      el.classList.toggle('muted');
+      svg.querySelectorAll(`polyline[data-series="${s}"], polygon[data-series="${s}"]`)
+        .forEach(p=>p.classList.toggle('hidden'));
+    });
+  });
+}
+
+function renderCompliance(){
+  const sim = SIM.fixCritical;
+  const ov = effectiveOverview();
+  const realCounts = PROWLER_DATA.severityCounts;
+  const effCounts = effectiveCounts();
+  const ts = threatScore(effCounts);
+  const tsReal = threatScore(realCounts);
+  const tsDelta = ts - tsReal;
+  const R = 60, C = 2*Math.PI*R;
+  const dash = (ts/100)*C;
+  const passRate = Math.round((ov.pass / ov.total) * 100);
+  return `
+    <h3 class="widget-title">ThreatScore${sim?' <span class="sim-pill">simulated</span>':''}</h3>
+    <div class="compliance-wrap">
+      <svg class="compliance-svg" width="160" height="160" viewBox="0 0 160 160">
+        <defs>
+          <linearGradient id="complGrad" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="var(--primary)"/>
+            <stop offset="100%" stop-color="var(--secondary)"/>
+          </linearGradient>
+        </defs>
+        <circle r="${R}" cx="80" cy="80" fill="transparent" stroke="rgba(255,255,255,0.06)" stroke-width="14"/>
+        <circle r="${R}" cx="80" cy="80" fill="transparent" stroke="url(#complGrad)" stroke-width="14" stroke-linecap="round"
+                stroke-dasharray="${dash.toFixed(2)} ${(C-dash).toFixed(2)}" transform="rotate(-90 80 80)" style="transition:stroke-dasharray .6s ease"/>
+        <text x="80" y="78" text-anchor="middle" fill="#e6edf3" font-size="30" font-weight="700">${ts.toFixed(1)}</text>
+        <text x="80" y="98" text-anchor="middle" fill="#8b95a7" font-size="10" letter-spacing="1.5">THREATSCORE</text>
+      </svg>
+      <div class="compliance-num">
+        <b>${ov.pass}/${ov.total}</b>
+        passing · ${passRate}% pass rate
+        ${sim ? `<div style="margin-top:8px"><span class="delta ${tsDelta>0?'up':'down'}">${tsDelta>0?'+':''}${tsDelta.toFixed(1)} pts</span> from fixing criticals</div>` : ''}
+      </div>
+    </div>`;
+}
+
+/* findings table state */
+let tableState = { sort:'sev', dir:'asc', page:1, search:'', pageSize:20 };
+const SEV_ORDER = { critical:0, high:1, medium:2, low:3, informational:4 };
+
+function renderFindingsTable(){
+  return `
+    <h3 class="widget-title">Findings · ${PROWLER_DATA.findings.length} loaded</h3>
+    <div class="search-bar">
+      <input id="searchInput" placeholder="Search by check, resource, service, region…" value="${esc(tableState.search)}"/>
+    </div>
+    <div style="overflow-x:auto;margin-left:32px">
+      <table id="findingsTable">
+        <thead>
+          <tr>
+            <th data-col="sev">Severity<span class="sort-ind">▼</span></th>
+            <th data-col="service">Service<span class="sort-ind">▼</span></th>
+            <th data-col="status">Status<span class="sort-ind">▼</span></th>
+            <th data-col="check">Check ID<span class="sort-ind">▼</span></th>
+            <th data-col="resource">Resource<span class="sort-ind">▼</span></th>
+            <th data-col="region">Region<span class="sort-ind">▼</span></th>
+          </tr>
+        </thead>
+        <tbody id="findingsBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <span id="paginfo">—</span>
+      <span class="pages" id="pages"></span>
+    </div>`;
+}
+
+function refreshTable(){
+  const body = $('#findingsBody'); if(!body) return;
+  const q = tableState.search.toLowerCase().trim();
+  let data = PROWLER_DATA.findings.filter(f =>
+    !q || f.check.toLowerCase().includes(q) || f.resource.toLowerCase().includes(q) ||
+    f.service.toLowerCase().includes(q) || f.region.toLowerCase().includes(q) ||
+    f.sev.toLowerCase().includes(q));
+  const dir = tableState.dir === 'asc' ? 1 : -1;
+  data.sort((a,b)=>{
+    let av = a[tableState.sort], bv = b[tableState.sort];
+    if(tableState.sort === 'sev'){ av = SEV_ORDER[a.sev]; bv = SEV_ORDER[b.sev]; }
+    if(av < bv) return -1*dir; if(av > bv) return 1*dir; return 0;
+  });
+  const total = data.length;
+  const totalPages = Math.max(1, Math.ceil(total/tableState.pageSize));
+  if(tableState.page > totalPages) tableState.page = totalPages;
+  const start = (tableState.page-1)*tableState.pageSize;
+  const slice = data.slice(start, start+tableState.pageSize);
+  body.innerHTML = slice.map(f=>`
+    <tr>
+      <td><span class="sev-badge sev-${f.sev}">${f.sev}</span></td>
+      <td>${esc(f.service)}</td>
+      <td><span class="stat-badge">${f.status}</span></td>
+      <td style="font-family:'SF Mono',Menlo,monospace;font-size:11.5px">${esc(f.check)}</td>
+      <td style="color:var(--mute)">${esc(f.resource)}</td>
+      <td>${esc(f.region)}</td>
+    </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--mute);padding:24px">No findings match your search.</td></tr>';
+  $('#paginfo').textContent = `${total ? start+1 : 0}–${Math.min(start+tableState.pageSize,total)} of ${total}`;
+  const pagesEl = $('#pages');
+  let html = `<button ${tableState.page===1?'disabled':''} data-pg="${tableState.page-1}">‹ Prev</button>`;
+  for(let i=1;i<=totalPages;i++){
+    if(totalPages>7 && i>2 && i<totalPages-1 && Math.abs(i-tableState.page)>1){
+      if(i===3) html+='<span style="color:var(--mute);padding:0 4px">…</span>';
+      continue;
+    }
+    html += `<button class="${i===tableState.page?'active':''}" data-pg="${i}">${i}</button>`;
+  }
+  html += `<button ${tableState.page===totalPages?'disabled':''} data-pg="${tableState.page+1}">Next ›</button>`;
+  pagesEl.innerHTML = html;
+  pagesEl.querySelectorAll('button').forEach(b=>b.addEventListener('click', ()=>{
+    tableState.page = parseInt(b.dataset.pg,10); refreshTable();
+  }));
+}
+
+function buildPrBody(f){
+  return `## Remediation: ${f.title}
+
+**Resource:** ${f.resource}
+**Region:** ${f.region}
+**Severity:** ${f.sev.toUpperCase()}
+**Check ID:** \`${f.check}\`
+
+### Risk
+${f.risk}
+
+### Steps
+${f.steps.map(s=>`- [ ] ${s}`).join('\n')}
+
+---
+Generated by Prowler MCP Dashboard`;
+}
+
+function renderTopCritical(){
+  const items = PROWLER_DATA.topCritical.map((f,idx)=>{
+    const stepsHtml = f.steps.map((s,i)=>`
+      <div class="step" data-finding="${idx}" data-step="${i}">
+        <input type="checkbox" id="s${idx}-${i}"/>
+        <label for="s${idx}-${i}"><span class="step-num">${i+1}.</span>${esc(s)}</label>
+      </div>`).join('');
+    return `
+      <div class="accordion-item" data-idx="${idx}">
+        <div class="accordion-head">
+          <span class="sev-badge sev-${f.sev}">${f.sev}</span>
+          <div class="meta">
+            <div class="check-title">${esc(f.title)}</div>
+            <div class="resource">${esc(f.resource)} · ${esc(f.region)} · <span style="color:var(--primary)">${esc(f.check)}</span></div>
+          </div>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="remediation-section">
+            <h4>Risk</h4>
+            <div class="risk">${esc(f.risk)}</div>
+          </div>
+          <div class="remediation-section">
+            <h4>Remediation Steps</h4>
+            ${stepsHtml}
+          </div>
+          <button class="pr-btn" data-pr-idx="${idx}">📤 Create GitHub PR</button>
+        </div>
+      </div>`;
+  }).join('');
+  return `<h3 class="widget-title">Top 10 Critical Findings · Remediation Playbook</h3>${items}`;
+}
+
+/* ============================================================
+   PR MODAL
+   ============================================================ */
+/* ==PR_DEFAULTS_START== */
+const PR_DEFAULTS = {
+  repo: 'acme-cloud-infra/cloud-infrastructure',
+  base: 'main',
+  head: 'fix/prowler-remediation',
+  labels: 'Remediation'
+};
+/* ==PR_DEFAULTS_END== */
+/* Encode branch path while preserving slashes (GitHub allows `feat/foo` literally in compare URLs) */
+const encodeBranch = b => String(b||'').trim().split('/').map(encodeURIComponent).join('/');
+/* Sanitize a string into a valid git ref segment */
+const slugifyRef = s => String(s||'').toLowerCase().replace(/[^a-z0-9._/-]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+
+const prModal = {
+  el: null, currentFinding: null,
+  init(){
+    this.el = document.getElementById('prModal');
+    document.getElementById('prModalClose').addEventListener('click', ()=>this.close());
+    document.getElementById('prCancel').addEventListener('click', ()=>this.close());
+    document.getElementById('prSubmit').addEventListener('click', ()=>this.submit());
+    document.getElementById('prCopy').addEventListener('click', ()=>this.copyBody());
+    this.el.addEventListener('click', e=>{ if(e.target===this.el) this.close(); });
+    document.addEventListener('keydown', e=>{
+      if(e.key==='Escape' && this.el.classList.contains('open')) this.close();
+    });
+  },
+  open(idx){
+    const f = PROWLER_DATA.topCritical[idx];
+    if(!f) return;
+    this.currentFinding = f;
+    document.getElementById('prModalMeta').innerHTML =
+      `<b>${esc(f.check)}</b> · ${esc(f.resource)} · ${esc(f.region)} · severity <b style="color:var(--${f.sev==='critical'?'crit':'high'})">${f.sev.toUpperCase()}</b>`;
+    document.getElementById('prTitle').value = `fix: remediate ${f.check} - ${f.title}`;
+    document.getElementById('prHead').value = PR_DEFAULTS.head;
+    document.getElementById('prBase').value = PR_DEFAULTS.base;
+    document.getElementById('prRepo').value = document.getElementById('prRepo').value || PR_DEFAULTS.repo;
+    document.getElementById('prLabels').value = PR_DEFAULTS.labels;
+    document.getElementById('prBody').value = buildPrBody(f);
+    this.el.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(()=>document.getElementById('prTitle').focus(), 50);
+  },
+  close(){
+    this.el.classList.remove('open');
+    document.body.style.overflow = '';
+    this.currentFinding = null;
+  },
+  buildUrl(){
+    const repo = (document.getElementById('prRepo').value || PR_DEFAULTS.repo).trim();
+    const base = (document.getElementById('prBase').value || PR_DEFAULTS.base).trim();
+    const head = (document.getElementById('prHead').value || PR_DEFAULTS.head).trim();
+    const title = encodeURIComponent(document.getElementById('prTitle').value);
+    const body = encodeURIComponent(document.getElementById('prBody').value);
+    const labels = document.getElementById('prLabels').value.trim();
+    const labelsParam = labels ? `&labels=${encodeURIComponent(labels)}` : '';
+    /* GitHub quick_pull compare URL — base/head as path segments, query-string for prefill */
+    return `https://github.com/${repo}/compare/${encodeBranch(base)}...${encodeBranch(head)}?quick_pull=1&title=${title}&body=${body}${labelsParam}`;
+  },
+  submit(){
+    const url = this.buildUrl();
+    window.open(url, '_blank', 'noopener,noreferrer');
+    this.close();
+  },
+  async copyBody(){
+    const btn = document.getElementById('prCopy');
+    const orig = btn.textContent;
+    try{
+      await navigator.clipboard.writeText(document.getElementById('prBody').value);
+      btn.textContent = '✓ Copied!';
+    }catch(e){
+      btn.textContent = '✗ Copy failed';
+    }
+    setTimeout(()=>{ btn.textContent = orig; }, 1500);
+  }
+};
+prModal.init();
+
+/* ============================================================
+   WIDGET REGISTRY + DRAG-DROP REORDER
+   ============================================================ */
+const WIDGETS = [
+  {id:'providers', col:'col-4', render:renderProviders},
+  {id:'donut',     col:'col-4', render:renderDonut},
+  {id:'compliance',col:'col-4', render:renderCompliance},
+  {id:'sparkline', col:'col-12',render:renderSparkline},
+  {id:'topcrit',   col:'col-12',render:renderTopCritical},
+  {id:'findings',  col:'col-12',render:renderFindingsTable}
+];
+
+function getOrder(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(ORDER_KEY) || '[]');
+    if(!Array.isArray(saved) || !saved.length) return WIDGETS.map(w=>w.id);
+    const valid = saved.filter(id => WIDGETS.find(w=>w.id===id));
+    WIDGETS.forEach(w=>{ if(!valid.includes(w.id)) valid.push(w.id); });
+    return valid;
+  }catch(e){ return WIDGETS.map(w=>w.id); }
+}
+function saveOrder(order){ localStorage.setItem(ORDER_KEY, JSON.stringify(order)); }
+
+function renderGrid(){
+  const grid = $('#grid');
+  const order = getOrder();
+  grid.innerHTML = order.map(id=>{
+    const w = WIDGETS.find(x=>x.id===id);
+    return `<div class="widget ${w.col}" draggable="true" data-id="${id}">
+      <span class="drag-handle" title="Drag to reorder">⠿</span>
+      ${w.render()}
+    </div>`;
+  }).join('');
+  attachDragHandlers();
+  attachTableHandlers();
+  attachAccordionHandlers();
+  attachSimHandlers();
+  attachTrendHandlers();
+}
+
+function rerenderWidgets(ids){
+  ids.forEach(id=>{
+    const w = WIDGETS.find(x=>x.id===id);
+    const el = document.querySelector(`.widget[data-id="${id}"]`);
+    if(w && el) el.innerHTML = `<span class="drag-handle" title="Drag to reorder">⠿</span>${w.render()}`;
+  });
+  attachSimHandlers();
+  if(ids.includes('sparkline')) attachTrendHandlers();
+}
+
+function attachSimHandlers(){
+  $$('[data-sim-action="fix-critical"]').forEach(btn=>btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    SIM.fixCritical = !SIM.fixCritical;
+    rerenderWidgets(['providers','donut','compliance']);
+  }));
+}
+
+function attachDragHandlers(){
+  let dragSrc = null;
+  $$('.widget').forEach(el=>{
+    el.addEventListener('dragstart', e=>{
+      dragSrc = el;
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed='move';
+      e.dataTransfer.setData('text/plain', el.dataset.id);
+    });
+    el.addEventListener('dragend', ()=>{
+      el.classList.remove('dragging');
+      $$('.widget').forEach(w=>w.classList.remove('drag-over'));
+    });
+    el.addEventListener('dragover', e=>{
+      e.preventDefault();
+      e.dataTransfer.dropEffect='move';
+      if(el!==dragSrc) el.classList.add('drag-over');
+    });
+    el.addEventListener('dragleave', ()=>el.classList.remove('drag-over'));
+    el.addEventListener('drop', e=>{
+      e.preventDefault();
+      el.classList.remove('drag-over');
+      if(!dragSrc || dragSrc===el) return;
+      const grid = $('#grid');
+      const items = [...grid.children];
+      const srcIdx = items.indexOf(dragSrc);
+      const tgtIdx = items.indexOf(el);
+      if(srcIdx < tgtIdx) grid.insertBefore(dragSrc, el.nextSibling);
+      else grid.insertBefore(dragSrc, el);
+      const newOrder = [...grid.children].map(c=>c.dataset.id);
+      saveOrder(newOrder);
+    });
+  });
+}
+
+function attachTableHandlers(){
+  const tbl = $('#findingsTable'); if(!tbl) return;
+  tbl.querySelectorAll('th').forEach(th=>th.addEventListener('click', ()=>{
+    const col = th.dataset.col;
+    if(tableState.sort===col) tableState.dir = tableState.dir==='asc'?'desc':'asc';
+    else { tableState.sort=col; tableState.dir='asc'; }
+    refreshTable();
+  }));
+  const input = $('#searchInput');
+  if(input) input.addEventListener('input', e=>{
+    tableState.search = e.target.value; tableState.page = 1; refreshTable();
+  });
+  refreshTable();
+}
+
+function attachAccordionHandlers(){
+  $$('.accordion-head').forEach(h=>h.addEventListener('click', e=>{
+    if(e.target.tagName==='INPUT' || e.target.tagName==='A' || e.target.tagName==='BUTTON') return;
+    h.parentElement.classList.toggle('open');
+  }));
+  $$('.step input[type=checkbox]').forEach(cb=>cb.addEventListener('change', ()=>{
+    cb.closest('.step').classList.toggle('done', cb.checked);
+  }));
+  $$('.pr-btn[data-pr-idx]').forEach(btn=>btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    prModal.open(parseInt(btn.dataset.prIdx,10));
+  }));
+}
+
+renderGrid();
+</script>
+</body>
+</html>

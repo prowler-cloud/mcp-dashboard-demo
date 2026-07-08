@@ -1,0 +1,33 @@
+name: Refresh dashboard data from Prowler API
+
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 6 * * 1" # Mondays 06:00 UTC — weekly snapshot refresh
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Refresh embedded data snapshot
+        env:
+          PROWLER_API_KEY: ${{ secrets.PROWLER_API_KEY }}
+        run: python3 scripts/refresh_data.py --html index.html
+      - name: Commit and push if changed
+        run: |
+          git config user.name "prowler-demo-bot"
+          git config user.email "actions@github.com"
+          if ! git diff --quiet index.html; then
+            git add index.html
+            git commit -m "chore: refresh data snapshot from Prowler API"
+            git push
+          else
+            echo "No data changes."
+          fi

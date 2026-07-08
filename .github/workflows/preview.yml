@@ -1,0 +1,41 @@
+name: Branch preview
+
+# Deploys every non-main branch to a temporary preview so a presenter can
+# share a URL mid-demo without touching the canonical dashboard.
+# Previews live on the 'previews' branch, served by Pages at /preview/<branch>/.
+# Deleting the feature branch removes its preview on the next cleanup run.
+
+on:
+  push:
+    branches-ignore: [main, previews]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: preview-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish preview
+        run: |
+          SAFE_NAME=$(echo "${{ github.ref_name }}" | tr '/' '-')
+          git fetch origin previews || true
+          git worktree add /tmp/previews -B previews origin/previews 2>/dev/null \
+            || git worktree add /tmp/previews -b previews
+          mkdir -p "/tmp/previews/preview/${SAFE_NAME}"
+          cp index.html "/tmp/previews/preview/${SAFE_NAME}/index.html"
+          cd /tmp/previews
+          git config user.name "prowler-demo-bot"
+          git config user.email "actions@github.com"
+          git add -A
+          git commit -m "preview: ${{ github.ref_name }}" || echo "no changes"
+          git push -u origin previews
+      - name: Preview URL
+        run: |
+          SAFE_NAME=$(echo "${{ github.ref_name }}" | tr '/' '-')
+          echo "Preview will be available under the Pages site at /preview/${SAFE_NAME}/ once the previews branch is included in Pages deployment."
