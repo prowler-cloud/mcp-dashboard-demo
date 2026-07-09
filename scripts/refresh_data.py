@@ -80,7 +80,7 @@ def fetch(base, key):
 
     findings, severity_counts = [], {}
     for sev in SEVERITIES:
-        since = (dt.date.today() - dt.timedelta(days=30)).isoformat()
+        since = (dt.date.today() - dt.timedelta(days=1)).isoformat()  # API caps range at 2 days
         page = api_get(base, key, "/findings", {
             "filter[severity]": sev,
             "filter[status]": "FAIL",
