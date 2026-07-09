@@ -96,6 +96,10 @@ visible drag handle (⠿) in the top-left corner.
 
 ## 2. Severity Breakdown — pure-SVG donut chart
 - Donut with one segment per severity, total FAIL count in the center
+  (display the true 0 when the selection is empty — guard only the geometry)
+- 3px gaps between slices and skip zero-value slices entirely — the pale
+  `low` color must read as a deliberate slice on the dark theme, and
+  zero-length arcs must not paint cap artifacts
 - Legend on the right with counts
 - Below the chart: an **"⚡ What if I fix N critical findings?"** button.
   When clicked:
@@ -110,11 +114,15 @@ visible drag handle (⠿) in the top-left corner.
 
 ## 3. ThreatScore (radial gauge)
 - Pure SVG circular gradient ring (green → purple)
-- Center shows the ThreatScore (0–100). Weighted risk normalized by tenant
-  size so it works for 400 or 11,000 findings:
-    `weighted = critical×25 + high×2.5 + medium×0.5 + low×0.2`
-    `score = 100 × (1 − weighted / (total_findings × 2))`, clamped 0–100
-  Criticals carry disproportionate weight so the simulation moves it visibly
+- Center shows the ThreatScore (0–100): a severity-weighted pass ratio that
+  is robust at ANY scale (a 12-finding provider or an 11k-finding tenant):
+    `weightedFail = critical×25 + high×2.5 + medium×0.5 + low×0.2`
+    `score = 100 × passed / (passed + weightedFail)`
+  Criticals dominate the denominator so the what-if simulation moves the
+  score visibly. When the provider selection is empty, show an em-dash and
+  "select at least one provider" — never a phantom 100. Skip drawing the
+  progress arc when its length is ~0 (a round line-cap would paint a
+  floating dot).
 - Below the ring: "PASS/TOTAL passing · X% pass rate"
 - When simulation is active, show a `+N.N pts from fixing criticals` delta
 

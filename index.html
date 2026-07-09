@@ -1835,14 +1835,18 @@ function effectiveOverview(){
   }
   return ov;
 }
-function threatScore(counts){
-  /* Weighted-risk score normalized by the SELECTION's size. Returns null when
-     no providers are selected — an empty scope has no score, not a perfect one. */
-  const totalSel = selectedOverview().total;
-  if(!totalSel) return null;
-  const weighted = counts.critical*TS_WEIGHTS.critical + counts.high*TS_WEIGHTS.high +
-                   counts.medium*TS_WEIGHTS.medium + counts.low*TS_WEIGHTS.low;
-  return Math.max(0, Math.min(100, 100 * (1 - weighted/(totalSel*2))));
+function threatScore(counts, ov){
+  /* Severity-weighted pass ratio: passed checks vs risk-weighted failed checks.
+     Robust at any scale (a 12-finding provider or the full tenant) — never
+     saturates to 0/100 the way size-normalized penalties do. Returns null when
+     no providers are selected: an empty scope has no score, not a perfect one.
+     `ov` must come from the same state as `counts` (simulated or not). */
+  ov = ov || effectiveOverview();
+  if(!selectedOverview().total) return null;
+  const weightedFail = counts.critical*TS_WEIGHTS.critical + counts.high*TS_WEIGHTS.high +
+                       counts.medium*TS_WEIGHTS.medium + counts.low*TS_WEIGHTS.low;
+  if(ov.pass + weightedFail === 0) return null;
+  return Math.max(0, Math.min(100, 100 * ov.pass / (ov.pass + weightedFail)));
 }
 
 const PROVIDER_CHIP_COLORS = {aws:'#f59e0b',azure:'#38bdf8',gcp:'#ef4444',kubernetes:'#4f46e5',m365:'#4ade80',github:'#e5e5e5',okta:'#3c8dff',mongodbatlas:'#4ade80',alibabacloud:'#f77852',oraclecloud:'#ef4444',iac:'#a1a1aa',vercel:'#e5e5e5',googleworkspace:'#fec94d'};
@@ -1921,10 +1925,13 @@ function renderDonut(){
   const total = displayTotal || 1; /* geometry divisor only — never display this */
   const R = 70, C = 2*Math.PI*R;
   let offset = 0;
+  const GAP = segments.filter(s=>s.val>0).length > 1 ? 3 : 0; /* px gap between slices */
   const arcs = segments.map(s=>{
     const len = (s.val/total)*C;
-    const dash = `${len} ${C-len}`;
-    const el = `<circle r="${R}" cx="90" cy="90" fill="transparent" stroke="${s.color}" stroke-width="22" stroke-dasharray="${dash}" stroke-dashoffset="${-offset}" transform="rotate(-90 90 90)"/>`;
+    if(len <= 0){ return ''; } /* zero-length arcs paint nothing (avoids cap artifacts) */
+    const drawn = Math.max(len - GAP, 1);
+    const dash = `${drawn} ${C-drawn}`;
+    const el = `<circle r="${R}" cx="90" cy="90" fill="transparent" stroke="${s.color}" stroke-width="22" stroke-dasharray="${dash}" stroke-dashoffset="${-(offset + GAP/2)}" transform="rotate(-90 90 90)"/>`;
     offset += len;
     return el;
   }).join('');
@@ -2129,8 +2136,8 @@ function renderCompliance(){
   const ov = effectiveOverview();
   const realCounts = selectedCounts(); /* baseline = selection without simulation */
   const effCounts = effectiveCounts();
-  const tsN = threatScore(effCounts);
-  const tsRealN = threatScore(realCounts);
+  const tsN = threatScore(effCounts, effectiveOverview());
+  const tsRealN = threatScore(realCounts, selectedOverview());
   const empty = tsN === null;
   const ts = empty ? 0 : tsN;
   const tsDelta = empty ? 0 : ts - tsRealN;
@@ -2148,8 +2155,8 @@ function renderCompliance(){
           </linearGradient>
         </defs>
         <circle r="${R}" cx="80" cy="80" fill="transparent" stroke="rgba(255,255,255,0.06)" stroke-width="14"/>
-        <circle r="${R}" cx="80" cy="80" fill="transparent" stroke="url(#complGrad)" stroke-width="14" stroke-linecap="round"
-                stroke-dasharray="${dash.toFixed(2)} ${(C-dash).toFixed(2)}" transform="rotate(-90 80 80)" style="transition:stroke-dasharray .6s ease"/>
+        ${dash > 0.5 ? `<circle r="${R}" cx="80" cy="80" fill="transparent" stroke="url(#complGrad)" stroke-width="14" stroke-linecap="round"
+                stroke-dasharray="${dash.toFixed(2)} ${(C-dash).toFixed(2)}" transform="rotate(-90 80 80)" style="transition:stroke-dasharray .6s ease"/>` : ''}
         <text x="80" y="78" text-anchor="middle" fill="#e6edf3" font-size="30" font-weight="700">${empty?'—':ts.toFixed(1)}</text>
         <text x="80" y="98" text-anchor="middle" fill="#8b95a7" font-size="10" letter-spacing="1.5">THREATSCORE</text>
       </svg>
