@@ -71,15 +71,23 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 - A panel (own card) titled "Cloud Providers" using the SAME `.widget-title`
   typography as every widget, with "All" / "None" controls and a
   "N/M accounts selected · filters the whole dashboard" note.
-- HIERARCHY — provider type → accounts: a responsive grid
-  (auto-fill, minmax 250px) of one card per provider TYPE. Each type card has:
-  the OFFICIAL provider badge logo as inline SVG (source:
+- HIERARCHY — provider type → accounts: a responsive grid (auto-fill,
+  minmax 215px) of UNIFORM compact cards, one per provider TYPE (fixed 58px
+  header height so AWS with 6 accounts is the same size as single-account
+  types). Each card: the OFFICIAL provider badge logo as inline SVG (source:
   `ui/components/icons/providers-badge/` in prowler-cloud/prowler — embed the
-  SVGs, no external images), the type display name, a "sel/total · N fail"
-  meta, and its account chips beneath.
-- Clicking a type header toggles ALL of that type's accounts at once;
-  clicking an account chip toggles just that account. Deselected chips dim
-  to ~40% opacity; fully-deselected type cards dim as a whole.
+  SVGs, no external images), type display name, "N accounts · X fail" subtext,
+  a "sel/total" pill, and a caret for multi-account types.
+- Multi-account cards open a POPOVER on click: an opaque panel anchored to
+  the card, floating ABOVE the grid and widgets (solid `#121110` bg, emerald
+  border, drop shadow, scale-in animation, right-edge cards anchor right),
+  containing per-type "All"/"None" controls and the account chips. The
+  popover stays open while toggling chips inside it; clicking outside closes
+  it. Single-account cards toggle their account directly on click.
+- Deselected chips dim to ~40%; fully-deselected type cards dim as a whole —
+  but NEVER dim an open popover (override opacity when open).
+- Selection state on each card: full (emerald pill), partial (emerald-tinted
+  border), none (dimmed).
 - (When Prowler provider groups are in use, insert them as an org level
   between type and accounts.)
 - The selection filters the ENTIRE dashboard: every widget (checks summary,

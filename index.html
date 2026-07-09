@@ -223,16 +223,29 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .chip-ctl{padding:5px 12px;border-radius:999px;border:1px solid var(--card-border);background:transparent;color:var(--mute);font-size:11.5px;font-weight:600;letter-spacing:0.3px}
 .chip-ctl:hover{color:var(--primary);border-color:var(--primary)}
 .filter-note{margin-left:auto;font-size:11px;color:var(--mute)}
-.ptype-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:10px}
-.ptype{border:1px solid var(--card-border);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,0.02);transition:border-color .15s}
+.ptype-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px}
+.ptype{position:relative;border:1px solid var(--card-border);border-radius:12px;padding:0;background:rgba(255,255,255,0.02);transition:border-color .15s,opacity .15s}
 .ptype.none{opacity:0.45}
-.ptype-head{display:flex;align-items:center;gap:9px;cursor:pointer;user-select:none}
-.ptype-head .plogo{width:22px;height:22px;border-radius:5px;overflow:hidden;flex-shrink:0}
+.ptype.partial{border-color:rgba(110,231,183,0.35)}
+.ptype.open{border-color:var(--primary);z-index:60;opacity:1}
+.ptype-head{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;padding:11px 12px;height:58px;box-sizing:border-box}
+.ptype-head:hover{background:rgba(255,255,255,0.03);border-radius:12px}
+.ptype-head .plogo{width:26px;height:26px;border-radius:6px;overflow:hidden;flex-shrink:0}
 .ptype-head .plogo svg{width:100%;height:100%;display:block}
-.ptype-head .pname{font-size:12.5px;font-weight:600}
-.ptype-head .pmeta{margin-left:auto;font-size:11px;color:var(--mute);white-space:nowrap}
-.ptype-head .pmeta b{color:var(--fail);font-weight:600}
-.ptype-accounts{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.ptype-head .pcol{min-width:0}
+.ptype-head .pname{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptype-head .psub{font-size:10.5px;color:var(--mute);white-space:nowrap}
+.ptype-head .psub b{color:var(--fail);font-weight:600}
+.ptype-head .psel{margin-left:auto;font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:999px;border:1px solid var(--card-border);color:var(--mute);white-space:nowrap;flex-shrink:0}
+.ptype.full .psel{color:var(--primary);border-color:rgba(110,231,183,0.4)}
+.ptype-head .pcaret{flex-shrink:0;color:var(--mute);font-size:9px;transition:transform .15s}
+.ptype.open .pcaret{transform:rotate(180deg)}
+.ptype-pop{position:absolute;top:calc(100% + 6px);left:0;min-width:100%;max-width:330px;background:#121110;border:1px solid var(--primary);border-radius:12px;padding:12px;z-index:70;box-shadow:0 14px 44px rgba(0,0,0,0.75),0 0 0 1px rgba(110,231,183,0.12);transform-origin:top;animation:popin .14s ease}
+.ptype-pop.pop-right{left:auto;right:0}
+@keyframes popin{from{opacity:0;transform:scaleY(0.9) translateY(-4px)}to{opacity:1;transform:scaleY(1) translateY(0)}}
+.ptype-pop .pop-head{display:flex;gap:6px;align-items:center;margin-bottom:9px}
+.ptype-pop .pop-title{font-size:10.5px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mute);font-weight:600;margin-right:auto}
+.ptype-pop .pop-accounts{display:flex;flex-wrap:wrap;gap:6px}
 .chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--card-border);cursor:pointer;font-size:11.5px;user-select:none;transition:all .15s ease;background:rgba(255,255,255,0.03)}
 .chip .cdot{width:7px;height:7px;border-radius:50%;background:var(--chip-c,var(--primary));flex-shrink:0}
 .chip .ccount{color:var(--mute);font-size:10.5px}
@@ -1865,9 +1878,10 @@ const PROVIDER_TYPE_NAMES = {aws:'AWS',azure:'Azure',gcp:'Google Cloud',kubernet
 const PROVIDER_CHIP_COLORS = {aws:'#f59e0b',azure:'#38bdf8',gcp:'#ef4444',kubernetes:'#4f46e5',m365:'#4ade80',github:'#e5e5e5',okta:'#3c8dff',mongodbatlas:'#4ade80',alibabacloud:'#f77852',oraclecloud:'#ef4444',iac:'#a1a1aa',vercel:'#e5e5e5',googleworkspace:'#fec94d'};
 const PROVIDER_SHORT = {aws:'AWS',azure:'AZR',gcp:'GCP',m365:'M365',kubernetes:'K8S',okta:'OKTA',mongodbatlas:'MDB',alibabacloud:'ALI',oraclecloud:'OCI',iac:'IAC',github:'GH',vercel:'VRC',googleworkspace:'GWS'};
 
+let OPEN_PTYPE = null; /* which provider-type popover is open */
+
 function renderFilterBar(){
   const bar = document.getElementById('filterBar');
-  /* group accounts by provider type, keeping first-seen type order */
   const types = [];
   const byType = {};
   PROWLER_DATA.providers.forEach(p=>{
@@ -1879,18 +1893,34 @@ function renderFilterBar(){
     const selN = accounts.filter(p=>FILTER.has(p.alias)).length;
     const failSum = accounts.reduce((s,p)=>s+provStats(p.alias).fail,0);
     const col = PROVIDER_CHIP_COLORS[t]||'#6ee7b7';
+    const state = selN===0?'none':(selN===accounts.length?'full':'partial');
+    const multi = accounts.length>1;
+    const open = OPEN_PTYPE===t;
     const chips = accounts.map(p=>{
       const st = provStats(p.alias);
       return `<span class="chip ${FILTER.has(p.alias)?'active':''}" data-alias="${esc(p.alias)}" style="--chip-c:${col}" title="${esc(p.alias)} · ${st.fail} failed / ${st.pass} passed">
         <span class="cdot"></span>${esc(p.alias)} <span class="ccount">${st.fail}</span></span>`;
     }).join('');
-    return `<div class="ptype ${selN===0?'none':''}" data-ptype="${t}">
-      <div class="ptype-head" data-ptype-toggle="${t}" title="Toggle all ${esc(PROVIDER_TYPE_NAMES[t]||t)} accounts">
+    const pop = (multi && open) ? `
+      <div class="ptype-pop" data-pop="${t}">
+        <div class="pop-head">
+          <span class="pop-title">${esc(PROVIDER_TYPE_NAMES[t]||t)} accounts</span>
+          <button class="chip-ctl" data-ptype-all="${t}">All</button>
+          <button class="chip-ctl" data-ptype-none="${t}">None</button>
+        </div>
+        <div class="pop-accounts">${chips}</div>
+      </div>` : '';
+    return `<div class="ptype ${state} ${open?'open':''}" data-ptype="${t}">
+      <div class="ptype-head" data-ptype-click="${t}" title="${multi?'Click to choose accounts':'Click to toggle'}">
         <span class="plogo">${PROVIDER_LOGOS[t]||''}</span>
-        <span class="pname">${esc(PROVIDER_TYPE_NAMES[t]||t)}</span>
-        <span class="pmeta">${accounts.length>1?`${selN}/${accounts.length} · `:''}<b>${failSum}</b> fail</span>
+        <span class="pcol">
+          <div class="pname">${esc(PROVIDER_TYPE_NAMES[t]||t)}</div>
+          <div class="psub">${accounts.length} account${accounts.length>1?'s':''} · <b>${failSum}</b> fail</div>
+        </span>
+        <span class="psel">${selN}/${accounts.length}</span>
+        ${multi?'<span class="pcaret">▼</span>':''}
       </div>
-      <div class="ptype-accounts">${chips}</div>
+      ${pop}
     </div>`;
   }).join('');
   bar.innerHTML = `
@@ -1901,25 +1931,52 @@ function renderFilterBar(){
       <span class="filter-note">${FILTER.size}/${PROWLER_DATA.providers.length} accounts selected · filters the whole dashboard</span>
     </div>
     <div class="ptype-grid">${groups}</div>`;
+
+  /* right-edge popovers flip their anchor so they stay in the viewport */
+  bar.querySelectorAll('.ptype-pop').forEach(pop=>{
+    const r = pop.closest('.ptype').getBoundingClientRect();
+    if(r.left + 330 > window.innerWidth - 24) pop.classList.add('pop-right');
+  });
+
+  bar.querySelectorAll('[data-ptype-click]').forEach(h=>h.addEventListener('click', e=>{
+    e.stopPropagation();
+    const t = h.dataset.ptypeClick;
+    const accounts = PROWLER_DATA.providers.filter(p=>p.provider===t);
+    if(accounts.length===1){
+      const a = accounts[0].alias;
+      FILTER.has(a) ? FILTER.delete(a) : FILTER.add(a);
+      onFilterChange();
+    } else {
+      OPEN_PTYPE = (OPEN_PTYPE===t) ? null : t;
+      renderFilterBar(); /* popover open/close does not touch widget state */
+    }
+  }));
+  bar.querySelectorAll('.ptype-pop').forEach(pop=>pop.addEventListener('click', e=>e.stopPropagation()));
   bar.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click', e=>{
     e.stopPropagation();
     const a = ch.dataset.alias;
     FILTER.has(a) ? FILTER.delete(a) : FILTER.add(a);
     onFilterChange();
   }));
-  bar.querySelectorAll('[data-ptype-toggle]').forEach(h=>h.addEventListener('click', ()=>{
-    const t = h.dataset.ptypeToggle;
-    const accounts = PROWLER_DATA.providers.filter(p=>p.provider===t);
-    const allOn = accounts.every(p=>FILTER.has(p.alias));
-    accounts.forEach(p=> allOn ? FILTER.delete(p.alias) : FILTER.add(p.alias));
+  bar.querySelectorAll('[data-ptype-all]').forEach(b=>b.addEventListener('click', e=>{
+    e.stopPropagation();
+    PROWLER_DATA.providers.filter(p=>p.provider===b.dataset.ptypeAll).forEach(p=>FILTER.add(p.alias));
     onFilterChange();
   }));
-  bar.querySelectorAll('.chip-ctl').forEach(b=>b.addEventListener('click', ()=>{
+  bar.querySelectorAll('[data-ptype-none]').forEach(b=>b.addEventListener('click', e=>{
+    e.stopPropagation();
+    PROWLER_DATA.providers.filter(p=>p.provider===b.dataset.ptypeNone).forEach(p=>FILTER.delete(p.alias));
+    onFilterChange();
+  }));
+  bar.querySelectorAll('.chip-ctl[data-fltr]').forEach(b=>b.addEventListener('click', e=>{
+    e.stopPropagation();
     FILTER.clear();
     if(b.dataset.fltr==='all') PROWLER_DATA.providers.forEach(p=>FILTER.add(p.alias));
     onFilterChange();
   }));
 }
+document.addEventListener('click', ()=>{ if(OPEN_PTYPE){ OPEN_PTYPE=null; renderFilterBar(); } });
+
 function onFilterChange(){
   renderFilterBar();
   renderGrid(); /* every widget recomputes from the selection */
