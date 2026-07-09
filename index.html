@@ -2007,8 +2007,8 @@ function providersPanelHTML(){
       <div class="ptype-pop" data-pop="${t}">
         <div class="pop-head">
           <span class="pop-title">${esc(PROVIDER_TYPE_NAMES[t]||t)} accounts</span>
-          <button class="chip-ctl" data-ptype-all="${t}">All</button>
-          <button class="chip-ctl" data-ptype-none="${t}">None</button>
+          <button class="chip-ctl ${selN===accounts.length?'active':''}" data-ptype-all="${t}">All</button>
+          <button class="chip-ctl ${selN===0?'active':''}" data-ptype-none="${t}">None</button>
         </div>
         <div class="pop-accounts">${chips}</div>
       </div>` : '';

@@ -107,8 +107,9 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
   so the account tag is always visible and identifiable): an opaque panel
   anchored to the card, floating ABOVE the grid and widgets (solid `#121110`
   bg, emerald border, drop shadow, scale-in animation, right-edge cards
-  anchor right), containing per-type "All"/"None" controls and the account
-  chips. The popover stays open while toggling chips inside it; clicking
+  anchor right), containing per-type "All"/"None" STATE controls (lit emerald exactly like
+  the panel-level pair: All lit when every account of that type is selected,
+  None when zero, neither on partial) and the account chips. The popover stays open while toggling chips inside it; clicking
   outside closes it. All cards show a caret.
 - Deselected chips dim to ~40%; fully-deselected type cards dim as a whole —
   but NEVER dim an open popover (override opacity when open).
