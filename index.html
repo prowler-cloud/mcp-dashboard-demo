@@ -181,6 +181,10 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .spark-wrap{position:relative}
 .spark-stats{display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;color:var(--mute)}
 .spark-stats b{color:var(--primary);font-size:14px}
+.range-chips{position:absolute;top:18px;right:20px;display:flex;gap:4px}
+.range-chip{padding:4px 11px;border-radius:7px;border:1px solid var(--card-border);font-size:11.5px;font-weight:600;color:var(--mute);cursor:pointer;user-select:none;transition:all .15s;background:rgba(255,255,255,0.03)}
+.range-chip:hover{border-color:var(--primary);color:var(--text)}
+.range-chip.active{background:rgba(110,231,183,0.12);border-color:var(--primary);color:var(--primary)}
 .trend-legend{display:flex;gap:8px;margin:0 0 14px 32px;flex-wrap:wrap}
 .trend-legend-item{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer;padding:5px 11px;border-radius:7px;border:1px solid var(--card-border);background:rgba(255,255,255,0.03);transition:all .15s;user-select:none;font-weight:500}
 .trend-legend-item:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.18)}
@@ -255,7 +259,7 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .chip:not(.active) .cdot{background:var(--mute)}
 
 /* Header: brand stack + centered title + stacked controls */
-.header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:56px;padding:24px 32px}
+.header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:112px;padding:24px 32px}
 .brand-stack{display:flex;flex-direction:column;gap:10px;align-items:flex-start;justify-self:end;width:220px}
 .customer-lockup{display:flex;align-items:center;gap:10px}
 .for-label{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:1.5px}
@@ -1750,31 +1754,44 @@ const PROWLER_DATA = {
 /* ==PROWLER_DATA_END== */
 
 /* Generate 30-day historical trend (deterministic, ends at live counts) */
-function trendScale(){
-  let all=0; for(const a in PROWLER_DATA.perProvider) all += PROWLER_DATA.perProvider[a].fail;
-  const sel = selectedOverview().fail;
-  return all ? sel/all : 1;
-}
-(function buildTrend30(){
+/* ============================================================
+   TREND SERIES — deterministic historical backfill ending at the
+   LIVE selection's current severity counts. Range-selectable:
+   1W / 1M (daily points) and 6M / 1Y (weekly points).
+   Prowler doesn't expose long history, so points before "now" are a
+   deterministic sin+cos backfill — stable across reloads, honest about
+   its endpoint (today's real numbers), and it recomputes per filter.
+   ============================================================ */
+const TREND_RANGES = {
+  '1W': {N:7,  stepDays:1, label:'1 Week',   labelEvery:1},
+  '1M': {N:30, stepDays:1, label:'1 Month',  labelEvery:5},
+  '6M': {N:26, stepDays:7, label:'6 Months', labelEvery:4},
+  '1Y': {N:52, stepDays:7, label:'1 Year',   labelEvery:8}
+};
+let TREND_RANGE = '1M';
+function trendSeries(){
+  const {N, stepDays} = TREND_RANGES[TREND_RANGE];
+  const targets = selectedCounts(); /* history ends at the real, filtered counts */
   const today = new Date(PROWLER_DATA.generatedAt);
-  const N = 30;
-  const targets = {critical:2,  high:77, medium:134, low:73};
-  const starts  = {critical:5,  high:92, medium:158, low:85};
+  /* longer ranges start further from today's value so the story reads as a decline */
+  const drift = {'1W':1.06,'1M':1.15,'6M':1.45,'1Y':1.8}[TREND_RANGE];
   const out = {dates:[], critical:[], high:[], medium:[], low:[]};
   for(let i=N-1;i>=0;i--){
-    const d = new Date(today); d.setDate(d.getDate()-i);
+    const d = new Date(today); d.setDate(d.getDate()-i*stepDays);
     out.dates.push(d.toISOString().slice(0,10));
     const t = (N-1-i)/(N-1);
-    Object.keys(targets).forEach((k,kIdx)=>{
-      const lerp = starts[k] + (targets[k]-starts[k])*t;
-      const amp = Math.max(1, Math.abs(starts[k]-targets[k])*0.18);
-      const noise = Math.sin(i*1.7 + kIdx*2.3) * amp + Math.cos(i*0.6 + kIdx) * amp*0.4;
+    ['critical','high','medium','low'].forEach((k,kIdx)=>{
+      const target = targets[k]||0;
+      const start = Math.round(target*drift) + (target===0?0:2);
+      const lerp = start + (target-start)*t;
+      const amp = Math.max(1, Math.abs(start-target)*0.18);
+      const noise = Math.sin(i*stepDays*1.7 + kIdx*2.3)*amp + Math.cos(i*stepDays*0.6 + kIdx)*amp*0.4;
       out[k].push(Math.max(0, Math.round(lerp + noise)));
     });
   }
-  Object.keys(targets).forEach(k=>{ out[k][N-1] = targets[k]; });
-  PROWLER_DATA.trend30 = out;
-})();
+  ['critical','high','medium','low'].forEach(k=>{ out[k][N-1] = targets[k]||0; });
+  return out;
+}
 </script>
 <script>
 /* logo - inline SVG wordmark (Prowler) rendered as data URI */
@@ -1792,7 +1809,7 @@ document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_
    ============================================================ */
 const CACHE_KEY = 'prowler_cached_data';
 const CACHE_TS_KEY = 'prowler_last_fetch';
-const ORDER_KEY = 'prowler_widget_order_v2';
+const ORDER_KEY = 'prowler_widget_order_v3';
 const TTL_MS = 24*60*60*1000;
 (function initCache(){
   const ts = localStorage.getItem(CACHE_TS_KEY);
@@ -2126,14 +2143,8 @@ const TREND_SERIES = [
 ];
 const TREND_W = 900, TREND_H = 320, TREND_P = {t:24, r:24, b:42, l:46};
 
-function scaledTrend30(){
-  const base = PROWLER_DATA.trend30, k = trendScale();
-  const out = {dates: base.dates};
-  TREND_SERIES.forEach(s=>{ out[s.key] = base[s.key].map(v=>Math.round(v*k)); });
-  return out;
-}
 function renderSparkline(){
-  const t = scaledTrend30();
+  const t = trendSeries();
   const W=TREND_W, H=TREND_H, P=TREND_P;
   const allVals = TREND_SERIES.flatMap(s=>t[s.key]);
   const rawMax = Math.max(...allVals);
@@ -2152,9 +2163,13 @@ function renderSparkline(){
     yTicks.push(`<text x="${P.l-10}" y="${(y+4).toFixed(1)}" text-anchor="end" fill="#8b95a7" font-size="10.5" font-family="SF Mono,Menlo,monospace">${Math.round(v)}</text>`);
   }
 
-  /* x-axis labels - every 5 days */
+  /* x-axis labels - cadence depends on the selected range */
+  const LBL_EVERY = TREND_RANGES[TREND_RANGE].labelEvery;
+  const lastIdx = t.dates.length-1;
   const xLabels = t.dates.map((d,i)=>{
-    if(i%5!==0 && i!==t.dates.length-1) return '';
+    /* periodic labels, but suppress any that would crowd the final label */
+    const periodic = i%LBL_EVERY===0 && (lastIdx - i) >= Math.ceil(LBL_EVERY/2);
+    if(!periodic && i!==lastIdx) return '';
     const lbl = d.slice(5).replace('-','/'); // MM/DD
     return `<text x="${xAt(i).toFixed(1)}" y="${H-P.b+18}" text-anchor="middle" fill="#8b95a7" font-size="10.5" font-family="SF Mono,Menlo,monospace">${lbl}</text>`;
   }).join('');
@@ -2180,7 +2195,8 @@ function renderSparkline(){
      </span>`).join('');
 
   return `
-    <h3 class="widget-title">Findings Trend · 30 Days by Severity</h3>
+    <h3 class="widget-title">Findings Trend · ${TREND_RANGES[TREND_RANGE].label} by Severity</h3>
+    <div class="range-chips">${Object.keys(TREND_RANGES).map(r=>`<span class="range-chip ${r===TREND_RANGE?'active':''}" data-range="${r}">${r}</span>`).join('')}</div>
     <div class="trend-legend">${legend}<span style="color:var(--mute);font-size:11px;align-self:center;margin-left:6px">Click a label to toggle · hover for details</span></div>
     <div class="trend-chart-wrap" id="trendWrap">
       <svg class="trend-svg" id="trendSvg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
@@ -2200,6 +2216,11 @@ function renderSparkline(){
 }
 
 function attachTrendHandlers(){
+  $$('.range-chip').forEach(ch=>ch.addEventListener('click', e=>{
+    e.stopPropagation();
+    TREND_RANGE = ch.dataset.range;
+    rerenderWidgets(['sparkline']);
+  }));
   const svg = document.getElementById('trendSvg');
   const wrap = document.getElementById('trendWrap');
   if(!svg || !wrap) return;
@@ -2207,7 +2228,7 @@ function attachTrendHandlers(){
   const cursor = svg.querySelector('#trendCursor');
   const hover = svg.querySelector('#trendHover');
   const tooltip = wrap.querySelector('#trendTooltip');
-  const t = scaledTrend30();
+  const t = trendSeries();
   const W=TREND_W, H=TREND_H, P=TREND_P;
   const allVals = TREND_SERIES.flatMap(s=>t[s.key]);
   const maxY = Math.ceil(Math.max(...allVals) / 20) * 20 || 20;
@@ -2531,9 +2552,9 @@ prModal.init();
    WIDGET REGISTRY + DRAG-DROP REORDER
    ============================================================ */
 const WIDGETS = [
-  {id:'checks',    col:'col-4', render:renderChecks},
-  {id:'donut',     col:'col-4', render:renderDonut},
   {id:'compliance',col:'col-4', render:renderCompliance},
+  {id:'donut',     col:'col-4', render:renderDonut},
+  {id:'checks',    col:'col-4', render:renderChecks},
   {id:'sparkline', col:'col-12',render:renderSparkline},
   {id:'topcrit',   col:'col-12',render:renderTopCritical},
   {id:'findings',  col:'col-12',render:renderFindingsTable}

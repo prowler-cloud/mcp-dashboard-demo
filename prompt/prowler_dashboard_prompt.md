@@ -162,12 +162,19 @@ visible drag handle (⠿) in the top-left corner.
 - Below the ring: "PASS/TOTAL passing · X% pass rate"
 - When simulation is active, show a `+N.N pts from fixing criticals` delta
 
-## 4. 30-Day Findings Trend — multi-series SVG line chart
-- 30 daily data points ending today
+## 4. Findings Trend — multi-series SVG line chart with range selector
+- Range chips in the widget's top-right corner: **1W / 1M** (daily points)
+  and **6M / 1Y** (weekly points); clicking re-renders the chart and the
+  widget title reads "Findings Trend · <range label> by Severity"
 - 4 lines: Critical / High / Medium / Low, each in its severity color, with
   a faint area-fill underneath
+- The series MUST end at the LIVE selection's current severity counts and
+  recompute when the provider filter changes — never hard-code endpoint
+  values. Longer ranges start proportionally further from today's value so
+  the story reads as a decline (drift ×1.06/1.15/1.45/1.8 for 1W/1M/6M/1Y)
 - Gridlines + Y-axis labels (0 to max rounded to nearest 20) + X-axis date
-  labels every 5 days in MM/DD format
+  labels in MM/DD with cadence per range (every 1/5/4/8 points), suppressing
+  periodic labels that would crowd the final one
 - Legend chips above the chart; **clicking a chip toggles that line on/off**
   and the totals in the tooltip recompute
 - Hover anywhere on the plot:
@@ -177,9 +184,9 @@ visible drag handle (⠿) in the top-left corner.
       counts with color swatches, and a Total FAIL row
     - tooltip auto-flips at right/bottom edges to stay in viewport
 - Touch support: dragging a finger updates the tooltip
-- Data: if Prowler doesn't expose 30-day history, generate a deterministic
-  back-trend ending at the live counts using sin+cos noise so the chart
-  doesn't look fake-smooth and is stable across reloads
+- Data: Prowler doesn't expose long history, so generate a deterministic
+  back-trend (sin+cos noise, stable across reloads) ending at the live
+  filtered counts — the chart is honest about its endpoint
 
 ## 5. Findings Table
 - Paginated, 20 rows per page

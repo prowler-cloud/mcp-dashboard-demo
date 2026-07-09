@@ -40,8 +40,10 @@ Read this whole file before making any change.
   `perProvider{alias → {fail,pass,sev{...},estimated}}` (feeds the filter bar),
   `findings[]{sev,provider,service,status,check,resource,region,detail}`,
   `topCritical[]{sev,provider,check,title,resource,region,risk,steps[]}`, `trend[7]`.
-  A 30-day series `trend30` is derived at runtime by `buildTrend30()` —
-  deterministic sin+cos noise anchored at `generatedAt`, ending at live counts.
+  The trend series is derived at runtime by `trendSeries()` — deterministic
+  sin+cos backfill anchored at `generatedAt`, ending at the SELECTION's live
+  counts, with `TREND_RANGE` (1W/1M/6M/1Y) controlling points and step.
+  Default widget order: compliance (ThreatScore), donut, checks, then rows.
 - Client state in `localStorage`: `prowler_widget_order` (drag order),
   `prowler_cached_data` + `prowler_last_fetch` (24h cache). This is why
   every demo edit is reversible: clearing storage + reloading = canonical state.
