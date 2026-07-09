@@ -54,9 +54,10 @@ Read this whole file before making any change.
 - **Provider filter panel** (`#filterBar`, under the header): hierarchical —
   UNIFORM compact cards per provider TYPE (official badge SVG in
   `PROVIDER_LOGOS`, embedded inline from prowler-cloud/prowler
-  `ui/components/icons/providers-badge/`). Multi-account types open an
-  account-chip POPOVER (`OPEN_PTYPE` state; survives re-render; closes on
-  outside click; never dimmed); single-account types toggle directly. The
+  `ui/components/icons/providers-badge/`). Every type card opens an
+  account-chip POPOVER on click (`OPEN_PTYPE` state; survives re-render;
+  closes on outside click; never dimmed) — uniform behavior for single- and
+  multi-account types so account tags are always identifiable. The
   `FILTER` Set (account aliases) drives `selectedCounts()` /
   `selectedOverview()`, which EVERY widget reads (never read
   `PROWLER_DATA.severityCounts/overview` directly in a renderer). Findings and

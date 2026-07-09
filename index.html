@@ -1894,14 +1894,13 @@ function renderFilterBar(){
     const failSum = accounts.reduce((s,p)=>s+provStats(p.alias).fail,0);
     const col = PROVIDER_CHIP_COLORS[t]||'#6ee7b7';
     const state = selN===0?'none':(selN===accounts.length?'full':'partial');
-    const multi = accounts.length>1;
     const open = OPEN_PTYPE===t;
     const chips = accounts.map(p=>{
       const st = provStats(p.alias);
       return `<span class="chip ${FILTER.has(p.alias)?'active':''}" data-alias="${esc(p.alias)}" style="--chip-c:${col}" title="${esc(p.alias)} · ${st.fail} failed / ${st.pass} passed">
         <span class="cdot"></span>${esc(p.alias)} <span class="ccount">${st.fail}</span></span>`;
     }).join('');
-    const pop = (multi && open) ? `
+    const pop = open ? `
       <div class="ptype-pop" data-pop="${t}">
         <div class="pop-head">
           <span class="pop-title">${esc(PROVIDER_TYPE_NAMES[t]||t)} accounts</span>
@@ -1911,14 +1910,14 @@ function renderFilterBar(){
         <div class="pop-accounts">${chips}</div>
       </div>` : '';
     return `<div class="ptype ${state} ${open?'open':''}" data-ptype="${t}">
-      <div class="ptype-head" data-ptype-click="${t}" title="${multi?'Click to choose accounts':'Click to toggle'}">
+      <div class="ptype-head" data-ptype-click="${t}" title="Click to choose accounts">
         <span class="plogo">${PROVIDER_LOGOS[t]||''}</span>
         <span class="pcol">
           <div class="pname">${esc(PROVIDER_TYPE_NAMES[t]||t)}</div>
           <div class="psub">${accounts.length} account${accounts.length>1?'s':''} · <b>${failSum}</b> fail</div>
         </span>
         <span class="psel">${selN}/${accounts.length}</span>
-        ${multi?'<span class="pcaret">▼</span>':''}
+        <span class="pcaret">▼</span>
       </div>
       ${pop}
     </div>`;
@@ -1941,15 +1940,8 @@ function renderFilterBar(){
   bar.querySelectorAll('[data-ptype-click]').forEach(h=>h.addEventListener('click', e=>{
     e.stopPropagation();
     const t = h.dataset.ptypeClick;
-    const accounts = PROWLER_DATA.providers.filter(p=>p.provider===t);
-    if(accounts.length===1){
-      const a = accounts[0].alias;
-      FILTER.has(a) ? FILTER.delete(a) : FILTER.add(a);
-      onFilterChange();
-    } else {
-      OPEN_PTYPE = (OPEN_PTYPE===t) ? null : t;
-      renderFilterBar(); /* popover open/close does not touch widget state */
-    }
+    OPEN_PTYPE = (OPEN_PTYPE===t) ? null : t;
+    renderFilterBar(); /* popover open/close does not touch widget state */
   }));
   bar.querySelectorAll('.ptype-pop').forEach(pop=>pop.addEventListener('click', e=>e.stopPropagation()));
   bar.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click', e=>{
