@@ -255,15 +255,15 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .chip:not(.active) .cdot{background:var(--mute)}
 
 /* Header: brand stack + centered title + stacked controls */
-.header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px}
-.brand-stack{display:flex;flex-direction:column;gap:10px;align-items:flex-start;justify-self:start}
+.header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:56px;padding:24px 32px}
+.brand-stack{display:flex;flex-direction:column;gap:10px;align-items:flex-start;justify-self:end;width:220px}
 .customer-lockup{display:flex;align-items:center;gap:10px}
 .for-label{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:1.5px}
 .acme-logo{height:38px;width:auto;opacity:0.97}
 .title-center{text-align:center;justify-self:center}
 .title-main{font-size:38px;font-weight:800;letter-spacing:-0.7px;background:linear-gradient(90deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.15}
 .title-sub{font-size:13px;color:var(--mute);margin-top:5px}
-.header-controls{display:flex;flex-direction:column;align-items:stretch;gap:8px;justify-self:end;position:relative;min-width:196px}
+.header-controls{display:flex;flex-direction:column;align-items:stretch;gap:8px;justify-self:start;position:relative;width:220px}
 .header-controls .btn{text-align:center;justify-content:center;display:inline-flex;align-items:center}
 .live-badge{cursor:pointer;justify-content:center}
 .live-badge.stale{background:rgba(254,201,77,0.08);border-color:rgba(254,201,77,0.4);color:var(--med)}

@@ -55,8 +55,11 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 
 # HEADER BAR
 
-- Layout: a 3-column grid (brand | title | controls) so the title is truly
-  centered between the left and right columns.
+- Layout: a 3-column grid (brand | title | controls) with the whole
+  composition pulled toward the center: outer columns are equal fixed width
+  (220px) justified inward (brand justify-end, controls justify-start,
+  56px column gap), giving IDENTICAL empty space at both edges while the
+  title dominates the middle.
 - Left brand stack: the OFFICIAL Prowler wordmark as inline SVG (white fill,
   from `ProwlerExtended` in prowler-cloud/prowler
   `ui/components/icons/prowler/ProwlerIcons.tsx`), and directly UNDER it a
