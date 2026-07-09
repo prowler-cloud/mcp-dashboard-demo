@@ -38,6 +38,10 @@ Read this whole file before making any change.
 - Client state in `localStorage`: `prowler_widget_order` (drag order),
   `prowler_cached_data` + `prowler_last_fetch` (24h cache). This is why
   every demo edit is reversible: clearing storage + reloading = canonical state.
+  Cache invalidation rule: on load, the cache is used ONLY if its `generatedAt`
+  is >= the embedded snapshot's — a newer deployed dashboard always beats a
+  stale cache (Chrome shares localStorage across all file:// pages, and Pages
+  visitors keep storage across versions). Never remove this guard.
 - `PR_DEFAULTS` (between `==PR_DEFAULTS_START/END==` sentinels) holds the
   GitHub repo / branch / labels used by the "Create GitHub PR" modal.
 

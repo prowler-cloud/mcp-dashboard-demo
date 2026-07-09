@@ -1427,13 +1427,21 @@ const TTL_MS = 24*60*60*1000;
   const ts = localStorage.getItem(CACHE_TS_KEY);
   const cached = localStorage.getItem(CACHE_KEY);
   const now = Date.now();
+  const embeddedTs = Date.parse(PROWLER_DATA.generatedAt) || 0;
+  let cacheValid = false;
   if(ts && cached && (now - parseInt(ts,10)) < TTL_MS){
     try{
       const d = JSON.parse(cached);
-      Object.assign(PROWLER_DATA, d);
-      document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_DATA.generatedAt).toLocaleString() + ' (cached)';
+      /* A newer embedded snapshot always wins over an older cache — prevents a
+         freshly deployed dashboard from rendering stale data left by a previous version. */
+      if((Date.parse(d.generatedAt) || 0) >= embeddedTs){
+        Object.assign(PROWLER_DATA, d);
+        document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_DATA.generatedAt).toLocaleString() + ' (cached)';
+        cacheValid = true;
+      }
     }catch(e){}
-  } else {
+  }
+  if(!cacheValid){
     localStorage.setItem(CACHE_KEY, JSON.stringify(PROWLER_DATA));
     localStorage.setItem(CACHE_TS_KEY, String(now));
   }
