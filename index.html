@@ -1836,12 +1836,13 @@ function effectiveOverview(){
   return ov;
 }
 function threatScore(counts){
-  /* Weighted-risk score normalized by tenant size so it works for 400 or 11k findings:
-     criticals still carry disproportionate weight, and the what-if simulation moves it visibly. */
+  /* Weighted-risk score normalized by the SELECTION's size. Returns null when
+     no providers are selected — an empty scope has no score, not a perfect one. */
+  const totalSel = selectedOverview().total;
+  if(!totalSel) return null;
   const weighted = counts.critical*TS_WEIGHTS.critical + counts.high*TS_WEIGHTS.high +
                    counts.medium*TS_WEIGHTS.medium + counts.low*TS_WEIGHTS.low;
-  const scale = Math.max(selectedOverview().total, 1) * 2;
-  return Math.max(0, Math.min(100, 100 * (1 - weighted/scale)));
+  return Math.max(0, Math.min(100, 100 * (1 - weighted/(totalSel*2))));
 }
 
 const PROVIDER_CHIP_COLORS = {aws:'#f59e0b',azure:'#38bdf8',gcp:'#ef4444',kubernetes:'#4f46e5',m365:'#4ade80',github:'#e5e5e5',okta:'#3c8dff',mongodbatlas:'#4ade80',alibabacloud:'#f77852',oraclecloud:'#ef4444',iac:'#a1a1aa',vercel:'#e5e5e5',googleworkspace:'#fec94d'};
@@ -1916,7 +1917,8 @@ function renderDonut(){
     {key:'low',val:c.low,color:'var(--low)'},
     {key:'informational',val:c.informational,color:'var(--info)'}
   ];
-  const total = segments.reduce((s,x)=>s+x.val,0) || 1;
+  const displayTotal = segments.reduce((s,x)=>s+x.val,0);
+  const total = displayTotal || 1; /* geometry divisor only — never display this */
   const R = 70, C = 2*Math.PI*R;
   let offset = 0;
   const arcs = segments.map(s=>{
@@ -1948,7 +1950,7 @@ function renderDonut(){
       <svg class="donut-svg" width="180" height="180" viewBox="0 0 180 180">
         <circle r="${R}" cx="90" cy="90" fill="transparent" stroke="rgba(255,255,255,0.05)" stroke-width="22"/>
         ${arcs}
-        <text x="90" y="86" text-anchor="middle" fill="#e6edf3" font-size="28" font-weight="700">${total}</text>
+        <text x="90" y="86" text-anchor="middle" fill="#e6edf3" font-size="28" font-weight="700">${displayTotal.toLocaleString()}</text>
         <text x="90" y="106" text-anchor="middle" fill="#8b95a7" font-size="11" letter-spacing="1.5">FAIL TOTAL</text>
       </svg>
       <div class="donut-legend">${legend}</div>
@@ -2125,14 +2127,16 @@ function attachTrendHandlers(){
 function renderCompliance(){
   const sim = SIM.fixCritical;
   const ov = effectiveOverview();
-  const realCounts = PROWLER_DATA.severityCounts;
+  const realCounts = selectedCounts(); /* baseline = selection without simulation */
   const effCounts = effectiveCounts();
-  const ts = threatScore(effCounts);
-  const tsReal = threatScore(realCounts);
-  const tsDelta = ts - tsReal;
+  const tsN = threatScore(effCounts);
+  const tsRealN = threatScore(realCounts);
+  const empty = tsN === null;
+  const ts = empty ? 0 : tsN;
+  const tsDelta = empty ? 0 : ts - tsRealN;
   const R = 60, C = 2*Math.PI*R;
   const dash = (ts/100)*C;
-  const passRate = Math.round((ov.pass / ov.total) * 100);
+  const passRate = ov.total ? Math.round((ov.pass / ov.total) * 100) : 0;
   return `
     <h3 class="widget-title">ThreatScore${sim?' <span class="sim-pill">simulated</span>':''}</h3>
     <div class="compliance-wrap">
@@ -2146,12 +2150,12 @@ function renderCompliance(){
         <circle r="${R}" cx="80" cy="80" fill="transparent" stroke="rgba(255,255,255,0.06)" stroke-width="14"/>
         <circle r="${R}" cx="80" cy="80" fill="transparent" stroke="url(#complGrad)" stroke-width="14" stroke-linecap="round"
                 stroke-dasharray="${dash.toFixed(2)} ${(C-dash).toFixed(2)}" transform="rotate(-90 80 80)" style="transition:stroke-dasharray .6s ease"/>
-        <text x="80" y="78" text-anchor="middle" fill="#e6edf3" font-size="30" font-weight="700">${ts.toFixed(1)}</text>
+        <text x="80" y="78" text-anchor="middle" fill="#e6edf3" font-size="30" font-weight="700">${empty?'—':ts.toFixed(1)}</text>
         <text x="80" y="98" text-anchor="middle" fill="#8b95a7" font-size="10" letter-spacing="1.5">THREATSCORE</text>
       </svg>
       <div class="compliance-num">
         <b>${ov.pass}/${ov.total}</b>
-        passing · ${passRate}% pass rate
+        ${empty ? 'select at least one provider' : `passing · ${passRate}% pass rate`}
         ${sim ? `<div style="margin-top:8px"><span class="delta ${tsDelta>0?'up':'down'}">${tsDelta>0?'+':''}${tsDelta.toFixed(1)} pts</span> from fixing criticals</div>` : ''}
       </div>
     </div>`;
