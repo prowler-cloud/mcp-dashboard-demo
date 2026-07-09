@@ -67,12 +67,22 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 - Countdown timer "Next refresh in HH:MM:SS" ticking down from 24:00:00
 - Generated-at timestamp
 
-# PROVIDER FILTER BAR — directly under the header
+# PROVIDER FILTER PANEL — directly under the header
 
-- A horizontal bar (own card) listing EVERY connected provider left-to-right
-  as a toggle chip: provider-colored dot, alias, FAIL count. Plus "All" and
-  "None" controls and a "N/M selected · filters the whole dashboard" note.
-- Chips toggle on click; deselected chips dim to ~40% opacity.
+- A panel (own card) titled "Cloud Providers" using the SAME `.widget-title`
+  typography as every widget, with "All" / "None" controls and a
+  "N/M accounts selected · filters the whole dashboard" note.
+- HIERARCHY — provider type → accounts: a responsive grid
+  (auto-fill, minmax 250px) of one card per provider TYPE. Each type card has:
+  the OFFICIAL provider badge logo as inline SVG (source:
+  `ui/components/icons/providers-badge/` in prowler-cloud/prowler — embed the
+  SVGs, no external images), the type display name, a "sel/total · N fail"
+  meta, and its account chips beneath.
+- Clicking a type header toggles ALL of that type's accounts at once;
+  clicking an account chip toggles just that account. Deselected chips dim
+  to ~40% opacity; fully-deselected type cards dim as a whole.
+- (When Prowler provider groups are in use, insert them as an org level
+  between type and accounts.)
 - The selection filters the ENTIRE dashboard: every widget (checks summary,
   severity donut, ThreatScore, trend, findings table, remediation playbook)
   recomputes from the selected providers only.

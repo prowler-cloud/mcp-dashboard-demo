@@ -51,8 +51,11 @@ Read this whole file before making any change.
   visitors keep storage across versions). Never remove this guard.
 - `PR_DEFAULTS` (between `==PR_DEFAULTS_START/END==` sentinels) holds the
   GitHub repo / branch / labels used by the "Create GitHub PR" modal.
-- **Provider filter bar** (`#filterBar`, under the header): one chip per
-  connected provider; the `FILTER` Set drives `selectedCounts()` /
+- **Provider filter panel** (`#filterBar`, under the header): hierarchical —
+  one card per provider TYPE (official badge SVG in `PROVIDER_LOGOS`, embedded
+  inline from prowler-cloud/prowler `ui/components/icons/providers-badge/`),
+  account chips inside; type header toggles all its accounts. The `FILTER`
+  Set (account aliases) drives `selectedCounts()` /
   `selectedOverview()`, which EVERY widget reads (never read
   `PROWLER_DATA.severityCounts/overview` directly in a renderer). Findings and
   playbook rows filter on their `provider` field; the trend scales by the
