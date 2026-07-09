@@ -23,6 +23,11 @@ Read this whole file before making any change.
    GitHub Actions secret `PROWLER_API_KEY` and in presenters' local env vars.
 5. All renderers must be safe to re-run in place (the simulation toggle,
    table sort/page, tooltips depend on this).
+6. **Prompt/dashboard sync**: any change to the dashboard's design, widgets,
+   data contract, or behavior MUST be mirrored in
+   `prompt/prowler_dashboard_prompt.md` (and the READY variant) in the same
+   PR — the prompt must always regenerate the current dashboard. Update this
+   file too when the design system changes.
 
 ## Architecture
 
@@ -47,12 +52,21 @@ Read this whole file before making any change.
 
 ## Design system (match exactly on any new widget)
 
-- Dark theme, body gradient `#0a0e27 → #131830`, `background-attachment:fixed`.
-- Glassmorphism cards: `rgba(255,255,255,0.04)` bg, 1px `rgba(255,255,255,0.08)`
-  border, `backdrop-filter:blur(20px)`, radius 18px.
-- Accents: primary green `#00ff88`, secondary purple `#7c3aed`.
-- Severity: critical `#ff3860`, high `#ff8c42`, medium `#ffd93d`,
-  low `#3abff8`, informational `#94a3b8`.
+Prowler Cloud visual schema — tokens from prowler-cloud/prowler
+`ui/styles/globals.css` (dark theme). Do NOT invent colors.
+
+- Font: Inter (Google Fonts `<link>` = the ONLY allowed external reference;
+  offline it falls back to the system stack — never add other external refs).
+- Dark theme, body gradient `#000000 → #121110`, `background-attachment:fixed`.
+- Cards: solid `#0c0a09` bg, 1px `#27272a` border, radius 18px (no glassmorphism).
+- Accents: primary emerald `#6ee7b7` (hover `#99f6e4`), secondary blue `#3c8dff`.
+  Primary buttons are solid emerald with BLACK text.
+- Severity (Prowler scale): critical `#ff006a`, high `#f77852`, medium `#fec94d`,
+  low `#fdfbd4`, informational `#3c8dff`. Pass `#4ade80`, fail `#f43f5e`.
+- Provider chips: aws `#f59e0b`, azure `#38bdf8`, gcp `#ef4444`, kubernetes
+  `#4f46e5`, m365 `#4ade80`, github `#e5e5e5`, okta `#3c8dff`, default emerald.
+- Header logo: the OFFICIAL ProwlerExtended wordmark (inline SVG, white fill,
+  from `ui/components/icons/prowler/ProwlerIcons.tsx`).
 - Every widget: `<div class="widget" draggable="true">` + drag handle `⠿` +
   `.widget-title` uppercase label; hover = lift + green glow (comes free from
   the `.widget` class).

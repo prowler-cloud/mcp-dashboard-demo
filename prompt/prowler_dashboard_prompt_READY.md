@@ -28,22 +28,35 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 - Include a comment block at the top summarising providers found and
   finding counts so the file is self-documenting
 
-# DESIGN SYSTEM
+# DESIGN SYSTEM — Prowler Cloud visual schema
+(tokens from prowler-cloud/prowler `ui/styles/globals.css`, dark theme)
 
-- Dark theme, gradient background `#0a0e27 → #131830`
-- Glassmorphism cards (rgba white 4% bg + 1px border + backdrop-filter blur)
-- Accent palette: primary green `#00ff88`, secondary purple `#7c3aed`
-- Severity colors: critical `#ff3860`, high `#ff8c42`, medium `#ffd93d`,
-  low `#3abff8`, informational `#94a3b8`
-- Animated "LIVE DATA" badge (pulsing green dot)
-- Hover effects on every card: lift transform, green glow, border shift
+- Font: **Inter** (Google Fonts link as progressive enhancement — the font
+  `<link>` is the ONLY allowed external reference; offline it falls back to the
+  system stack `-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto`)
+- Dark theme: background gradient `#000000 → #121110`, cards solid `#0c0a09`
+  with 1px `#27272a` border (no glassmorphism), radius 18px
+- Brand accents: primary emerald `#6ee7b7` (hover `#99f6e4`), secondary blue `#3c8dff`
+- Text: `#ffffff` primary, `#a1a1aa` muted
+- Severity colors (Prowler scale): critical `#ff006a`, high `#f77852`,
+  medium `#fec94d`, low `#fdfbd4`, informational `#3c8dff`
+- Status: pass `#4ade80`, fail `#f43f5e`
+- Provider chip colors: aws `#f59e0b`, azure `#38bdf8`, gcp `#ef4444`,
+  kubernetes `#4f46e5`, m365 `#4ade80`, github `#e5e5e5`, okta `#3c8dff`;
+  default emerald. Dark text on light chips, white on dark chips.
+- Primary buttons: solid emerald `#6ee7b7` with black text (Prowler style)
+- Animated "LIVE DATA" badge (pulsing emerald dot)
+- Hover effects on every card: lift transform, emerald glow, border shift
 - Responsive 12-column grid, single-column below 768px
-- Use inline SVG for every chart — NO Chart.js, NO d3, NO external deps
+- Use inline SVG for every chart — NO Chart.js, NO d3, NO external JS deps
 
 # HEADER BAR
 
-- Inline SVG wordmark logo (Prowler shield + gradient) in the top-left,
-  max-height 48px, with a subtle drop-shadow filter
+- The OFFICIAL Prowler wordmark as inline SVG in the top-left (white fill,
+  max-height 34px, subtle emerald drop-shadow). Source: `ProwlerExtended` in
+  prowler-cloud/prowler `ui/components/icons/prowler/ProwlerIcons.tsx`
+  (viewBox 0 0 1233.67 204.4). Title next to it reads just "Security Dashboard"
+  — the wordmark already says Prowler.
 - Dashboard title + subtitle
 - Pulsing "LIVE DATA" badge
 - "View on GitHub" button linking to https://github.com/prowler-cloud/prowler
@@ -55,9 +68,13 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 visible drag handle (⠿) in the top-left corner.
 
 ## 1. Cloud Providers
-- One mini-card per provider returned by list_providers
-- Show provider type icon, alias, UID, region, connected status dot
-- Below: stat row with Failed Checks / Passed / Total counts
+- One mini-card per CONNECTED provider returned by the providers search
+- Compact 2-column grid (auto-fill, minmax 190px), max-height 340px with
+  scroll — must stay usable with 18+ providers
+- Each card: provider-colored chip with short label (AWS/AZR/GCP/M365/K8S/
+  OKTA/MDB/ALI/OCI/IAC/GH/VRC/GWS), alias, truncated UID, status dot
+  (emerald = connected, red = failed)
+- Below: stat row with Failed Checks / Passed / Total counts (tenant-wide)
 
 ## 2. Severity Breakdown — pure-SVG donut chart
 - Donut with one segment per severity, total FAIL count in the center
@@ -75,10 +92,11 @@ visible drag handle (⠿) in the top-left corner.
 
 ## 3. ThreatScore (radial gauge)
 - Pure SVG circular gradient ring (green → purple)
-- Center shows the ThreatScore (0–100), computed as:
-    `100 − (critical×25 + high×2.5 + medium×0.5 + low×0.2) / 10`
-  so criticals carry disproportionate weight and the simulation has obvious
-  visual impact
+- Center shows the ThreatScore (0–100). Weighted risk normalized by tenant
+  size so it works for 400 or 11,000 findings:
+    `weighted = critical×25 + high×2.5 + medium×0.5 + low×0.2`
+    `score = 100 × (1 − weighted / (total_findings × 2))`, clamped 0–100
+  Criticals carry disproportionate weight so the simulation moves it visibly
 - Below the ring: "PASS/TOTAL passing · X% pass rate"
 - When simulation is active, show a `+N.N pts from fixing criticals` delta
 
@@ -148,6 +166,10 @@ visible drag handle (⠿) in the top-left corner.
   timestamp to localStorage on first load. On subsequent loads within 24h,
   render from cache and continue the countdown. After 24h, re-fetch from
   MCP. Include `<meta http-equiv="refresh" content="86400">` as a fallback.
+  **Cache invalidation**: on load, use the cache ONLY if its `generatedAt` is
+  >= the embedded snapshot's — a newer deployed dashboard must always beat a
+  stale cache (localStorage is shared across file:// pages and persists for
+  returning Pages visitors).
 - Manual "Refresh Now" button clears the cache and forces re-fetch.
 - All renderers must be safe to re-run in place when state changes
   (simulation toggle, table sort/page, tooltip).
