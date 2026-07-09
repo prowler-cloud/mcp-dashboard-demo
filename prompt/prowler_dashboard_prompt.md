@@ -90,8 +90,12 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 # PROVIDER FILTER PANEL — directly under the header
 
 - A panel (own card) titled "Cloud Providers" using the SAME `.widget-title`
-  typography as every widget, with "All" / "None" controls and a
-  "N/M accounts selected · filters the whole dashboard" note.
+  typography as every widget, with "All" / "None" STATE controls (lit
+  emerald when they reflect the current selection: "All" lit when every
+  account is selected — the default — "None" lit when zero, neither on a
+  partial selection) and a "N/M accounts selected · filters the whole
+  dashboard" note. The panel title indents 32px like every widget title so
+  it clears the drag handle.
 - HIERARCHY — provider type → accounts: a responsive grid (auto-fill,
   minmax 215px) of UNIFORM compact cards, one per provider TYPE (fixed 58px
   header height so AWS with 6 accounts is the same size as single-account
