@@ -36,8 +36,10 @@ Read this whole file before making any change.
   trend builder, cache/countdown logic, per-widget renderers, drag-and-drop,
   simulation state, findings table, remediation playbook + PR modal.
 - `PROWLER_DATA` keys: `generatedAt`, `providers[]`, `overview{total,fail,pass,muted}`,
-  `severityCounts{critical..informational}`, `findings[]{sev,service,status,check,resource,region,detail}`,
-  `topCritical[]{sev,check,title,resource,region,risk,steps[]}`, `trend[7]`.
+  `severityCounts{critical..informational}`,
+  `perProvider{alias → {fail,pass,sev{...},estimated}}` (feeds the filter bar),
+  `findings[]{sev,provider,service,status,check,resource,region,detail}`,
+  `topCritical[]{sev,provider,check,title,resource,region,risk,steps[]}`, `trend[7]`.
   A 30-day series `trend30` is derived at runtime by `buildTrend30()` —
   deterministic sin+cos noise anchored at `generatedAt`, ending at live counts.
 - Client state in `localStorage`: `prowler_widget_order` (drag order),
@@ -49,6 +51,15 @@ Read this whole file before making any change.
   visitors keep storage across versions). Never remove this guard.
 - `PR_DEFAULTS` (between `==PR_DEFAULTS_START/END==` sentinels) holds the
   GitHub repo / branch / labels used by the "Create GitHub PR" modal.
+- **Provider filter bar** (`#filterBar`, under the header): one chip per
+  connected provider; the `FILTER` Set drives `selectedCounts()` /
+  `selectedOverview()`, which EVERY widget reads (never read
+  `PROWLER_DATA.severityCounts/overview` directly in a renderer). Findings and
+  playbook rows filter on their `provider` field; the trend scales by the
+  selection's share of fails; the simulation composes with the filter.
+  Selection is session-only — do not persist it.
+- Widgets: checks (Checks Summary), donut, compliance (ThreatScore),
+  sparkline (trend), topcrit (playbook), findings (table).
 
 ## Design system (match exactly on any new widget)
 

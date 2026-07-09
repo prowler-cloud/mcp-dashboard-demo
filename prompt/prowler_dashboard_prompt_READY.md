@@ -17,7 +17,10 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 3. `prowler_app_search_security_findings` filtered by severity (one call per
    severity: critical, high, medium, low, informational) — pull at least
    20 of each for the table. Default status is FAIL, keep it that way.
-4. For the 10 most critical (or highest-severity) findings, call
+4. Per-provider counts for the filter bar: for EACH connected provider,
+   count FAIL, PASS, and per-severity FAIL findings (count-only queries,
+   page size 1) so every widget can recompute per selection.
+5. For the 10 most critical (or highest-severity) findings, call
    `prowler_hub_get_check_details` for each unique check_id to enrich them
    with `risk`, `remediation.other` step list, and remediation context.
 
@@ -64,17 +67,33 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 - Countdown timer "Next refresh in HH:MM:SS" ticking down from 24:00:00
 - Generated-at timestamp
 
+# PROVIDER FILTER BAR — directly under the header
+
+- A horizontal bar (own card) listing EVERY connected provider left-to-right
+  as a toggle chip: provider-colored dot, alias, FAIL count. Plus "All" and
+  "None" controls and a "N/M selected · filters the whole dashboard" note.
+- Chips toggle on click; deselected chips dim to ~40% opacity.
+- The selection filters the ENTIRE dashboard: every widget (checks summary,
+  severity donut, ThreatScore, trend, findings table, remediation playbook)
+  recomputes from the selected providers only.
+- Data contract: `PROWLER_DATA.perProvider` maps alias → {fail, pass,
+  sev{critical..informational}, estimated}. All widget math flows through
+  `selectedCounts()` / `selectedOverview()`, which sum perProvider over the
+  active selection. Each finding carries a `provider` field for row filtering.
+- The trend chart scales its series by the selection's share of total fails.
+- The what-if simulation composes with the filter (it zeroes the SELECTION'S
+  criticals, and its button label shows the selection's critical count).
+- Selection is session-only — never persisted; reload = all providers.
+
 # WIDGETS — each one inside a `<div class="widget" draggable="true">` with a
 visible drag handle (⠿) in the top-left corner.
 
-## 1. Cloud Providers
-- One mini-card per CONNECTED provider returned by the providers search
-- Compact 2-column grid (auto-fill, minmax 190px), max-height 340px with
-  scroll — must stay usable with 18+ providers
-- Each card: provider-colored chip with short label (AWS/AZR/GCP/M365/K8S/
-  OKTA/MDB/ALI/OCI/IAC/GH/VRC/GWS), alias, truncated UID, status dot
-  (emerald = connected, red = failed)
-- Below: stat row with Failed Checks / Passed / Total counts (tenant-wide)
+## 1. Checks Summary
+- Failed Checks / Passed / Total stat row (numbers reflect the provider
+  selection; ±delta badges when the simulation is active)
+- Pass-rate bar (emerald gradient, glow)
+- Caption: "N of M providers in scope", noting when severity splits are
+  partly estimated for small providers
 
 ## 2. Severity Breakdown — pure-SVG donut chart
 - Donut with one segment per severity, total FAIL count in the center
@@ -82,7 +101,7 @@ visible drag handle (⠿) in the top-left corner.
 - Below the chart: an **"⚡ What if I fix N critical findings?"** button.
   When clicked:
     - Set criticals to 0 in a simulation state object
-    - Re-render this widget, the Providers widget, and the ThreatScore
+    - Re-render this widget, the Checks Summary widget, and the ThreatScore
       widget in place (preserve drag order, no full rebuild)
     - Show a "SIMULATED" pill on each affected widget title
     - Show ±delta badges next to Failed Checks and Passed counts

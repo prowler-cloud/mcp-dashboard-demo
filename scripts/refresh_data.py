@@ -94,6 +94,7 @@ def fetch(base, key):
         for f in items:
             fa = f.get("attributes", {})
             findings.append({
+                "uid_raw": f.get("attributes", {}).get("uid", "") or str(f.get("id","")),
                 "sev": sev,
                 "service": (fa.get("check_metadata", {}) or {}).get("servicename")
                            or fa.get("service") or "-",
@@ -104,6 +105,35 @@ def fetch(base, key):
                 "region": fa.get("region", "-"),
                 "detail": (fa.get("status_extended") or "")[:300],
             })
+
+    # Per-provider counts (feeds the provider filter bar) — 6 small queries each
+    per_provider = {}
+    since = (dt.date.today() - dt.timedelta(days=1)).isoformat()
+    for p in providers:
+        if not p.get("connected"):
+            continue
+        alias = p["alias"]
+        base_params = {"filter[provider_alias]": alias,
+                       "filter[inserted_at__gte]": since, "page[size]": 1}
+        def count(extra):
+            params = dict(base_params); params.update(extra)
+            page = api_get(base, key, "/findings", params)
+            return (page.get("meta", {}).get("pagination", {}) or {}).get("count", 0)
+        sev = {s_: count({"filter[severity]": s_, "filter[status]": "FAIL"})
+               for s_ in SEVERITIES}
+        per_provider[alias] = {
+            "fail": count({"filter[status]": "FAIL"}),
+            "pass": count({"filter[status]": "PASS"}),
+            "sev": sev,
+            "estimated": False,
+        }
+    # keep only connected providers in the chips
+    providers = [p for p in providers if p.get("connected")]
+
+    # attribute each finding to a provider by matching provider uid inside the finding uid
+    uid_to_alias = {str(p["uid"]): p["alias"] for p in providers}
+    for f in findings:
+        f["provider"] = next((a for u, a in uid_to_alias.items() if u and u in f.get("uid_raw", "")), None)
 
     # Top-N most severe, enriched via Prowler Hub (public, no auth needed)
     top = []
@@ -126,7 +156,7 @@ def fetch(base, key):
                                           f"https://hub.prowler.com/check/{check}"],
         })
 
-    return providers, overview, severity_counts, findings, top
+    return providers, overview, severity_counts, findings, top, per_provider
 
 
 def hub_check_details(check_id):
@@ -151,7 +181,10 @@ def js_literal(obj, indent=2):
     return json.dumps(obj, indent=indent, ensure_ascii=False)
 
 
-def rewrite(html_path, out_path, providers, overview, sev_counts, findings, top):
+def rewrite(html_path, out_path, providers, overview, sev_counts, findings, top, per_provider=None):
+    per_provider = per_provider or {}
+    for f in findings:
+        f.pop("uid_raw", None)
     html = open(html_path, encoding="utf-8").read()
     now = dt.datetime.now(dt.timezone.utc).isoformat()
 
@@ -186,6 +219,7 @@ def rewrite(html_path, out_path, providers, overview, sev_counts, findings, top)
         f"  providers: {js_literal(providers)},\n"
         f"  overview: {js_literal(overview)},\n"
         f"  severityCounts: {js_literal(sev_counts)},\n"
+        f"  perProvider: {js_literal(per_provider)},\n"
         f"  findings: {js_literal(findings)},\n"
         f"  topCritical: {js_literal(top)},\n"
         f"  trend: [{trend_start + 12}, {trend_start + 26}, {trend_start + 19}, "
@@ -224,9 +258,9 @@ def main():
     if not key:
         sys.exit("PROWLER_API_KEY environment variable is required")
 
-    providers, overview, sev_counts, findings, top = fetch(args.base_url, key)
+    providers, overview, sev_counts, findings, top, per_provider = fetch(args.base_url, key)
     rewrite(os.path.abspath(args.html), os.path.abspath(args.out or args.html),
-            providers, overview, sev_counts, findings, top)
+            providers, overview, sev_counts, findings, top, per_provider)
 
 
 if __name__ == "__main__":

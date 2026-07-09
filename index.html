@@ -215,6 +215,20 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .delta.down{background:rgba(255,0,106,0.12);color:var(--crit);border:1px solid rgba(255,0,106,0.3)}
 .ts-bar{margin-top:10px;width:100%;height:6px;background:rgba(0,0,0,0.3);border-radius:3px;overflow:hidden;position:relative}
 .ts-bar-inner{height:100%;background:linear-gradient(90deg,var(--crit),var(--high),var(--med),var(--primary));border-radius:3px;transition:width .5s ease}
+
+/* Provider filter bar */
+.filter-bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;padding:12px 18px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:18px;margin-bottom:24px}
+.filter-label{font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mute);margin-right:6px;font-weight:600}
+.chip{display:inline-flex;align-items:center;gap:7px;padding:5px 12px;border-radius:999px;border:1px solid var(--card-border);cursor:pointer;font-size:12.5px;user-select:none;transition:all .15s ease;background:rgba(255,255,255,0.03)}
+.chip .cdot{width:8px;height:8px;border-radius:50%;background:var(--chip-c,var(--primary));flex-shrink:0}
+.chip .ccount{color:var(--mute);font-size:11px}
+.chip:hover{border-color:var(--chip-c,var(--primary))}
+.chip.active{border-color:var(--chip-c,var(--primary));background:rgba(255,255,255,0.07)}
+.chip:not(.active){opacity:0.38}
+.chip:not(.active) .cdot{background:var(--mute)}
+.chip-ctl{padding:5px 12px;border-radius:999px;border:1px solid var(--card-border);background:transparent;color:var(--mute);font-size:11.5px;font-weight:600;letter-spacing:0.3px}
+.chip-ctl:hover{color:var(--primary);border-color:var(--primary)}
+.filter-note{margin-left:auto;font-size:11px;color:var(--mute)}
 </style>
 </head>
 <body>
@@ -232,6 +246,10 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
   <button class="btn btn-primary" id="refreshBtn">↻ Refresh Now</button>
   <span class="countdown">Next refresh in <b id="countdown">24:00:00</b></span>
   <div style="width:100%;display:flex;justify-content:flex-end"><span class="timestamp" id="genTs">Generated: —</span></div>
+</div>
+
+<div class="filter-bar" id="filterBar">
+  <!-- provider chips injected by JS -->
 </div>
 
 <div class="grid" id="grid">
@@ -458,9 +476,228 @@ const PROWLER_DATA = {
   "low": 1111,
   "informational": 2
 },
+  perProvider: {
+  "Demo AWS": {
+    "fail": 565,
+    "pass": 979,
+    "sev": {
+      "critical": 14,
+      "high": 138,
+      "medium": 272,
+      "low": 141,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "amit_appd": {
+    "fail": 908,
+    "pass": 1015,
+    "sev": {
+      "critical": 5,
+      "high": 140,
+      "medium": 545,
+      "low": 218,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "IaC Demo": {
+    "fail": 474,
+    "pass": 2142,
+    "sev": {
+      "critical": 40,
+      "high": 164,
+      "medium": 70,
+      "low": 200,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "amits": {
+    "fail": 423,
+    "pass": 210,
+    "sev": {
+      "critical": 9,
+      "high": 151,
+      "medium": 137,
+      "low": 126,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "workshop-lab-01": {
+    "fail": 317,
+    "pass": 122,
+    "sev": {
+      "critical": 1,
+      "high": 92,
+      "medium": 120,
+      "low": 104,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Marketing Ops": {
+    "fail": 308,
+    "pass": 115,
+    "sev": {
+      "critical": 1,
+      "high": 89,
+      "medium": 114,
+      "low": 104,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "marketing dev": {
+    "fail": 308,
+    "pass": 115,
+    "sev": {
+      "critical": 1,
+      "high": 89,
+      "medium": 114,
+      "low": 104,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Azure Demo": {
+    "fail": 69,
+    "pass": 63,
+    "sev": {
+      "critical": 1,
+      "high": 39,
+      "medium": 18,
+      "low": 11,
+      "informational": 0
+    },
+    "estimated": true
+  },
+  "M365 Demo": {
+    "fail": 92,
+    "pass": 338,
+    "sev": {
+      "critical": 6,
+      "high": 46,
+      "medium": 25,
+      "low": 15,
+      "informational": 0
+    },
+    "estimated": true
+  },
+  "K8s EKS Test Cluster": {
+    "fail": 43,
+    "pass": 483,
+    "sev": {
+      "critical": 0,
+      "high": 41,
+      "medium": 1,
+      "low": 1,
+      "informational": 0
+    },
+    "estimated": true
+  },
+  "Alibaba Demo": {
+    "fail": 42,
+    "pass": 41,
+    "sev": {
+      "critical": 2,
+      "high": 2,
+      "medium": 24,
+      "low": 14,
+      "informational": 0
+    },
+    "estimated": true
+  },
+  "OCI Demo": {
+    "fail": 35,
+    "pass": 42,
+    "sev": {
+      "critical": 0,
+      "high": 16,
+      "medium": 12,
+      "low": 7,
+      "informational": 0
+    },
+    "estimated": true
+  },
+  "manuel-okta": {
+    "fail": 20,
+    "pass": 3,
+    "sev": {
+      "critical": 0,
+      "high": 1,
+      "medium": 11,
+      "low": 7,
+      "informational": 1
+    },
+    "estimated": true
+  },
+  "My Github Demo Repo": {
+    "fail": 20,
+    "pass": 1,
+    "sev": {
+      "critical": 0,
+      "high": 10,
+      "medium": 6,
+      "low": 4,
+      "informational": 0
+    },
+    "estimated": true
+  },
+  "myAppVercel": {
+    "fail": 18,
+    "pass": 20,
+    "sev": {
+      "critical": 3,
+      "high": 5,
+      "medium": 6,
+      "low": 4,
+      "informational": 0
+    },
+    "estimated": true
+  },
+  "Google Workspace playground": {
+    "fail": 17,
+    "pass": 48,
+    "sev": {
+      "critical": 0,
+      "high": 3,
+      "medium": 9,
+      "low": 5,
+      "informational": 0
+    },
+    "estimated": true
+  },
+  "Google Cloud Demo": {
+    "fail": 13,
+    "pass": 7,
+    "sev": {
+      "critical": 0,
+      "high": 1,
+      "medium": 7,
+      "low": 5,
+      "informational": 0
+    },
+    "estimated": true
+  },
+  "MongoDB Atlas Demo": {
+    "fail": 12,
+    "pass": 4,
+    "sev": {
+      "critical": 4,
+      "high": 6,
+      "medium": 1,
+      "low": 1,
+      "informational": 0
+    },
+    "estimated": true
+  }
+},
   findings: [
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_public_access",
@@ -470,6 +707,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_public_access",
@@ -479,6 +717,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_user_administrator_access_policy",
@@ -488,6 +727,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_user_administrator_access_policy",
@@ -497,6 +737,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_root_mfa_enabled",
@@ -506,6 +747,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_root_hardware_mfa_enabled",
@@ -515,6 +757,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_inline_policy_no_administrative_privileges",
@@ -524,6 +767,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_inline_policy_no_administrative_privileges",
@@ -533,6 +777,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_inline_policy_no_administrative_privileges",
@@ -542,6 +787,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_inline_policy_no_administrative_privileges",
@@ -551,6 +797,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_inline_policy_no_administrative_privileges",
@@ -560,6 +807,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "iam",
     "status": "FAIL",
     "check": "iam_aws_attached_policy_no_administrative_privileges",
@@ -569,6 +817,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "ec2",
     "status": "FAIL",
     "check": "ec2_instance_port_ssh_exposed_to_internet",
@@ -578,6 +827,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "service": "ec2",
     "status": "FAIL",
     "check": "ec2_instance_port_ssh_exposed_to_internet",
@@ -587,6 +837,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "M365 Demo",
     "service": "teams",
     "status": "FAIL",
     "check": "teams_external_users_cannot_start_conversations",
@@ -596,6 +847,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "M365 Demo",
     "service": "entra",
     "status": "FAIL",
     "check": "entra_users_mfa_enabled",
@@ -605,6 +857,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "M365 Demo",
     "service": "entra",
     "status": "FAIL",
     "check": "entra_legacy_authentication_blocked",
@@ -614,6 +867,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "M365 Demo",
     "service": "entra",
     "status": "FAIL",
     "check": "entra_break_glass_account_fido2_security_key_registered",
@@ -623,6 +877,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "M365 Demo",
     "service": "defenderxdr",
     "status": "FAIL",
     "check": "defenderxdr_endpoint_privileged_user_exposed_credentials",
@@ -632,6 +887,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "M365 Demo",
     "service": "defender",
     "status": "FAIL",
     "check": "defender_malware_policy_common_attachments_filter_enabled",
@@ -641,6 +897,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_subnet_no_public_ip_by_default",
@@ -650,6 +907,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
@@ -659,6 +917,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
@@ -668,6 +927,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
@@ -677,6 +937,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
@@ -686,6 +947,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
@@ -695,6 +957,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
@@ -704,6 +967,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
@@ -713,6 +977,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "sns",
     "status": "FAIL",
     "check": "sns_topics_kms_encryption_at_rest_enabled",
@@ -722,6 +987,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "sns",
     "status": "FAIL",
     "check": "sns_topics_kms_encryption_at_rest_enabled",
@@ -731,6 +997,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "sns",
     "status": "FAIL",
     "check": "sns_topics_kms_encryption_at_rest_enabled",
@@ -740,6 +1007,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "sns",
     "status": "FAIL",
     "check": "sns_topics_kms_encryption_at_rest_enabled",
@@ -749,6 +1017,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "securityhub",
     "status": "FAIL",
     "check": "securityhub_enabled",
@@ -758,6 +1027,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "securityhub",
     "status": "FAIL",
     "check": "securityhub_enabled",
@@ -767,6 +1037,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "securityhub",
     "status": "FAIL",
     "check": "securityhub_enabled",
@@ -776,6 +1047,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "securityhub",
     "status": "FAIL",
     "check": "securityhub_delegated_admin_enabled_all_regions",
@@ -785,6 +1057,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "securityhub",
     "status": "FAIL",
     "check": "securityhub_delegated_admin_enabled_all_regions",
@@ -794,6 +1067,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "securityhub",
     "status": "FAIL",
     "check": "securityhub_delegated_admin_enabled_all_regions",
@@ -803,6 +1077,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "securityhub",
     "status": "FAIL",
     "check": "securityhub_delegated_admin_enabled_all_regions",
@@ -812,6 +1087,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
+    "provider": "Demo AWS",
     "service": "securityhub",
     "status": "FAIL",
     "check": "securityhub_delegated_admin_enabled_all_regions",
@@ -821,6 +1097,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_subnet_separate_private_public",
@@ -830,6 +1107,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_subnet_different_az",
@@ -839,6 +1117,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_subnet_different_az",
@@ -848,6 +1127,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_flow_logs_enabled",
@@ -857,6 +1137,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_flow_logs_enabled",
@@ -866,6 +1147,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_multi_az_enabled",
@@ -875,6 +1157,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_multi_az_enabled",
@@ -884,6 +1167,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_for_ec2_enabled",
@@ -893,6 +1177,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_for_ec2_enabled",
@@ -902,6 +1187,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_for_ec2_enabled",
@@ -911,6 +1197,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "secretsmanager",
     "status": "FAIL",
     "check": "secretsmanager_secret_rotated_periodically",
@@ -920,6 +1207,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "secretsmanager",
     "status": "FAIL",
     "check": "secretsmanager_secret_rotated_periodically",
@@ -929,6 +1217,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_server_access_logging_enabled",
@@ -938,6 +1227,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_server_access_logging_enabled",
@@ -947,6 +1237,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_server_access_logging_enabled",
@@ -956,6 +1247,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_server_access_logging_enabled",
@@ -965,6 +1257,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_server_access_logging_enabled",
@@ -974,6 +1267,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_server_access_logging_enabled",
@@ -983,6 +1277,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_server_access_logging_enabled",
@@ -992,6 +1287,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "medium",
+    "provider": "Demo AWS",
     "service": "s3",
     "status": "FAIL",
     "check": "s3_bucket_server_access_logging_enabled",
@@ -1001,6 +1297,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "trustedadvisor",
     "status": "FAIL",
     "check": "trustedadvisor_premium_support_plan_subscribed",
@@ -1010,6 +1307,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
@@ -1019,6 +1317,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
@@ -1028,6 +1327,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
@@ -1037,6 +1337,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
@@ -1046,6 +1347,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
@@ -1055,6 +1357,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1064,6 +1367,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1073,6 +1377,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1082,6 +1387,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1091,6 +1397,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1100,6 +1407,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1109,6 +1417,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1118,6 +1427,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1127,6 +1437,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1136,6 +1447,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1145,6 +1457,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1154,6 +1467,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1163,6 +1477,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1172,6 +1487,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "low",
+    "provider": "Demo AWS",
     "service": "sagemaker",
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
@@ -1181,26 +1497,19 @@ const PROWLER_DATA = {
   },
   {
     "sev": "informational",
+    "provider": "manuel-okta",
     "service": "signon",
     "status": "FAIL",
     "check": "signon_dod_warning_banner_configured",
     "resource": "prowler-integrator-8206651",
     "region": "global",
     "detail": "Default sign-in page for brand 'prowler-integrator-8206651' does not contain the DOD Notice and Consent Banner (DTM-08-060)."
-  },
-  {
-    "sev": "informational",
-    "service": "signon",
-    "status": "FAIL",
-    "check": "signon_dod_warning_banner_configured",
-    "resource": "prowler-trial-3638350",
-    "region": "global",
-    "detail": "Default sign-in page for brand 'prowler-trial-3638350' does not contain the DOD Notice and Consent Banner (DTM-08-060)."
   }
 ],
   topCritical: [
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "check": "s3_bucket_public_access",
     "title": "S3 bucket is not publicly accessible to Everyone or Authenticated Users",
     "resource": "demo-bucket-1763841210",
@@ -1218,6 +1527,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "check": "iam_user_administrator_access_policy",
     "title": "IAM user does not have AdministratorAccess policy attached",
     "resource": "rsac-demo-admin-user",
@@ -1235,6 +1545,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "check": "iam_user_administrator_access_policy",
     "title": "IAM user does not have AdministratorAccess policy attached",
     "resource": "aws-demo-user",
@@ -1252,6 +1563,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "check": "iam_root_mfa_enabled",
     "title": "Root account has MFA enabled",
     "resource": "<root_account>",
@@ -1268,6 +1580,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "check": "iam_inline_policy_no_administrative_privileges",
     "title": "Inline IAM policy does not allow '*:*' administrative privileges",
     "resource": "prowler-blog-vulnerable-admin-role/dangerous-wildcard-policy",
@@ -1284,6 +1597,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "check": "iam_inline_policy_no_administrative_privileges",
     "title": "Inline IAM policy does not allow '*:*' administrative privileges",
     "resource": "privesc-demo-target-admin-role/privesc-demo-admin-policy",
@@ -1300,6 +1614,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "check": "iam_aws_attached_policy_no_administrative_privileges",
     "title": "Attached AWS-managed IAM policy does not allow '*:*' administrative privileges",
     "resource": "AdministratorAccess",
@@ -1316,6 +1631,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "check": "ec2_instance_port_ssh_exposed_to_internet",
     "title": "EC2 instance does not allow ingress from the Internet to TCP port 22 (SSH)",
     "resource": "i-0aeeaa92b3fb95a35",
@@ -1332,6 +1648,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "Demo AWS",
     "check": "ec2_instance_port_ssh_exposed_to_internet",
     "title": "EC2 instance does not allow ingress from the Internet to TCP port 22 (SSH)",
     "resource": "i-05075b63eb51baacb",
@@ -1348,6 +1665,7 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "provider": "M365 Demo",
     "check": "entra_users_mfa_enabled",
     "title": "Multifactor authentication is enforced for all users",
     "resource": "Require compliant device OR hybrid joined device OR MFA for admins or ",
@@ -1377,6 +1695,11 @@ const PROWLER_DATA = {
 /* ==PROWLER_DATA_END== */
 
 /* Generate 30-day historical trend (deterministic, ends at live counts) */
+function trendScale(){
+  let all=0; for(const a in PROWLER_DATA.perProvider) all += PROWLER_DATA.perProvider[a].fail;
+  const sel = selectedOverview().fail;
+  return all ? sel/all : 1;
+}
 (function buildTrend30(){
   const today = new Date(PROWLER_DATA.generatedAt);
   const N = 30;
@@ -1414,7 +1737,7 @@ document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_
    ============================================================ */
 const CACHE_KEY = 'prowler_cached_data';
 const CACHE_TS_KEY = 'prowler_last_fetch';
-const ORDER_KEY = 'prowler_widget_order';
+const ORDER_KEY = 'prowler_widget_order_v2';
 const TTL_MS = 24*60*60*1000;
 (function initCache(){
   const ts = localStorage.getItem(CACHE_TS_KEY);
@@ -1468,6 +1791,8 @@ document.getElementById('refreshBtn').addEventListener('click', ()=>{
    ============================================================ */
 const $ = (sel,ctx=document)=>ctx.querySelector(sel);
 const $$ = (sel,ctx=document)=>[...ctx.querySelectorAll(sel)];
+const filteredFindings = () => PROWLER_DATA.findings.filter(f => !f.provider || FILTER.has(f.provider));
+const filteredTopCritical = () => PROWLER_DATA.topCritical.filter(f => !f.provider || FILTER.has(f.provider));
 const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 
 /* ============================================================
@@ -1476,15 +1801,35 @@ const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'
 const SIM = { fixCritical: false };
 const TS_WEIGHTS = { critical:25, high:2.5, medium:0.5, low:0.2, informational:0 };
 
+/* ============================================================
+   PROVIDER FILTER — chips under the header filter the FULL dashboard.
+   All widget math flows through selectedCounts()/selectedOverview(),
+   which sum PROWLER_DATA.perProvider over the active selection.
+   Selection is session-only (never persisted): reload = all providers.
+   ============================================================ */
+const FILTER = new Set(PROWLER_DATA.providers.map(p=>p.alias));
+const provStats = a => PROWLER_DATA.perProvider[a] || {fail:0,pass:0,sev:{critical:0,high:0,medium:0,low:0,informational:0}};
+
+function selectedCounts(){
+  const c = {critical:0,high:0,medium:0,low:0,informational:0};
+  FILTER.forEach(a=>{ const s=provStats(a).sev; for(const k in c) c[k]+=s[k]||0; });
+  return c;
+}
+function selectedOverview(){
+  let fail=0, pass=0;
+  FILTER.forEach(a=>{ const s=provStats(a); fail+=s.fail; pass+=s.pass; });
+  return {fail, pass, total: fail+pass, muted: 0};
+}
+
 function effectiveCounts(){
-  const c = {...PROWLER_DATA.severityCounts};
+  const c = selectedCounts();
   if(SIM.fixCritical) c.critical = 0;
   return c;
 }
 function effectiveOverview(){
-  const ov = {...PROWLER_DATA.overview};
+  const ov = selectedOverview();
   if(SIM.fixCritical){
-    const n = PROWLER_DATA.severityCounts.critical;
+    const n = selectedCounts().critical;
     ov.fail = Math.max(0, ov.fail - n);
     ov.pass = ov.pass + n;
   }
@@ -1495,44 +1840,74 @@ function threatScore(counts){
      criticals still carry disproportionate weight, and the what-if simulation moves it visibly. */
   const weighted = counts.critical*TS_WEIGHTS.critical + counts.high*TS_WEIGHTS.high +
                    counts.medium*TS_WEIGHTS.medium + counts.low*TS_WEIGHTS.low;
-  const scale = Math.max(PROWLER_DATA.overview.total, 1) * 2;
+  const scale = Math.max(selectedOverview().total, 1) * 2;
   return Math.max(0, Math.min(100, 100 * (1 - weighted/scale)));
 }
 
-function renderProviders(){
-  const cards = PROWLER_DATA.providers.map(p=>`
-    <div class="provider-card">
-      <div class="provider-icon" style="${({aws:'--pi-bg:#f59e0b',azure:'--pi-bg:#38bdf8',gcp:'--pi-bg:#ef4444;--pi-fg:#fff',kubernetes:'--pi-bg:#4f46e5;--pi-fg:#fff',m365:'--pi-bg:#4ade80',github:'--pi-bg:#e5e5e5',okta:'--pi-bg:#3c8dff;--pi-fg:#fff',mongodbatlas:'--pi-bg:#4ade80',alibabacloud:'--pi-bg:#f77852',oraclecloud:'--pi-bg:#ef4444;--pi-fg:#fff',iac:'--pi-bg:#a1a1aa',vercel:'--pi-bg:#e5e5e5',googleworkspace:'--pi-bg:#fec94d'})[p.provider]||''}">${({aws:'AWS',azure:'AZR',gcp:'GCP',m365:'M365',kubernetes:'K8S',okta:'OKTA',mongodbatlas:'MDB',alibabacloud:'ALI',oraclecloud:'OCI',iac:'IAC',github:'GH',vercel:'VRC',googleworkspace:'GWS'})[p.provider]||p.provider.slice(0,4).toUpperCase()}</div>
-      <div class="provider-info">
-        <div class="provider-name">${esc(p.alias)}</div>
-        <div class="provider-meta" title="${esc(p.uid)}">UID ${esc(String(p.uid).length>16?String(p.uid).slice(0,14)+'…':p.uid)}${p.region && p.region!=='-'?' · '+esc(p.region):''}</div>
-      </div>
-      <div class="status-dot ${p.connected?'':'off'}" title="${p.connected?'Connected':'Disconnected'}"></div>
-    </div>`).join('');
+const PROVIDER_CHIP_COLORS = {aws:'#f59e0b',azure:'#38bdf8',gcp:'#ef4444',kubernetes:'#4f46e5',m365:'#4ade80',github:'#e5e5e5',okta:'#3c8dff',mongodbatlas:'#4ade80',alibabacloud:'#f77852',oraclecloud:'#ef4444',iac:'#a1a1aa',vercel:'#e5e5e5',googleworkspace:'#fec94d'};
+const PROVIDER_SHORT = {aws:'AWS',azure:'AZR',gcp:'GCP',m365:'M365',kubernetes:'K8S',okta:'OKTA',mongodbatlas:'MDB',alibabacloud:'ALI',oraclecloud:'OCI',iac:'IAC',github:'GH',vercel:'VRC',googleworkspace:'GWS'};
+
+function renderFilterBar(){
+  const bar = document.getElementById('filterBar');
+  const chips = PROWLER_DATA.providers.map(p=>{
+    const col = PROVIDER_CHIP_COLORS[p.provider]||'#6ee7b7';
+    const st = provStats(p.alias);
+    const on = FILTER.has(p.alias);
+    return `<span class="chip ${on?'active':''}" data-alias="${esc(p.alias)}" style="--chip-c:${col}" title="${esc(p.alias)} · ${PROVIDER_SHORT[p.provider]||p.provider} · ${st.fail} failed">
+      <span class="cdot"></span>${esc(p.alias)} <span class="ccount">${st.fail}</span></span>`;
+  }).join('');
+  bar.innerHTML = `<span class="filter-label">Providers</span>
+    <button class="chip-ctl" data-fltr="all">All</button>
+    <button class="chip-ctl" data-fltr="none">None</button>
+    ${chips}
+    <span class="filter-note">${FILTER.size}/${PROWLER_DATA.providers.length} selected · filters the whole dashboard</span>`;
+  bar.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click', ()=>{
+    const a = ch.dataset.alias;
+    FILTER.has(a) ? FILTER.delete(a) : FILTER.add(a);
+    onFilterChange();
+  }));
+  bar.querySelectorAll('.chip-ctl').forEach(b=>b.addEventListener('click', ()=>{
+    FILTER.clear();
+    if(b.dataset.fltr==='all') PROWLER_DATA.providers.forEach(p=>FILTER.add(p.alias));
+    onFilterChange();
+  }));
+}
+function onFilterChange(){
+  renderFilterBar();
+  renderGrid(); /* every widget recomputes from the selection */
+}
+
+function renderChecks(){
   const ov = effectiveOverview();
-  const real = PROWLER_DATA.overview;
+  const real = selectedOverview();
   const failDelta = ov.fail - real.fail;
   const passDelta = ov.pass - real.pass;
   const sim = SIM.fixCritical;
+  const rate = ov.total ? Math.round(ov.pass/ov.total*100) : 0;
+  const est = [...FILTER].some(a => provStats(a).estimated);
   return `
-    <h3 class="widget-title">Cloud Providers (${PROWLER_DATA.providers.length})${sim?' <span class="sim-pill">simulated</span>':''}</h3>
-    <div class="provider-cards">${cards}</div>
-    <div class="stat-row" style="margin-top:16px">
+    <h3 class="widget-title">Checks Summary${sim?' <span class="sim-pill">simulated</span>':''}</h3>
+    <div class="stat-row" style="margin-top:8px">
       <div class="stat">
-        <div class="stat-num fail">${ov.fail}</div>
+        <div class="stat-num fail">${ov.fail.toLocaleString()}</div>
         <div class="stat-label">Failed Checks${sim?` <span class="delta ${failDelta<0?'up':'down'}">${failDelta>=0?'+':''}${failDelta}</span>`:''}</div>
       </div>
       <div class="stat">
-        <div class="stat-num pass">${ov.pass}</div>
+        <div class="stat-num pass">${ov.pass.toLocaleString()}</div>
         <div class="stat-label">Passed${sim?` <span class="delta ${passDelta>0?'up':'down'}">${passDelta>=0?'+':''}${passDelta}</span>`:''}</div>
       </div>
-      <div class="stat"><div class="stat-num" style="color:var(--info)">${ov.total}</div><div class="stat-label">Total</div></div>
-    </div>`;
+      <div class="stat"><div class="stat-num" style="color:var(--info)">${ov.total.toLocaleString()}</div><div class="stat-label">Total</div></div>
+    </div>
+    <div style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:6px"><span>Pass rate</span><b style="color:var(--pass)">${rate}%</b></div>
+      <div style="height:8px;border-radius:4px;background:rgba(255,255,255,0.06);overflow:hidden"><div style="height:100%;width:${rate}%;border-radius:4px;background:linear-gradient(90deg,var(--pass),var(--primary));box-shadow:0 0 10px rgba(110,231,183,0.5)"></div></div>
+    </div>
+    <div style="margin-top:14px;font-size:11.5px;color:var(--mute)">${FILTER.size} of ${PROWLER_DATA.providers.length} providers in scope${est?' · severity split partly estimated for small providers':''}</div>`;
 }
 
 function renderDonut(){
   const c = effectiveCounts();
-  const realCrit = PROWLER_DATA.severityCounts.critical;
+  const realCrit = selectedCounts().critical;
   const sim = SIM.fixCritical;
   const segments = [
     {key:'critical',val:c.critical,color:'var(--crit)'},
@@ -1582,15 +1957,21 @@ function renderDonut(){
 }
 
 const TREND_SERIES = [
-  {key:'critical', color:'#ff3860', label:'Critical'},
-  {key:'high',     color:'#ff8c42', label:'High'},
-  {key:'medium',   color:'#ffd93d', label:'Medium'},
-  {key:'low',      color:'#3abff8', label:'Low'}
+  {key:'critical', color:'#ff006a', label:'Critical'},
+  {key:'high',     color:'#f77852', label:'High'},
+  {key:'medium',   color:'#fec94d', label:'Medium'},
+  {key:'low',      color:'#fdfbd4', label:'Low'}
 ];
 const TREND_W = 900, TREND_H = 320, TREND_P = {t:24, r:24, b:42, l:46};
 
+function scaledTrend30(){
+  const base = PROWLER_DATA.trend30, k = trendScale();
+  const out = {dates: base.dates};
+  TREND_SERIES.forEach(s=>{ out[s.key] = base[s.key].map(v=>Math.round(v*k)); });
+  return out;
+}
 function renderSparkline(){
-  const t = PROWLER_DATA.trend30;
+  const t = scaledTrend30();
   const W=TREND_W, H=TREND_H, P=TREND_P;
   const allVals = TREND_SERIES.flatMap(s=>t[s.key]);
   const rawMax = Math.max(...allVals);
@@ -1664,7 +2045,7 @@ function attachTrendHandlers(){
   const cursor = svg.querySelector('#trendCursor');
   const hover = svg.querySelector('#trendHover');
   const tooltip = wrap.querySelector('#trendTooltip');
-  const t = PROWLER_DATA.trend30;
+  const t = scaledTrend30();
   const W=TREND_W, H=TREND_H, P=TREND_P;
   const allVals = TREND_SERIES.flatMap(s=>t[s.key]);
   const maxY = Math.ceil(Math.max(...allVals) / 20) * 20 || 20;
@@ -1782,7 +2163,7 @@ const SEV_ORDER = { critical:0, high:1, medium:2, low:3, informational:4 };
 
 function renderFindingsTable(){
   return `
-    <h3 class="widget-title">Findings · ${PROWLER_DATA.findings.length} loaded</h3>
+    <h3 class="widget-title">Findings · ${filteredFindings().length} loaded</h3>
     <div class="search-bar">
       <input id="searchInput" placeholder="Search by check, resource, service, region…" value="${esc(tableState.search)}"/>
     </div>
@@ -1810,7 +2191,7 @@ function renderFindingsTable(){
 function refreshTable(){
   const body = $('#findingsBody'); if(!body) return;
   const q = tableState.search.toLowerCase().trim();
-  let data = PROWLER_DATA.findings.filter(f =>
+  let data = filteredFindings().filter(f =>
     !q || f.check.toLowerCase().includes(q) || f.resource.toLowerCase().includes(q) ||
     f.service.toLowerCase().includes(q) || f.region.toLowerCase().includes(q) ||
     f.sev.toLowerCase().includes(q));
@@ -1870,7 +2251,7 @@ Generated by Prowler MCP Dashboard`;
 }
 
 function renderTopCritical(){
-  const items = PROWLER_DATA.topCritical.map((f,idx)=>{
+  const items = filteredTopCritical().map((f,idx)=>{
     const stepsHtml = f.steps.map((s,i)=>`
       <div class="step" data-finding="${idx}" data-step="${i}">
         <input type="checkbox" id="s${idx}-${i}"/>
@@ -1899,7 +2280,7 @@ function renderTopCritical(){
         </div>
       </div>`;
   }).join('');
-  return `<h3 class="widget-title">Top 10 Critical Findings · Remediation Playbook</h3>${items}`;
+  return `<h3 class="widget-title">Top Critical Findings · Remediation Playbook</h3>${items}`;
 }
 
 /* ============================================================
@@ -1932,7 +2313,7 @@ const prModal = {
     });
   },
   open(idx){
-    const f = PROWLER_DATA.topCritical[idx];
+    const f = filteredTopCritical()[idx];
     if(!f) return;
     this.currentFinding = f;
     document.getElementById('prModalMeta').innerHTML =
@@ -1986,7 +2367,7 @@ prModal.init();
    WIDGET REGISTRY + DRAG-DROP REORDER
    ============================================================ */
 const WIDGETS = [
-  {id:'providers', col:'col-4', render:renderProviders},
+  {id:'checks',    col:'col-4', render:renderChecks},
   {id:'donut',     col:'col-4', render:renderDonut},
   {id:'compliance',col:'col-4', render:renderCompliance},
   {id:'sparkline', col:'col-12',render:renderSparkline},
@@ -2036,7 +2417,7 @@ function attachSimHandlers(){
   $$('[data-sim-action="fix-critical"]').forEach(btn=>btn.addEventListener('click', e=>{
     e.stopPropagation();
     SIM.fixCritical = !SIM.fixCritical;
-    rerenderWidgets(['providers','donut','compliance']);
+    rerenderWidgets(['checks','donut','compliance']);
   }));
 }
 
@@ -2104,6 +2485,7 @@ function attachAccordionHandlers(){
   }));
 }
 
+renderFilterBar();
 renderGrid();
 </script>
 </body>
