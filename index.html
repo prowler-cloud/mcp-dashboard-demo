@@ -253,22 +253,51 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .chip.active{border-color:var(--chip-c,var(--primary));background:rgba(255,255,255,0.07)}
 .chip:not(.active){opacity:0.38}
 .chip:not(.active) .cdot{background:var(--mute)}
+
+/* Header: brand stack + centered title + provenance */
+.header{position:relative}
+.brand-stack{display:flex;flex-direction:column;gap:6px;align-items:flex-start;order:1}
+.customer-lockup{display:flex;align-items:center;gap:7px}
+.for-label{font-size:10px;color:var(--mute);text-transform:uppercase;letter-spacing:1px}
+.acme-logo{height:22px;width:auto;opacity:0.95}
+.title-center{width:100%;order:3;text-align:center;margin-top:4px}
+.title-main{font-size:30px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(90deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;color:transparent}
+.title-sub{font-size:12px;color:var(--mute);margin-top:2px}
+.header-controls{display:flex;align-items:center;gap:12px;margin-left:auto;position:relative;flex-wrap:wrap;justify-content:flex-end;order:2}
+.live-badge{cursor:pointer}
+.live-badge.stale{background:rgba(254,201,77,0.08);border-color:rgba(254,201,77,0.4);color:var(--med)}
+.live-badge.stale .live-dot{background:var(--med);box-shadow:none;animation:none}
+.provenance{position:absolute;top:calc(100% + 10px);right:0;z-index:80;background:#121110;border:1px solid var(--primary);border-radius:12px;padding:14px 16px;min-width:300px;box-shadow:0 14px 44px rgba(0,0,0,0.75);font-size:12px;line-height:1.7;color:var(--text);transform-origin:top;animation:popin .14s ease}
+.provenance h4{font-size:10.5px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mute);margin-bottom:6px}
+.provenance b{color:var(--primary)}
+@media (max-width:900px){.title-main{font-size:22px}}
 </style>
 </head>
 <body>
 
 <div class="header">
-  <img class="logo" id="logoImg" alt="Prowler"/>
-  <div>
-    <div class="title">Security Dashboard
-      <span class="sub">Open-source cloud security posture · powered by Prowler MCP</span>
+  <div class="brand-stack">
+    <img class="logo" id="logoImg" alt="Prowler"/>
+    <div class="customer-lockup">
+      <span class="for-label">for</span>
+      <svg class="acme-logo" viewBox="0 0 150 34" xmlns="http://www.w3.org/2000/svg" aria-label="ACME Corp">
+        <polygon points="4,28 15,5 26,28 20.5,28 15,15.5 9.5,28" fill="#f59e0b"/>
+        <text x="32" y="25" font-family="Inter,-apple-system,sans-serif" font-size="21" font-weight="800" letter-spacing="2.5" fill="#ffffff">ACME</text>
+        <text x="112" y="25" font-family="Inter,-apple-system,sans-serif" font-size="10" font-weight="500" letter-spacing="1" fill="#a1a1aa">CORP</text>
+      </svg>
     </div>
   </div>
-  <div class="spacer"></div>
-  <span class="live-badge"><span class="live-dot"></span>LIVE DATA</span>
-  <a class="btn btn-secondary" href="https://github.com/prowler-cloud/prowler" target="_blank" rel="noopener">View on GitHub →</a>
-  <button class="btn btn-primary" id="refreshBtn">↻ Refresh Now</button>
-  <span class="countdown">Next refresh in <b id="countdown">24:00:00</b></span>
+  <div class="title-center">
+    <div class="title-main">Custom Security Dashboard</div>
+    <div class="title-sub">Multi-cloud security posture · powered by Prowler MCP</div>
+  </div>
+  <div class="header-controls">
+    <span class="live-badge" id="freshBadge" title="Click for data provenance"><span class="live-dot"></span><span id="freshLabel">SNAPSHOT</span></span>
+    <a class="btn btn-secondary" href="https://github.com/prowler-cloud/prowler" target="_blank" rel="noopener" title="Open the project repository">View on GitHub →</a>
+    <button class="btn btn-primary" id="refreshBtn" title="Clear cache, widget order, filters and simulation — back to the canonical view">↺ Reset Demo</button>
+    <span class="countdown" title="Age of the embedded data snapshot">Snapshot age <b id="snapAge">—</b></span>
+    <div class="provenance" id="provPop" hidden></div>
+  </div>
   <div style="width:100%;display:flex;justify-content:flex-end"><span class="timestamp" id="genTs">Generated: —</span></div>
 </div>
 
@@ -1787,26 +1816,59 @@ const TTL_MS = 24*60*60*1000;
   }
 })();
 document.getElementById('refreshBtn').addEventListener('click', ()=>{
+  /* Reset Demo: back to the canonical view — cache, widget order,
+     provider filter and simulation all return to their defaults. */
   localStorage.removeItem(CACHE_KEY);
   localStorage.removeItem(CACHE_TS_KEY);
+  localStorage.removeItem(ORDER_KEY);
   location.reload();
 });
 /* ============================================================
-   COUNTDOWN
+   SNAPSHOT AGE + DATA PROVENANCE — honest freshness signalling.
+   Green pulsing badge while the snapshot is younger than the refresh
+   cadence (7 days, matching the CI schedule); amber STALE beyond that.
    ============================================================ */
-(function countdown(){
-  const el = document.getElementById('countdown');
+const FRESH_LIMIT_MS = 7*24*3600000;
+function fmtAge(ms){
+  const d = Math.floor(ms/86400000), h = Math.floor(ms%86400000/3600000),
+        m = Math.floor(ms%3600000/60000), s = Math.floor(ms%60000/1000);
+  if(d>0) return `${d}d ${h}h`;
+  if(h>0) return `${h}h ${String(m).padStart(2,'0')}m`;
+  return `${m}m ${String(s).padStart(2,'0')}s`;
+}
+(function snapshotAge(){
+  const ageEl = document.getElementById('snapAge');
+  const badge = document.getElementById('freshBadge');
+  const label = document.getElementById('freshLabel');
   function tick(){
-    const ts = parseInt(localStorage.getItem(CACHE_TS_KEY) || Date.now(), 10);
-    const remain = Math.max(0, TTL_MS - (Date.now() - ts));
-    const h = String(Math.floor(remain/3600000)).padStart(2,'0');
-    const m = String(Math.floor((remain%3600000)/60000)).padStart(2,'0');
-    const s = String(Math.floor((remain%60000)/1000)).padStart(2,'0');
-    el.textContent = `${h}:${m}:${s}`;
-    if(remain<=0){ location.reload(); return; }
+    const age = Date.now() - Date.parse(PROWLER_DATA.generatedAt);
+    ageEl.textContent = fmtAge(age);
+    const stale = age > FRESH_LIMIT_MS;
+    badge.classList.toggle('stale', stale);
+    label.textContent = stale ? 'SNAPSHOT · STALE' : 'SNAPSHOT · FRESH';
   }
   tick();
   setInterval(tick, 1000);
+})();
+/* Provenance popover on the freshness badge */
+(function provenance(){
+  const badge = document.getElementById('freshBadge');
+  const pop = document.getElementById('provPop');
+  badge.addEventListener('click', e=>{
+    e.stopPropagation();
+    if(!pop.hidden){ pop.hidden = true; return; }
+    const gen = new Date(PROWLER_DATA.generatedAt);
+    const nProv = PROWLER_DATA.providers.length;
+    pop.innerHTML = `<h4>Data provenance</h4>
+      This dashboard shows a <b>point-in-time snapshot</b>, not a realtime feed.<br>
+      Generated: <b>${gen.toLocaleString()}</b><br>
+      Source: <b>Prowler Cloud API</b> (via Prowler MCP)<br>
+      Scope: <b>${nProv} connected providers</b> · ${selectedOverview().total.toLocaleString()} checks<br>
+      Refresh cadence: <b>weekly</b> via GitHub Actions, or on demand.`;
+    pop.hidden = false;
+  });
+  pop.addEventListener('click', e=>e.stopPropagation());
+  document.addEventListener('click', ()=>{ pop.hidden = true; });
 })();
 </script>
 <script>

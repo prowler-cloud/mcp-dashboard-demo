@@ -55,16 +55,28 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 
 # HEADER BAR
 
-- The OFFICIAL Prowler wordmark as inline SVG in the top-left (white fill,
-  max-height 34px, subtle emerald drop-shadow). Source: `ProwlerExtended` in
-  prowler-cloud/prowler `ui/components/icons/prowler/ProwlerIcons.tsx`
-  (viewBox 0 0 1233.67 204.4). Title next to it reads just "Security Dashboard"
-  — the wordmark already says Prowler.
-- Dashboard title + subtitle
-- Pulsing "LIVE DATA" badge
-- "View on GitHub" button linking to https://github.com/prowler-cloud/prowler
-- "Refresh Now" button that clears the localStorage cache
-- Countdown timer "Next refresh in HH:MM:SS" ticking down from 24:00:00
+- Top-left brand stack: the OFFICIAL Prowler wordmark as inline SVG (white
+  fill, from `ProwlerExtended` in prowler-cloud/prowler
+  `ui/components/icons/prowler/ProwlerIcons.tsx`), and directly UNDER it a
+  customer lockup: a small "for" label + the end-customer's logo as inline
+  SVG (for the demo: an ACME CORP wordmark — amber A-mark + bold ACME text).
+- The title "Custom Security Dashboard" is CENTERED on its own full-width
+  row, large (30px, weight 800) with an emerald→blue gradient text fill so
+  it stands out; subtitle beneath: "Multi-cloud security posture · powered
+  by Prowler MCP".
+- HONEST header controls — every button must state the truth and be functional:
+  - Data-provenance badge (replaces any "LIVE DATA" fiction): shows
+    "SNAPSHOT · FRESH" with a pulsing emerald dot while the snapshot is
+    younger than the refresh cadence (7 days), flipping to an amber
+    "SNAPSHOT · STALE" beyond it. Clicking it opens a provenance popover:
+    point-in-time disclaimer, generated timestamp, source (Prowler Cloud API
+    via MCP), scope (providers + checks), refresh cadence.
+  - "View on GitHub" button linking to the project repository.
+  - "↺ Reset Demo" button (NOT "Refresh" — it fetches nothing): clears the
+    localStorage cache, widget order, provider filter and simulation, then
+    reloads — one click back to the canonical demo state.
+  - A ticking "Snapshot age Xh Ym" chip (counts UP from generatedAt — never
+    a fake countdown to a refresh that isn't scheduled client-side).
 - Generated-at timestamp
 
 # PROVIDER FILTER PANEL — directly under the header
@@ -216,7 +228,7 @@ visible drag handle (⠿) in the top-left corner.
   >= the embedded snapshot's — a newer deployed dashboard must always beat a
   stale cache (localStorage is shared across file:// pages and persists for
   returning Pages visitors).
-- Manual "Refresh Now" button clears the cache and forces re-fetch.
+- Manual "Reset Demo" button clears cache/order/filter/simulation and reloads.
 - All renderers must be safe to re-run in place when state changes
   (simulation toggle, table sort/page, tooltip).
 
