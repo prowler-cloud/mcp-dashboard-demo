@@ -254,23 +254,25 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .chip:not(.active){opacity:0.38}
 .chip:not(.active) .cdot{background:var(--mute)}
 
-/* Header: brand stack + centered title + provenance */
-.header{position:relative}
-.brand-stack{display:flex;flex-direction:column;gap:6px;align-items:flex-start;order:1}
-.customer-lockup{display:flex;align-items:center;gap:7px}
-.for-label{font-size:10px;color:var(--mute);text-transform:uppercase;letter-spacing:1px}
-.acme-logo{height:22px;width:auto;opacity:0.95}
-.title-center{width:100%;order:3;text-align:center;margin-top:4px}
-.title-main{font-size:30px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(90deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;color:transparent}
-.title-sub{font-size:12px;color:var(--mute);margin-top:2px}
-.header-controls{display:flex;align-items:center;gap:12px;margin-left:auto;position:relative;flex-wrap:wrap;justify-content:flex-end;order:2}
-.live-badge{cursor:pointer}
+/* Header: brand stack + centered title + stacked controls */
+.header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:18px}
+.brand-stack{display:flex;flex-direction:column;gap:10px;align-items:flex-start;justify-self:start}
+.customer-lockup{display:flex;align-items:center;gap:10px}
+.for-label{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:1.5px}
+.acme-logo{height:38px;width:auto;opacity:0.97}
+.title-center{text-align:center;justify-self:center}
+.title-main{font-size:38px;font-weight:800;letter-spacing:-0.7px;background:linear-gradient(90deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.15}
+.title-sub{font-size:13px;color:var(--mute);margin-top:5px}
+.header-controls{display:flex;flex-direction:column;align-items:stretch;gap:8px;justify-self:end;position:relative;min-width:196px}
+.header-controls .btn{text-align:center;justify-content:center;display:inline-flex;align-items:center}
+.live-badge{cursor:pointer;justify-content:center}
 .live-badge.stale{background:rgba(254,201,77,0.08);border-color:rgba(254,201,77,0.4);color:var(--med)}
 .live-badge.stale .live-dot{background:var(--med);box-shadow:none;animation:none}
+.header-controls .timestamp{text-align:center}
 .provenance{position:absolute;top:calc(100% + 10px);right:0;z-index:80;background:#121110;border:1px solid var(--primary);border-radius:12px;padding:14px 16px;min-width:300px;box-shadow:0 14px 44px rgba(0,0,0,0.75);font-size:12px;line-height:1.7;color:var(--text);transform-origin:top;animation:popin .14s ease}
 .provenance h4{font-size:10.5px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mute);margin-bottom:6px}
 .provenance b{color:var(--primary)}
-@media (max-width:900px){.title-main{font-size:22px}}
+@media (max-width:1100px){.header{grid-template-columns:1fr;justify-items:center}.brand-stack{align-items:center}.header-controls{flex-direction:row;flex-wrap:wrap;justify-content:center}.title-main{font-size:26px}}
 </style>
 </head>
 <body>
@@ -280,10 +282,10 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
     <img class="logo" id="logoImg" alt="Prowler"/>
     <div class="customer-lockup">
       <span class="for-label">for</span>
-      <svg class="acme-logo" viewBox="0 0 150 34" xmlns="http://www.w3.org/2000/svg" aria-label="ACME Corp">
-        <polygon points="4,28 15,5 26,28 20.5,28 15,15.5 9.5,28" fill="#f59e0b"/>
-        <text x="32" y="25" font-family="Inter,-apple-system,sans-serif" font-size="21" font-weight="800" letter-spacing="2.5" fill="#ffffff">ACME</text>
-        <text x="112" y="25" font-family="Inter,-apple-system,sans-serif" font-size="10" font-weight="500" letter-spacing="1" fill="#a1a1aa">CORP</text>
+      <svg class="acme-logo" viewBox="0 0 220 40" xmlns="http://www.w3.org/2000/svg" aria-label="ACME Corp">
+        <polygon points="4,33 17,6 30,33 23.5,33 17,18 10.5,33" fill="#f59e0b"/>
+        <text x="38" y="31" font-family="Inter,-apple-system,sans-serif" font-size="30" font-weight="800" letter-spacing="4" fill="#ffffff">ACME</text>
+        <text x="152" y="31" font-family="Inter,-apple-system,sans-serif" font-size="13" font-weight="500" letter-spacing="1.5" fill="#a1a1aa">CORP</text>
       </svg>
     </div>
   </div>
@@ -292,13 +294,13 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
     <div class="title-sub">Multi-cloud security posture · powered by Prowler MCP</div>
   </div>
   <div class="header-controls">
-    <span class="live-badge" id="freshBadge" title="Click for data provenance"><span class="live-dot"></span><span id="freshLabel">SNAPSHOT</span></span>
+    <span class="live-badge" id="freshBadge" title="Click for data provenance"><span class="live-dot"></span>SNAPSHOT · <b id="snapAge">—</b></span>
     <a class="btn btn-secondary" href="https://github.com/prowler-cloud/prowler" target="_blank" rel="noopener" title="Open the project repository">View on GitHub →</a>
     <button class="btn btn-primary" id="refreshBtn" title="Clear cache, widget order, filters and simulation — back to the canonical view">↺ Reset Demo</button>
-    <span class="countdown" title="Age of the embedded data snapshot">Snapshot age <b id="snapAge">—</b></span>
+    <span class="timestamp" id="genTs">Generated: —</span>
     <div class="provenance" id="provPop" hidden></div>
   </div>
-  <div style="width:100%;display:flex;justify-content:flex-end"><span class="timestamp" id="genTs">Generated: —</span></div>
+</div>
 </div>
 
 <div class="filter-bar" id="filterBar">
@@ -1839,13 +1841,10 @@ function fmtAge(ms){
 (function snapshotAge(){
   const ageEl = document.getElementById('snapAge');
   const badge = document.getElementById('freshBadge');
-  const label = document.getElementById('freshLabel');
   function tick(){
     const age = Date.now() - Date.parse(PROWLER_DATA.generatedAt);
-    ageEl.textContent = fmtAge(age);
-    const stale = age > FRESH_LIMIT_MS;
-    badge.classList.toggle('stale', stale);
-    label.textContent = stale ? 'SNAPSHOT · STALE' : 'SNAPSHOT · FRESH';
+    ageEl.textContent = fmtAge(age) + ' old';
+    badge.classList.toggle('stale', age > FRESH_LIMIT_MS);
   }
   tick();
   setInterval(tick, 1000);
