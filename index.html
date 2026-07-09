@@ -1501,7 +1501,7 @@ function threatScore(counts){
 function renderProviders(){
   const cards = PROWLER_DATA.providers.map(p=>`
     <div class="provider-card">
-      <div class="provider-icon">${p.provider.toUpperCase()}</div>
+      <div class="provider-icon">${({aws:'AWS',azure:'AZR',gcp:'GCP',m365:'M365',kubernetes:'K8S',okta:'OKTA',mongodbatlas:'MDB',alibabacloud:'ALI',oraclecloud:'OCI',iac:'IAC',github:'GH',vercel:'VRC',googleworkspace:'GWS'})[p.provider]||p.provider.slice(0,4).toUpperCase()}</div>
       <div class="provider-info">
         <div class="provider-name">${esc(p.alias)}</div>
         <div class="provider-meta" title="${esc(p.uid)}">UID ${esc(String(p.uid).length>16?String(p.uid).slice(0,14)+'…':p.uid)}${p.region && p.region!=='-'?' · '+esc(p.region):''}</div>
