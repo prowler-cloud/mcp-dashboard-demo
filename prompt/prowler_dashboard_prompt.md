@@ -125,7 +125,9 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 - Selection is session-only — never persisted; reload = all providers.
 
 # WIDGETS — each one inside a `<div class="widget" draggable="true">` with a
-visible drag handle (⠿) in the top-left corner.
+visible drag handle (⠿) in the top-left corner. The provider filter panel is
+itself a widget (id `providers`, default full-width, first in the order) —
+movable and resizable like all others.
 
 ## 1. Checks Summary
 - Failed Checks / Passed / Total stat row (numbers reflect the provider
@@ -236,10 +238,20 @@ visible drag handle (⠿) in the top-left corner.
 
 # INTERACTIVITY
 
-- **Drag-and-drop widget reordering** using the HTML5 DnD API:
-  on dragstart store index; on drop, swap DOM positions; persist the new
-  order to `localStorage` under key `prowler_widget_order`. On page load,
-  restore order before rendering.
+- **Drag-and-drop widget reordering** using the HTML5 DnD API with
+  INSERTION semantics (not swap): while dragging over a card, the dragged
+  widget is inserted before/after it based on pointer position and all other
+  cards slide aside with a FLIP animation (record positions → mutate DOM →
+  animate transform back to zero, ~180ms ease; throttle reorders to ~120ms
+  so cards don't thrash).
+- **Resizable widgets**: a right-edge grab bar (9px, emerald on hover) on
+  every widget; dragging snaps the widget's width to grid columns (min 3,
+  max 12 of the 12-column grid) with a live "N / 12" badge while resizing.
+  Content reflows naturally — a narrower widget grows taller — and the CSS
+  grid auto-flows the other widgets around it (with FLIP animation).
+- **Layout persistence**: order + column spans stored together in
+  `localStorage` under `prowler_layout_v1`; restored before first render;
+  cleared by Reset Demo.
 - **24h caching**: write `prowler_cached_data` + `prowler_last_fetch` ISO
   timestamp to localStorage on first load. On subsequent loads within 24h,
   render from cache and continue the countdown. After 24h, re-fetch from

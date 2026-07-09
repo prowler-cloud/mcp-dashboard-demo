@@ -44,7 +44,8 @@ Read this whole file before making any change.
   sin+cos backfill anchored at `generatedAt`, ending at the SELECTION's live
   counts, with `TREND_RANGE` (1W/1M/6M/1Y) controlling points and step.
   Default widget order: compliance (ThreatScore), donut, checks, then rows.
-- Client state in `localStorage`: `prowler_widget_order` (drag order),
+- Client state in `localStorage`: `prowler_layout_v1` (widget order + column
+  spans; the providers filter panel is widget id `providers`),
   `prowler_cached_data` + `prowler_last_fetch` (24h cache). This is why
   every demo edit is reversible: clearing storage + reloading = canonical state.
   Cache invalidation rule: on load, the cache is used ONLY if its `generatedAt`
@@ -66,8 +67,12 @@ Read this whole file before making any change.
   playbook rows filter on their `provider` field; the trend scales by the
   selection's share of fails; the simulation composes with the filter.
   Selection is session-only — do not persist it.
-- Widgets: checks (Checks Summary), donut, compliance (ThreatScore),
-  sparkline (trend), topcrit (playbook), findings (table).
+- Widgets: providers (filter panel), compliance (ThreatScore), donut,
+  checks (Checks Summary), sparkline (trend), topcrit (playbook),
+  findings (table). All draggable (insertion reorder + FLIP animation) and
+  resizable (right-edge bar, 3–12 grid columns, layout persisted).
+  New widgets must include BOTH the ⠿ drag handle and the `.resize-h` bar,
+  set `data-colspan`, and register {id, col} in WIDGETS.
 - **Header honesty rules**: the freshness badge says SNAPSHOT (never "LIVE"),
   flips to amber STALE past 7 days, and opens a provenance popover on click.
   The primary button is "Reset Demo" (clears cache + order + filter + sim —

@@ -83,8 +83,8 @@ button{font-family:inherit;cursor:pointer;border:none;color:inherit}
 .drag-handle:hover{color:var(--primary);background:rgba(110,231,183,0.08)}
 .drag-handle:active{cursor:grabbing}
 .widget-title{font-size:14px;font-weight:600;letter-spacing:0.2px;color:var(--text);margin:0 0 14px 32px;text-transform:uppercase;opacity:0.9}
-.col-3{grid-column:span 3}.col-4{grid-column:span 4}.col-5{grid-column:span 5}.col-6{grid-column:span 6}.col-7{grid-column:span 7}.col-8{grid-column:span 8}.col-12{grid-column:span 12}
-@media (max-width:768px){.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-12{grid-column:span 12}.header{padding:14px}.header .title{font-size:18px}body{padding:14px}}
+.col-3{grid-column:span 3}.col-4{grid-column:span 4}.col-5{grid-column:span 5}.col-6{grid-column:span 6}.col-7{grid-column:span 7}.col-8{grid-column:span 8}.col-9{grid-column:span 9}.col-10{grid-column:span 10}.col-11{grid-column:span 11}.col-12{grid-column:span 12}
+@media (max-width:768px){.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12{grid-column:span 12}.header{padding:14px}.header .title{font-size:18px}body{padding:14px}}
 .stat-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:6px}
 .stat{flex:1;min-width:120px}
 .stat-num{font-size:32px;font-weight:700;letter-spacing:-1px}
@@ -291,6 +291,13 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .ta-bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden}
 .ta-bar span{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--fail),var(--high))}
 .ta-count{font-size:12px;color:var(--fail);flex-shrink:0;min-width:38px;text-align:right}
+
+/* Resizable + FLIP-movable widgets */
+.resize-h{position:absolute;top:14px;bottom:14px;right:3px;width:9px;border-radius:5px;cursor:ew-resize;background:transparent;transition:background .15s;z-index:5}
+.resize-h:hover,.resize-h.active{background:rgba(110,231,183,0.35)}
+.widget.resizing{border-color:var(--primary);box-shadow:0 0 0 2px rgba(110,231,183,0.25)}
+.widget.resizing::after{content:attr(data-colspan) ' / 12';position:absolute;top:10px;right:22px;font-size:10.5px;color:var(--primary);font-weight:700;background:rgba(0,0,0,0.55);padding:2px 8px;border-radius:6px}
+.widget.dragging{opacity:0.35;transform:scale(0.985)}
 </style>
 </head>
 <body>
@@ -319,10 +326,6 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
     <div class="provenance" id="provPop" hidden></div>
   </div>
 </div>
-</div>
-
-<div class="filter-bar" id="filterBar">
-  <!-- provider chips injected by JS -->
 </div>
 
 <div class="grid" id="grid">
@@ -1823,7 +1826,7 @@ document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_
    ============================================================ */
 const CACHE_KEY = 'prowler_cached_data';
 const CACHE_TS_KEY = 'prowler_last_fetch';
-const ORDER_KEY = 'prowler_widget_order_v3';
+const LAYOUT_KEY = 'prowler_layout_v1';
 const TTL_MS = 24*60*60*1000;
 (function initCache(){
   const ts = localStorage.getItem(CACHE_TS_KEY);
@@ -1853,7 +1856,7 @@ document.getElementById('refreshBtn').addEventListener('click', ()=>{
      provider filter and simulation all return to their defaults. */
   localStorage.removeItem(CACHE_KEY);
   localStorage.removeItem(CACHE_TS_KEY);
-  localStorage.removeItem(ORDER_KEY);
+  localStorage.removeItem(LAYOUT_KEY);
   location.reload();
 });
 /* ============================================================
@@ -1980,8 +1983,7 @@ const PROVIDER_SHORT = {aws:'AWS',azure:'AZR',gcp:'GCP',m365:'M365',kubernetes:'
 
 let OPEN_PTYPE = null; /* which provider-type popover is open */
 
-function renderFilterBar(){
-  const bar = document.getElementById('filterBar');
+function providersPanelHTML(){
   const types = [];
   const byType = {};
   PROWLER_DATA.providers.forEach(p=>{
@@ -2022,7 +2024,7 @@ function renderFilterBar(){
       ${pop}
     </div>`;
   }).join('');
-  bar.innerHTML = `
+  return `
     <div class="filter-head">
       <h3 class="widget-title" style="margin:0 6px 0 0">Cloud Providers</h3>
       <button class="chip-ctl" data-fltr="all">All</button>
@@ -2030,18 +2032,19 @@ function renderFilterBar(){
       <span class="filter-note">${FILTER.size}/${PROWLER_DATA.providers.length} accounts selected · filters the whole dashboard</span>
     </div>
     <div class="ptype-grid">${groups}</div>`;
-
-  /* right-edge popovers flip their anchor so they stay in the viewport */
+}
+function attachFilterHandlers(){
+  const bar = document.querySelector('.widget[data-id="providers"]');
+  if(!bar) return;
   bar.querySelectorAll('.ptype-pop').forEach(pop=>{
     const r = pop.closest('.ptype').getBoundingClientRect();
     if(r.left + 330 > window.innerWidth - 24) pop.classList.add('pop-right');
   });
-
   bar.querySelectorAll('[data-ptype-click]').forEach(h=>h.addEventListener('click', e=>{
     e.stopPropagation();
     const t = h.dataset.ptypeClick;
     OPEN_PTYPE = (OPEN_PTYPE===t) ? null : t;
-    renderFilterBar(); /* popover open/close does not touch widget state */
+    rerenderWidgets(['providers']);
   }));
   bar.querySelectorAll('.ptype-pop').forEach(pop=>pop.addEventListener('click', e=>e.stopPropagation()));
   bar.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click', e=>{
@@ -2067,13 +2070,13 @@ function renderFilterBar(){
     onFilterChange();
   }));
 }
-document.addEventListener('click', ()=>{ if(OPEN_PTYPE){ OPEN_PTYPE=null; renderFilterBar(); } });
+document.addEventListener('click', ()=>{ if(OPEN_PTYPE){ OPEN_PTYPE=null; rerenderWidgets(['providers']); } });
 
 function onFilterChange(){
-  renderFilterBar();
-  renderGrid(); /* every widget recomputes from the selection */
+  renderGrid(); /* every widget (incl. the providers panel) recomputes */
 }
 
+function renderProvidersPanel(){ return providersPanelHTML(); }
 function topFailingAccounts(n){
   const rows = PROWLER_DATA.providers.filter(p=>FILTER.has(p.alias))
     .map(p=>({alias:p.alias, provider:p.provider, fail:provStats(p.alias).fail}))
@@ -2593,36 +2596,45 @@ prModal.init();
    WIDGET REGISTRY + DRAG-DROP REORDER
    ============================================================ */
 const WIDGETS = [
-  {id:'compliance',col:'col-4', render:renderCompliance},
-  {id:'donut',     col:'col-4', render:renderDonut},
-  {id:'checks',    col:'col-4', render:renderChecks},
-  {id:'sparkline', col:'col-12',render:renderSparkline},
-  {id:'topcrit',   col:'col-12',render:renderTopCritical},
-  {id:'findings',  col:'col-12',render:renderFindingsTable}
+  {id:'providers', col:12, render:renderProvidersPanel},
+  {id:'compliance',col:4,  render:renderCompliance},
+  {id:'donut',     col:4,  render:renderDonut},
+  {id:'checks',    col:4,  render:renderChecks},
+  {id:'sparkline', col:12, render:renderSparkline},
+  {id:'topcrit',   col:12, render:renderTopCritical},
+  {id:'findings',  col:12, render:renderFindingsTable}
 ];
 
-function getOrder(){
+function defaultLayout(){ return WIDGETS.map(w=>({id:w.id, col:w.col})); }
+function getLayout(){
   try{
-    const saved = JSON.parse(localStorage.getItem(ORDER_KEY) || '[]');
-    if(!Array.isArray(saved) || !saved.length) return WIDGETS.map(w=>w.id);
-    const valid = saved.filter(id => WIDGETS.find(w=>w.id===id));
-    WIDGETS.forEach(w=>{ if(!valid.includes(w.id)) valid.push(w.id); });
+    const saved = JSON.parse(localStorage.getItem(LAYOUT_KEY) || '[]');
+    if(!Array.isArray(saved) || !saved.length) return defaultLayout();
+    const valid = saved.filter(e => e && WIDGETS.find(w=>w.id===e.id))
+                       .map(e => ({id:e.id, col:Math.max(3, Math.min(12, e.col|0)) || 12}));
+    WIDGETS.forEach(w=>{ if(!valid.find(e=>e.id===w.id)) valid.push({id:w.id, col:w.col}); });
     return valid;
-  }catch(e){ return WIDGETS.map(w=>w.id); }
+  }catch(e){ return defaultLayout(); }
 }
-function saveOrder(order){ localStorage.setItem(ORDER_KEY, JSON.stringify(order)); }
+function persistLayout(){
+  const layout = [...$('#grid').children].map(el=>({id:el.dataset.id, col:parseInt(el.dataset.colspan,10)||12}));
+  localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout));
+}
 
 function renderGrid(){
   const grid = $('#grid');
-  const order = getOrder();
-  grid.innerHTML = order.map(id=>{
-    const w = WIDGETS.find(x=>x.id===id);
-    return `<div class="widget ${w.col}" draggable="true" data-id="${id}">
+  const layout = getLayout();
+  grid.innerHTML = layout.map(entry=>{
+    const w = WIDGETS.find(x=>x.id===entry.id);
+    return `<div class="widget col-${entry.col}" draggable="true" data-id="${entry.id}" data-colspan="${entry.col}">
       <span class="drag-handle" title="Drag to reorder">⠿</span>
+      <span class="resize-h" title="Drag to resize"></span>
       ${w.render()}
     </div>`;
   }).join('');
   attachDragHandlers();
+  attachResizeHandlers();
+  attachFilterHandlers();
   attachTableHandlers();
   attachAccordionHandlers();
   attachSimHandlers();
@@ -2633,9 +2645,11 @@ function rerenderWidgets(ids){
   ids.forEach(id=>{
     const w = WIDGETS.find(x=>x.id===id);
     const el = document.querySelector(`.widget[data-id="${id}"]`);
-    if(w && el) el.innerHTML = `<span class="drag-handle" title="Drag to reorder">⠿</span>${w.render()}`;
+    if(w && el) el.innerHTML = `<span class="drag-handle" title="Drag to reorder">⠿</span><span class="resize-h" title="Drag to resize"></span>${w.render()}`;
   });
   attachSimHandlers();
+  attachResizeHandlers();
+  if(ids.includes('providers')) attachFilterHandlers();
   if(ids.includes('sparkline')) attachTrendHandlers();
 }
 
@@ -2647,8 +2661,29 @@ function attachSimHandlers(){
   }));
 }
 
+/* FLIP helper: animate grid children from their old positions to new ones */
+function withFLIP(mutate){
+  const grid = $('#grid');
+  const els = [...grid.children];
+  const first = els.map(el=>el.getBoundingClientRect());
+  mutate();
+  els.forEach((el,i)=>{
+    const last = el.getBoundingClientRect();
+    const dx = first[i].left - last.left, dy = first[i].top - last.top;
+    if(dx||dy){
+      el.style.transition = 'none';
+      el.style.transform = `translate(${dx}px,${dy}px)`;
+      requestAnimationFrame(()=>{
+        el.style.transition = 'transform .18s ease';
+        el.style.transform = '';
+        setTimeout(()=>{ el.style.transition=''; }, 200);
+      });
+    }
+  });
+}
+
 function attachDragHandlers(){
-  let dragSrc = null;
+  let dragSrc = null, lastMove = 0;
   $$('.widget').forEach(el=>{
     el.addEventListener('dragstart', e=>{
       dragSrc = el;
@@ -2658,26 +2693,64 @@ function attachDragHandlers(){
     });
     el.addEventListener('dragend', ()=>{
       el.classList.remove('dragging');
-      $$('.widget').forEach(w=>w.classList.remove('drag-over'));
+      persistLayout();
+      dragSrc = null;
     });
     el.addEventListener('dragover', e=>{
       e.preventDefault();
       e.dataTransfer.dropEffect='move';
-      if(el!==dragSrc) el.classList.add('drag-over');
-    });
-    el.addEventListener('dragleave', ()=>el.classList.remove('drag-over'));
-    el.addEventListener('drop', e=>{
-      e.preventDefault();
-      el.classList.remove('drag-over');
-      if(!dragSrc || dragSrc===el) return;
+      if(!dragSrc || el===dragSrc) return;
+      const now = performance.now();
+      if(now - lastMove < 120) return; /* settle time so cards don't thrash */
       const grid = $('#grid');
+      const r = el.getBoundingClientRect();
+      /* insertion point: before or after the hovered card, by pointer position */
+      const after = (e.clientY - r.top) > r.height/2 || ((e.clientX - r.left) > r.width/2 && (e.clientY - r.top) > r.height*0.25);
       const items = [...grid.children];
-      const srcIdx = items.indexOf(dragSrc);
-      const tgtIdx = items.indexOf(el);
-      if(srcIdx < tgtIdx) grid.insertBefore(dragSrc, el.nextSibling);
-      else grid.insertBefore(dragSrc, el);
-      const newOrder = [...grid.children].map(c=>c.dataset.id);
-      saveOrder(newOrder);
+      const target = after ? el.nextSibling : el;
+      if(target === dragSrc || (after && el.nextSibling === dragSrc) || (!after && dragSrc.nextSibling === el)) return;
+      lastMove = now;
+      withFLIP(()=> grid.insertBefore(dragSrc, target));
+    });
+    el.addEventListener('drop', e=>{ e.preventDefault(); });
+  });
+}
+
+function attachResizeHandlers(){
+  $$('.resize-h').forEach(h=>{
+    h.addEventListener('mousedown', e=>{
+      e.preventDefault(); e.stopPropagation();
+      const widget = h.closest('.widget');
+      const grid = $('#grid');
+      const cell = grid.getBoundingClientRect().width / 12;
+      const startX = e.clientX;
+      const startCol = parseInt(widget.dataset.colspan,10) || 12;
+      widget.setAttribute('draggable','false');
+      widget.classList.add('resizing');
+      h.classList.add('active');
+      document.body.style.userSelect='none';
+      let col = startCol;
+      const move = ev=>{
+        const next = Math.max(3, Math.min(12, Math.round(startCol + (ev.clientX-startX)/cell)));
+        if(next !== col){
+          col = next;
+          withFLIP(()=>{
+            widget.className = widget.className.replace(/col-\d+/, 'col-'+col);
+            widget.dataset.colspan = col;
+          });
+        }
+      };
+      const up = ()=>{
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('mouseup', up);
+        widget.setAttribute('draggable','true');
+        widget.classList.remove('resizing');
+        h.classList.remove('active');
+        document.body.style.userSelect='';
+        persistLayout();
+      };
+      document.addEventListener('mousemove', move);
+      document.addEventListener('mouseup', up);
     });
   });
 }
@@ -2711,7 +2784,6 @@ function attachAccordionHandlers(){
   }));
 }
 
-renderFilterBar();
 renderGrid();
 </script>
 </body>
