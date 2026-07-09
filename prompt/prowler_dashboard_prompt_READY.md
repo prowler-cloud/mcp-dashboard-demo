@@ -74,9 +74,13 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
   - Data-provenance badge (replaces any "LIVE DATA" fiction): a single badge
     "SNAPSHOT · <age>" with a pulsing emerald dot and a TICKING age that
     counts up from `generatedAt`; turns amber past the refresh cadence
-    (7 days). Clicking it opens a provenance popover: point-in-time
-    disclaimer, generated timestamp, source (Prowler Cloud API via MCP),
-    scope (providers + checks), refresh cadence.
+    (7 days). Clicking the badge body opens a provenance popover:
+    point-in-time disclaimer, generated timestamp, source (Prowler Cloud API
+    via MCP), scope (providers + checks), refresh cadence. Inside the badge,
+    a ↻ refresh arrow (rotates on hover) reloads past the cache to pick up
+    the newest PUBLISHED snapshot — data-only, it preserves widget order
+    (never claim it fetches from the API client-side; the browser must never
+    hold an API key).
   - "View on GitHub" button linking to the project repository.
   - "↺ Reset Demo" button (NOT "Refresh" — it fetches nothing): clears the
     localStorage cache, widget order, provider filter and simulation, then
@@ -128,6 +132,9 @@ visible drag handle (⠿) in the top-left corner.
 - Failed Checks / Passed / Total stat row (numbers reflect the provider
   selection; ±delta badges when the simulation is active)
 - Pass-rate bar (emerald gradient, glow)
+- "Top failing accounts" list: the selection's top 3 accounts by FAIL count,
+  each row with the provider's badge logo (18px), account alias, a
+  fail-gradient progress bar relative to the #1 account, and the count
 - Caption: "N of M providers in scope", noting when severity splits are
   partly estimated for small providers
 
@@ -168,7 +175,9 @@ visible drag handle (⠿) in the top-left corner.
   and **6M / 1Y** (weekly points); clicking re-renders the chart and the
   widget title reads "Findings Trend · <range label> by Severity"
 - 4 lines: Critical / High / Medium / Low, each in its severity color, with
-  a faint area-fill underneath
+  a faint area-fill underneath and a hollow data-point marker at every point
+  (r 2.6, dark fill, series-color stroke) — markers hide with their series
+  when a legend chip toggles it off
 - The series MUST end at the LIVE selection's current severity counts and
   recompute when the provider filter changes — never hard-code endpoint
   values. Longer ranges start proportionally further from today's value so

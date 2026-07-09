@@ -196,6 +196,8 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .trend-svg polyline{transition:opacity .2s}
 .trend-svg polyline.hidden{display:none}
 .trend-svg circle.hidden{display:none}
+.trend-svg polygon.hidden{display:none}
+.trend-svg g.hidden{display:none}
 .trend-tooltip{position:absolute;background:rgba(10,14,39,0.96);border:1px solid rgba(124,58,237,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:11px 13px;border-radius:9px;pointer-events:none;z-index:100;box-shadow:0 10px 30px rgba(0,0,0,0.5);min-width:170px;display:none;transition:opacity .15s}
 .trend-tooltip .date{font-weight:700;color:var(--text);margin-bottom:8px;font-size:12px;font-family:"SF Mono",Menlo,Consolas,monospace;border-bottom:1px solid var(--card-border);padding-bottom:6px}
 .trend-tooltip .row{display:flex;justify-content:space-between;align-items:center;gap:14px;font-size:12px;padding:3px 0}
@@ -270,6 +272,8 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .header-controls{display:flex;flex-direction:column;align-items:stretch;gap:8px;justify-self:start;position:relative;width:220px}
 .header-controls .btn{text-align:center;justify-content:center;display:inline-flex;align-items:center}
 .live-badge{cursor:pointer;justify-content:center}
+.snap-refresh{margin-left:4px;padding:0 4px;border-radius:6px;font-size:14px;line-height:1;opacity:0.75;transition:all .15s}
+.snap-refresh:hover{opacity:1;transform:rotate(90deg);color:var(--primary)}
 .live-badge.stale{background:rgba(254,201,77,0.08);border-color:rgba(254,201,77,0.4);color:var(--med)}
 .live-badge.stale .live-dot{background:var(--med);box-shadow:none;animation:none}
 .header-controls .timestamp{text-align:center}
@@ -277,6 +281,16 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
 .provenance h4{font-size:10.5px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mute);margin-bottom:6px}
 .provenance b{color:var(--primary)}
 @media (max-width:1100px){.header{grid-template-columns:1fr;justify-items:center}.brand-stack{align-items:center}.header-controls{flex-direction:row;flex-wrap:wrap;justify-content:center}.title-main{font-size:26px}}
+
+.top-accounts{margin-top:16px}
+.top-accounts-label{font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mute);font-weight:600;margin-bottom:8px}
+.top-account-row{display:flex;align-items:center;gap:8px;padding:5px 0}
+.ta-logo{width:18px;height:18px;border-radius:4px;overflow:hidden;flex-shrink:0}
+.ta-logo svg{width:100%;height:100%;display:block}
+.ta-alias{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.ta-bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden}
+.ta-bar span{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--fail),var(--high))}
+.ta-count{font-size:12px;color:var(--fail);flex-shrink:0;min-width:38px;text-align:right}
 </style>
 </head>
 <body>
@@ -298,7 +312,7 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
     <div class="title-sub">Multi-cloud security posture · powered by Prowler MCP</div>
   </div>
   <div class="header-controls">
-    <span class="live-badge" id="freshBadge" title="Click for data provenance"><span class="live-dot"></span>SNAPSHOT · <b id="snapAge">—</b></span>
+    <span class="live-badge" id="freshBadge" title="Click for data provenance"><span class="live-dot"></span>SNAPSHOT · <b id="snapAge">—</b><span class="snap-refresh" id="snapRefresh" title="Load the latest published snapshot">↻</span></span>
     <a class="btn btn-secondary" href="https://github.com/prowler-cloud/prowler" target="_blank" rel="noopener" title="Open the project repository">View on GitHub →</a>
     <button class="btn btn-primary" id="refreshBtn" title="Clear cache, widget order, filters and simulation — back to the canonical view">↺ Reset Demo</button>
     <span class="timestamp" id="genTs">Generated: —</span>
@@ -1866,6 +1880,14 @@ function fmtAge(ms){
   tick();
   setInterval(tick, 1000);
 })();
+/* Snapshot refresh: reload past the cache to pick up the newest published snapshot.
+   (Data-only: unlike Reset Demo it does NOT touch widget order.) */
+document.getElementById('snapRefresh').addEventListener('click', e=>{
+  e.stopPropagation();
+  localStorage.removeItem(CACHE_KEY);
+  localStorage.removeItem(CACHE_TS_KEY);
+  location.reload();
+});
 /* Provenance popover on the freshness badge */
 (function provenance(){
   const badge = document.getElementById('freshBadge');
@@ -2052,6 +2074,14 @@ function onFilterChange(){
   renderGrid(); /* every widget recomputes from the selection */
 }
 
+function topFailingAccounts(n){
+  const rows = PROWLER_DATA.providers.filter(p=>FILTER.has(p.alias))
+    .map(p=>({alias:p.alias, provider:p.provider, fail:provStats(p.alias).fail}))
+    .sort((a,b)=>b.fail-a.fail).slice(0,n);
+  const max = rows.length ? rows[0].fail : 1;
+  rows.forEach(r=>r.pct = Math.max(4, Math.round(r.fail/max*100)));
+  return rows;
+}
 function renderChecks(){
   const ov = effectiveOverview();
   const real = selectedOverview();
@@ -2077,7 +2107,17 @@ function renderChecks(){
       <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:6px"><span>Pass rate</span><b style="color:var(--pass)">${rate}%</b></div>
       <div style="height:8px;border-radius:4px;background:rgba(255,255,255,0.06);overflow:hidden"><div style="height:100%;width:${rate}%;border-radius:4px;background:linear-gradient(90deg,var(--pass),var(--primary));box-shadow:0 0 10px rgba(110,231,183,0.5)"></div></div>
     </div>
-    <div style="margin-top:14px;font-size:11.5px;color:var(--mute)">${FILTER.size} of ${PROWLER_DATA.providers.length} providers in scope${est?' · severity split partly estimated for small providers':''}</div>`;
+    <div class="top-accounts">
+      <div class="top-accounts-label">Top failing accounts</div>
+      ${topFailingAccounts(3).map(a=>`
+        <div class="top-account-row">
+          <span class="ta-logo">${PROVIDER_LOGOS[a.provider]||''}</span>
+          <span class="ta-alias" title="${esc(a.alias)}">${esc(a.alias)}</span>
+          <span class="ta-bar"><span style="width:${a.pct}%"></span></span>
+          <b class="ta-count">${a.fail.toLocaleString()}</b>
+        </div>`).join('') || '<div style="font-size:11.5px;color:var(--mute)">no providers selected</div>'}
+    </div>
+    <div style="margin-top:12px;font-size:11.5px;color:var(--mute)">${FILTER.size} of ${PROWLER_DATA.providers.length} providers in scope${est?' · severity split partly estimated for small providers':''}</div>`;
 }
 
 function renderDonut(){
@@ -2181,12 +2221,13 @@ function renderSparkline(){
     return `
       <polygon class="trend-area" data-series="${s.key}" points="${areaPts}" fill="${s.color}" opacity="0.06"/>
       <polyline data-series="${s.key}" points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+      <g data-series-dots="${s.key}">${t[s.key].map((v,i)=>`<circle cx="${xAt(i).toFixed(1)}" cy="${(P.t + plotH - (v/maxY)*plotH).toFixed(1)}" r="2.6" fill="var(--bg-2)" stroke="${s.color}" stroke-width="1.6"/>`).join('')}</g>
     `;
   }).join('');
 
   /* hover overlay + dots + cursor line */
   const hoverDots = TREND_SERIES.map(s=>
-    `<circle data-series="${s.key}" r="5" fill="${s.color}" stroke="#0a0e27" stroke-width="2.5"/>`
+    `<circle data-series="${s.key}" r="5" fill="${s.color}" stroke="#121110" stroke-width="2.5"/>`
   ).join('');
 
   const legend = TREND_SERIES.map(s=>
@@ -2299,7 +2340,7 @@ function attachTrendHandlers(){
       const s = el.dataset.series;
       if(hidden.has(s)) hidden.delete(s); else hidden.add(s);
       el.classList.toggle('muted');
-      svg.querySelectorAll(`polyline[data-series="${s}"], polygon[data-series="${s}"]`)
+      svg.querySelectorAll(`polyline[data-series="${s}"], polygon[data-series="${s}"], g[data-series-dots="${s}"]`)
         .forEach(p=>p.classList.toggle('hidden'));
     });
   });
