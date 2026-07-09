@@ -68,7 +68,7 @@ Prowler MCP tools. Build a single self-contained HTML file and open it.
 - Right: the controls STACKED vertically in a compact column.
 - HONEST header controls — every button must state the truth and be functional:
   - Data-provenance badge (replaces any "LIVE DATA" fiction): a single badge
-    "SNAPSHOT · <age> old" with a pulsing emerald dot and a TICKING age that
+    "SNAPSHOT · <age>" with a pulsing emerald dot and a TICKING age that
     counts up from `generatedAt`; turns amber past the refresh cadence
     (7 days). Clicking it opens a provenance popover: point-in-time
     disclaimer, generated timestamp, source (Prowler Cloud API via MCP),

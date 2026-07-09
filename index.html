@@ -1807,7 +1807,7 @@ const TTL_MS = 24*60*60*1000;
          freshly deployed dashboard from rendering stale data left by a previous version. */
       if((Date.parse(d.generatedAt) || 0) >= embeddedTs){
         Object.assign(PROWLER_DATA, d);
-        document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_DATA.generatedAt).toLocaleString() + ' (cached)';
+        document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_DATA.generatedAt).toLocaleString();
         cacheValid = true;
       }
     }catch(e){}
@@ -1843,7 +1843,7 @@ function fmtAge(ms){
   const badge = document.getElementById('freshBadge');
   function tick(){
     const age = Date.now() - Date.parse(PROWLER_DATA.generatedAt);
-    ageEl.textContent = fmtAge(age) + ' old';
+    ageEl.textContent = fmtAge(age);
     badge.classList.toggle('stale', age > FRESH_LIMIT_MS);
   }
   tick();
