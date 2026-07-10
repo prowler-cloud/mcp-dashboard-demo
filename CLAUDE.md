@@ -77,7 +77,9 @@ Read this whole file before making any change.
   flips to amber STALE past 7 days, and opens a provenance popover on click.
   The primary button is "Reset Demo" (clears cache + order + filter + sim —
   it does NOT fetch data; only the refresh script/CI does). The age chip
-  counts UP from `generatedAt`. Keep the customer lockup (ACME by default)
+  counts UP from `generatedAt`. The "View on GitHub" button href must always
+  point at the repo's CURRENT home — update it in the same commit whenever the
+  repo is renamed or transferred (e.g. to the prowler-cloud org). Keep the customer lockup (ACME by default)
   under the Prowler wordmark — swap its inline SVG when branding for a real
   customer (see "Change branding" playbook).
 

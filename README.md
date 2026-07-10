@@ -87,6 +87,9 @@ normally while private.
 2. Settings → Pages → Source: **GitHub Actions**
 3. Re-run the *Deploy to GitHub Pages* workflow (Actions tab) — URL goes live
 4. Announce the Pages URL; tag the release
+5. **If the repo has moved/transferred**: update the "View on GitHub" button
+   href in `index.html` to the new repo URL (search for `github.com/` in the
+   header markup) — GitHub redirects old URLs, but don't rely on it
 
 ## One-time repo setup (admin)
 
