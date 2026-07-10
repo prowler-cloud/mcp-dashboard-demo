@@ -1,20 +1,32 @@
 <!DOCTYPE html>
 <!-- ==PROWLER_HEADER_START== Prowler Security Dashboard - Generated from live Prowler API data
   ============================================================
-  Generated: 2026-07-10T00:38:48.021740+00:00
-  Provider(s) found: 6
+  Generated: 2026-07-10T01:02:36.086198+00:00
+  Provider(s) found: 18
     - manuel-okta (okta | UID integrator-8206651.okta.com | connected: true)
     - workshop-lab-01 (aws | UID 935890553952 | connected: true)
     - amit_appd (aws | UID 418021145162 | connected: true)
     - Marketing Ops (aws | UID 730883237055 | connected: true)
     - marketing dev (aws | UID 799168734816 | connected: true)
     - amits (aws | UID 932718745857 | connected: true)
+    - Demo AWS (aws | UID 552455647653 | connected: true)
+    - myAppVercel (vercel | UID team_Yj41RYnEfdjpqxzAecFgwYAR | connected: true)
+    - Google Workspace playground (googleworkspace | UID C015lvimi | connected: true)
+    - K8s EKS Test Cluster (kubernetes | UID prowler-sa | connected: true)
+    - MongoDB Atlas Demo (mongodbatlas | UID 68a82910b6189c7263c04353 | connected: true)
+    - Alibaba Demo (alibabacloud | UID 5805463570028839 | connected: true)
+    - Azure Demo (azure | UID 0b070121-2ad4-4e44-aba0-39dcd5310b60 | connected: true)
+    - OCI Demo (oraclecloud | UID ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5grlhgnkwtyt6dmwyou7no6mdmzda | connected: true)
+    - IaC Demo (iac | UID https://github.com/RhinoSecurityLabs/cloudgoat | connected: true)
+    - My Github Demo Repo (github | UID dTroop3r | connected: true)
+    - Google Cloud Demo (gcp | UID lucky-coast-419309 | connected: true)
+    - M365 Demo (m365 | UID prowler.com | connected: true)
 
   Findings overview:
     Total: 11316 | FAIL: 4200 (37.1%) | PASS: 6866 (60.7%) | Muted: 182
 
   Severity breakdown (FAIL):
-    Critical: 35 | High: 486 | Medium: 662 | Low: 365 | Informational: 0
+    Critical: 100 | High: 1240 | Medium: 1821 | Low: 1111 | Informational: 2
 
   Top critical/high findings enriched via Prowler Hub:
     s3_bucket_public_access
@@ -381,7 +393,7 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
    ============================================================ */
 /* ==PROWLER_DATA_START== */
 const PROWLER_DATA = {
-  generatedAt: "2026-07-10T00:38:48.021740+00:00",
+  generatedAt: "2026-07-10T01:02:36.086198+00:00",
   providers: [
   {
     "id": "cff6e7d3-2bf9-4db7-8fb2-d42430957121",
@@ -430,6 +442,102 @@ const PROWLER_DATA = {
     "provider": "aws",
     "connected": true,
     "region": "-"
+  },
+  {
+    "id": "7eeddd70-bc86-45b6-b596-8da1256a8592",
+    "uid": "552455647653",
+    "alias": "Demo AWS",
+    "provider": "aws",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "020529f9-244d-48f5-8c0e-69370e94323b",
+    "uid": "team_Yj41RYnEfdjpqxzAecFgwYAR",
+    "alias": "myAppVercel",
+    "provider": "vercel",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "a165464d-c7ed-491f-8583-83fbcdbd7ba1",
+    "uid": "C015lvimi",
+    "alias": "Google Workspace playground",
+    "provider": "googleworkspace",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "2bebcdb9-dc7e-4b80-8d89-e2bc6bcc8aea",
+    "uid": "prowler-sa",
+    "alias": "K8s EKS Test Cluster",
+    "provider": "kubernetes",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "8132dc88-5825-4e25-bb46-dcf84c495b4a",
+    "uid": "68a82910b6189c7263c04353",
+    "alias": "MongoDB Atlas Demo",
+    "provider": "mongodbatlas",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "b7970ebd-15c3-4850-9079-2def86177810",
+    "uid": "5805463570028839",
+    "alias": "Alibaba Demo",
+    "provider": "alibabacloud",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "94211821-5e6a-4bc5-9f9f-6923de716af5",
+    "uid": "0b070121-2ad4-4e44-aba0-39dcd5310b60",
+    "alias": "Azure Demo",
+    "provider": "azure",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "b1c183df-5529-492b-89a3-54171d7e2c20",
+    "uid": "ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5grlhgnkwtyt6dmwyou7no6mdmzda",
+    "alias": "OCI Demo",
+    "provider": "oraclecloud",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "58d51e38-279b-4664-b575-6d222ee0ac7d",
+    "uid": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "alias": "IaC Demo",
+    "provider": "iac",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "c7b7b1bf-fff7-44f2-9e0a-a08f9de6b480",
+    "uid": "dTroop3r",
+    "alias": "My Github Demo Repo",
+    "provider": "github",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "b55e3a10-3d2d-4b1b-849b-c30960c0036c",
+    "uid": "lucky-coast-419309",
+    "alias": "Google Cloud Demo",
+    "provider": "gcp",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "1448f941-6313-4bab-a396-77bf0765064d",
+    "uid": "prowler.com",
+    "alias": "M365 Demo",
+    "provider": "m365",
+    "connected": true,
+    "region": "-"
   }
 ],
   overview: {
@@ -439,45 +547,45 @@ const PROWLER_DATA = {
   "muted": 182
 },
   severityCounts: {
-  "critical": 35,
-  "high": 486,
-  "medium": 662,
-  "low": 365,
-  "informational": 0
+  "critical": 100,
+  "high": 1240,
+  "medium": 1821,
+  "low": 1111,
+  "informational": 2
 },
   perProvider: {
   "manuel-okta": {
-    "fail": 0,
-    "pass": 0,
+    "fail": 20,
+    "pass": 3,
     "sev": {
       "critical": 0,
-      "high": 0,
-      "medium": 0,
-      "low": 0,
-      "informational": 0
+      "high": 1,
+      "medium": 14,
+      "low": 4,
+      "informational": 1
     },
     "estimated": false
   },
   "workshop-lab-01": {
-    "fail": 0,
-    "pass": 0,
+    "fail": 317,
+    "pass": 122,
     "sev": {
-      "critical": 0,
-      "high": 0,
-      "medium": 0,
-      "low": 0,
+      "critical": 1,
+      "high": 92,
+      "medium": 120,
+      "low": 104,
       "informational": 0
     },
     "estimated": false
   },
   "amit_appd": {
-    "fail": 0,
-    "pass": 0,
+    "fail": 908,
+    "pass": 1015,
     "sev": {
-      "critical": 0,
-      "high": 0,
-      "medium": 0,
-      "low": 0,
+      "critical": 5,
+      "high": 140,
+      "medium": 545,
+      "low": 218,
       "informational": 0
     },
     "estimated": false
@@ -495,13 +603,13 @@ const PROWLER_DATA = {
     "estimated": false
   },
   "marketing dev": {
-    "fail": 0,
-    "pass": 0,
+    "fail": 308,
+    "pass": 115,
     "sev": {
-      "critical": 0,
-      "high": 0,
-      "medium": 0,
-      "low": 0,
+      "critical": 1,
+      "high": 89,
+      "medium": 114,
+      "low": 104,
       "informational": 0
     },
     "estimated": false
@@ -517,6 +625,150 @@ const PROWLER_DATA = {
       "informational": 0
     },
     "estimated": false
+  },
+  "Demo AWS": {
+    "fail": 565,
+    "pass": 979,
+    "sev": {
+      "critical": 14,
+      "high": 138,
+      "medium": 272,
+      "low": 141,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "myAppVercel": {
+    "fail": 18,
+    "pass": 20,
+    "sev": {
+      "critical": 3,
+      "high": 5,
+      "medium": 8,
+      "low": 2,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Google Workspace playground": {
+    "fail": 17,
+    "pass": 48,
+    "sev": {
+      "critical": 0,
+      "high": 3,
+      "medium": 12,
+      "low": 2,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "K8s EKS Test Cluster": {
+    "fail": 43,
+    "pass": 483,
+    "sev": {
+      "critical": 0,
+      "high": 41,
+      "medium": 2,
+      "low": 0,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "MongoDB Atlas Demo": {
+    "fail": 12,
+    "pass": 4,
+    "sev": {
+      "critical": 4,
+      "high": 6,
+      "medium": 2,
+      "low": 0,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Alibaba Demo": {
+    "fail": 42,
+    "pass": 41,
+    "sev": {
+      "critical": 2,
+      "high": 2,
+      "medium": 37,
+      "low": 1,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Azure Demo": {
+    "fail": 69,
+    "pass": 63,
+    "sev": {
+      "critical": 1,
+      "high": 39,
+      "medium": 27,
+      "low": 2,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "OCI Demo": {
+    "fail": 35,
+    "pass": 42,
+    "sev": {
+      "critical": 0,
+      "high": 16,
+      "medium": 19,
+      "low": 0,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "IaC Demo": {
+    "fail": 474,
+    "pass": 2142,
+    "sev": {
+      "critical": 40,
+      "high": 164,
+      "medium": 70,
+      "low": 200,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "My Github Demo Repo": {
+    "fail": 20,
+    "pass": 1,
+    "sev": {
+      "critical": 0,
+      "high": 10,
+      "medium": 8,
+      "low": 2,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Google Cloud Demo": {
+    "fail": 13,
+    "pass": 7,
+    "sev": {
+      "critical": 0,
+      "high": 1,
+      "medium": 12,
+      "low": 0,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "M365 Demo": {
+    "fail": 92,
+    "pass": 338,
+    "sev": {
+      "critical": 6,
+      "high": 46,
+      "medium": 34,
+      "low": 6,
+      "informational": 0
+    },
+    "estimated": false
   }
 },
   findings: [
@@ -528,7 +780,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket prowler-cfn-templates-example has public access due to bucket policy.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -538,7 +790,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket demo-bucket-1763841210 has public access due to bucket policy.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -548,7 +800,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "IAM User rsac-demo-admin-user has AdministratorAccess policy attached.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -558,7 +810,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "IAM User aws-demo-user has AdministratorAccess policy attached.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -568,7 +820,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "MFA is not enabled for root account.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -578,7 +830,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "MFA is not enabled for root account.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -588,7 +840,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Inline policy dangerous-wildcard-policy attached to role prowler-blog-vulnerable-admin-role allows '*:*' administrative privileges.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -598,7 +850,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Inline policy privesc-demo-admin-policy attached to role privesc-demo-target-admin-role allows '*:*' administrative privileges.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -608,7 +860,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Inline policy privesc-demo-ec2-admin-policy attached to role privesc-demo-ec2-admin-role allows '*:*' administrative privileges.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -618,7 +870,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Inline policy AwsSSOInlinePolicy attached to role AWSReservedSSO_ManagementAccess_6ab9972a4c6a515b allows '*:*' administrative privileges.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -628,7 +880,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Inline policy AwsSSOInlinePolicy attached to role AWSReservedSSO_DevelopmentAccess_88df3906a91f28ed allows '*:*' administrative privileges.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -638,7 +890,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -648,7 +900,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Instance i-0aeeaa92b3fb95a35 has SSH exposed to 0.0.0.0/0 on public IP address 52.22.247.240 in public subnet subnet-05d3a7b8f85214922.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -658,7 +910,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Instance i-05075b63eb51baacb has SSH exposed to 0.0.0.0/0 on public IP address 34.228.30.208 in public subnet subnet-05484df59f9616ab6.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "critical",
@@ -668,7 +920,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "External Teams users can initiate conversations.",
-    "provider": null
+    "provider": "M365 Demo"
   },
   {
     "sev": "critical",
@@ -678,7 +930,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Conditional Access Policy 'Require compliant device OR hybrid joined device OR MFA for admins or all users' reports MFA requirement for all users but does not enforce it.",
-    "provider": null
+    "provider": "M365 Demo"
   },
   {
     "sev": "critical",
@@ -688,7 +940,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Conditional Access Policy 'Enable Conditional Access policies to block legacy authentication' reports legacy authentication but does not block it.",
-    "provider": null
+    "provider": "M365 Demo"
   },
   {
     "sev": "critical",
@@ -698,7 +950,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Break glass account Engineering Account does not have a FIDO2 security key registered.",
-    "provider": null
+    "provider": "M365 Demo"
   },
   {
     "sev": "critical",
@@ -708,7 +960,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Microsoft Defender for Endpoint is not enabled. Without MDE there is no visibility into credential exposure on endpoints.",
-    "provider": null
+    "provider": "M365 Demo"
   },
   {
     "sev": "critical",
@@ -718,7 +970,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Default is the default policy and Common Attachment Types Filter is not enabled, but it could be overridden by another well-configured Custom Policy.",
-    "provider": null
+    "provider": "M365 Demo"
   },
   {
     "sev": "high",
@@ -728,7 +980,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC subnet demo-public-subnet assigns public IP by default.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -738,7 +990,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC Endpoint vpce-0702ee45431bdb3f4 in VPC vpc-0e0b6713fe253986a can be accessed from non-trusted accounts.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -748,7 +1000,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC Endpoint vpce-089bbc2b35cb0968f in VPC vpc-0b87b9e8e03804e58 can be accessed from non-trusted accounts.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -758,7 +1010,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC Endpoint vpce-075169e5bcae4deab in VPC vpc-0a9716b1f0cc77e2b can be accessed from non-trusted accounts.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -768,7 +1020,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC Endpoint vpce-016a9091c07f893d9 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -778,7 +1030,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC Endpoint vpce-0d8f332047187b177 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -788,7 +1040,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC Endpoint vpce-04a9c9d80e4e6b2e8 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -798,7 +1050,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC Endpoint vpce-0ce201ccf913f1fd5 in VPC vpc-0e08d2fb6d2ac5b57 can be accessed from non-trusted accounts.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -808,7 +1060,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "SNS topic aws-controltower-SecurityNotifications is not encrypted.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -818,7 +1070,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "SNS topic aws-controltower-SecurityNotifications is not encrypted.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -828,7 +1080,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "SNS topic aws-controltower-SecurityNotifications is not encrypted.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -838,7 +1090,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "SNS topic aws-controltower-SecurityNotifications is not encrypted.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -848,7 +1100,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Security Hub is not enabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -858,7 +1110,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Security Hub is not enabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -868,7 +1120,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Security Hub is not enabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -878,7 +1130,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Security Hub in region eu-west-1 has issues: delegated administrator status could not be determined.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -888,7 +1140,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Security Hub in region us-east-1 has issues: delegated administrator status could not be determined.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -898,7 +1150,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Security Hub in region us-west-2 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -908,7 +1160,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Security Hub in region us-east-2 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -918,7 +1170,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Security Hub in region eu-south-2 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -928,7 +1180,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC demo-vpc has only public subnets.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -938,7 +1190,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC DatatogAgentlessScanner has only subnets in us-east-1a.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -948,7 +1200,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC demo-vpc has only subnets in us-east-1a.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -958,7 +1210,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC DatatogAgentlessScanner Flow logs are disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -968,7 +1220,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC demo-vpc Flow logs are disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -978,7 +1230,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC Endpoint vpce-0d8f332047187b177 in VPC vpc-043b150da773aee6f does not have subnets in different AZs.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -988,7 +1240,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC Endpoint vpce-04a9c9d80e4e6b2e8 in VPC vpc-043b150da773aee6f does not have subnets in different AZs.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -998,7 +1250,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC vpc-043b150da773aee6f has no EC2 endpoint.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1008,7 +1260,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC vpc-0bdb9eda71f5243c0 has no EC2 endpoint.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1018,7 +1270,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "VPC vpc-0e08d2fb6d2ac5b57 has no EC2 endpoint.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1028,7 +1280,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Secret r1-agent/env has never been rotated.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1038,7 +1290,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Secret ScannerAPIKeySecret-Zzn2CWVuBXmR has never been rotated.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1048,7 +1300,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket prowler-test-bucket-issue1616 has server access logging disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1058,7 +1310,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket prowler-reports-demo has server access logging disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1068,7 +1320,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket prowler-cfn-templates-example has server access logging disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1078,7 +1330,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket my-unique-bucket-3-272aefd11e43aa17 has server access logging disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1088,7 +1340,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket my-unique-bucket-2-265e63aab78c9b96 has server access logging disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1098,7 +1350,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket my-unique-bucket-1-a7a8e3b928071b25 has server access logging disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1108,7 +1360,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket demo-bucket-1763841210 has server access logging disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
@@ -1118,7 +1370,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "S3 Bucket company-sensitive-data-demo has server access logging disabled.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1128,7 +1380,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "Amazon Web Services Premium Support Plan isn't subscribed.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1138,7 +1390,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1148,7 +1400,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "SageMaker Model Registry in region us-east-2 has no Model Package Groups.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1158,7 +1410,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "SageMaker Model Registry in region us-west-2 has no Model Package Groups.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1168,7 +1420,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "SageMaker Model Registry in region eu-south-2 has no Model Package Groups.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1178,7 +1430,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "SageMaker Model Registry in region us-east-1 has no Model Package Groups.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1188,7 +1440,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region ap-northeast-2.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1198,7 +1450,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region ap-southeast-2.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1208,7 +1460,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region ap-northeast-3.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1218,7 +1470,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region us-west-1.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1228,7 +1480,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region ap-northeast-1.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1238,7 +1490,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region ap-south-1.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1248,7 +1500,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region sa-east-1.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1258,7 +1510,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region ap-southeast-1.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1268,7 +1520,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region eu-north-1.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1278,7 +1530,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region eu-west-1.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1288,7 +1540,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region eu-central-2.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1298,7 +1550,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region us-east-2.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1308,7 +1560,7 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region ca-central-1.",
-    "provider": null
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1318,6 +1570,26 @@ const PROWLER_DATA = {
     "resource": "-",
     "region": "-",
     "detail": "No SageMaker monitoring schedules found in region us-west-2.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "informational",
+    "service": "signon",
+    "status": "FAIL",
+    "check": "signon_dod_warning_banner_configured",
+    "resource": "-",
+    "region": "-",
+    "detail": "Default sign-in page for brand 'prowler-integrator-8206651' does not contain the DOD Notice and Consent Banner (DTM-08-060).",
+    "provider": "manuel-okta"
+  },
+  {
+    "sev": "informational",
+    "service": "signon",
+    "status": "FAIL",
+    "check": "signon_dod_warning_banner_configured",
+    "resource": "-",
+    "region": "-",
+    "detail": "Default sign-in page for brand 'prowler-trial-3638350' does not contain the DOD Notice and Consent Banner (DTM-08-060).",
     "provider": null
   }
 ],
