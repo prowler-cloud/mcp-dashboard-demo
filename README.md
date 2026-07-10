@@ -91,6 +91,29 @@ normally while private.
    href in `index.html` to the new repo URL (search for `github.com/` in the
    header markup) — GitHub redirects old URLs, but don't rely on it
 
+
+## Data refresh & staying in sync
+
+The dashboard's data is a snapshot refreshed by CI — not realtime.
+
+- **Automatic**: the *Refresh dashboard data* workflow runs every **Monday
+  06:00 UTC** and commits an updated `index.html` to `main` on GitHub.
+- **On demand**: Actions tab → "Refresh dashboard data from Prowler API" →
+  Run workflow (needs the `PROWLER_API_KEY` repo secret; no local key needed).
+- **Locally** (rare): `PROWLER_API_KEY=pk_... python3 scripts/refresh_data.py`
+
+Because refresh commits land on **GitHub only**, keep your clone in sync:
+
+1. `git pull` **before** you start working in your clone
+2. `git push` **after** you commit changes
+3. If a push is rejected ("fetch first"), run `git pull` then `git push` —
+   refresh commits only touch the sentinel data blocks in `index.html`, so
+   they never conflict with feature work
+4. Check state anytime: `git fetch origin && git status`
+
+The refresh rewrites ONLY the machine-owned sentinel blocks (header comment
++ `PROWLER_DATA`). Layout, widgets, and features are never touched by CI.
+
 ## One-time repo setup (admin)
 
 1. Create the GitHub repo and push this folder.
