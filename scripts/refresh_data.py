@@ -227,14 +227,14 @@ def rewrite(html_path, out_path, providers, overview, sev_counts, findings, top,
 
     if "==PROWLER_HEADER_START==" in html:
         html = re.sub(r"<!-- ==PROWLER_HEADER_START==.*?==PROWLER_HEADER_END== -->",
-                      header, html, count=1, flags=re.S)
+                      lambda _m: header, html, count=1, flags=re.S)
         html = re.sub(r"/\* ==PROWLER_DATA_START== \*/.*?/\* ==PROWLER_DATA_END== \*/",
-                      data, html, count=1, flags=re.S)
+                      lambda _m: data, html, count=1, flags=re.S)
     else:
         # Original un-sentineled dashboard: replace first comment + data object,
         # inserting sentinels so every future run hits the branch above.
-        html = re.sub(r"<!--.*?-->", header, html, count=1, flags=re.S)
-        html = re.sub(r"const PROWLER_DATA = \{.*?\n\};", data, html, count=1, flags=re.S)
+        html = re.sub(r"<!--.*?-->", lambda _m: header, html, count=1, flags=re.S)
+        html = re.sub(r"const PROWLER_DATA = \{.*?\n\};", lambda _m: data, html, count=1, flags=re.S)
         # trend anchor must follow the snapshot date, not a hard-coded day
         html = html.replace("new Date('2026-05-20')", "new Date(PROWLER_DATA.generatedAt)")
     open(out_path, "w", encoding="utf-8").write(html)
