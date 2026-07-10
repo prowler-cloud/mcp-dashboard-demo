@@ -53,7 +53,7 @@ def api_get(base, key, path, params=None):
 
 def fetch(base, key):
     """Pull providers, overview, findings per severity, and enrichment."""
-    providers_raw = api_get(base, key, "/providers")
+    providers_raw = api_get(base, key, "/providers", {"page[size]": 100})
     providers = []
     for p in providers_raw.get("data", []):
         a = p.get("attributes", {})
@@ -80,11 +80,10 @@ def fetch(base, key):
 
     findings, severity_counts = [], {}
     for sev in SEVERITIES:
-        since = (dt.date.today() - dt.timedelta(days=1)).isoformat()  # API caps range at 2 days
-        page = api_get(base, key, "/findings", {
+        # /findings/latest = most recent completed scan per provider; no date window needed
+        page = api_get(base, key, "/findings/latest", {
             "filter[severity]": sev,
             "filter[status]": "FAIL",
-            "filter[inserted_at__gte]": since,  # required: an inserted_at variant
             "page[size]": PER_SEVERITY_MIN,
             "sort": "-inserted_at",
         })
@@ -108,16 +107,14 @@ def fetch(base, key):
 
     # Per-provider counts (feeds the provider filter bar) — 6 small queries each
     per_provider = {}
-    since = (dt.date.today() - dt.timedelta(days=1)).isoformat()
     for p in providers:
         if not p.get("connected"):
             continue
         alias = p["alias"]
-        base_params = {"filter[provider_alias]": alias,
-                       "filter[inserted_at__gte]": since, "page[size]": 1}
+        base_params = {"filter[provider_alias]": alias, "page[size]": 1}
         def count(extra):
             params = dict(base_params); params.update(extra)
-            page = api_get(base, key, "/findings", params)
+            page = api_get(base, key, "/findings/latest", params)
             return (page.get("meta", {}).get("pagination", {}) or {}).get("count", 0)
         sev = {s_: count({"filter[severity]": s_, "filter[status]": "FAIL"})
                for s_ in SEVERITIES}
