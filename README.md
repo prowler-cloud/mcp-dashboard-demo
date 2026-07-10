@@ -71,7 +71,7 @@ Your API key never leaves your machine and is never sent to this repo.
   redeploys on every merge to `main`.
 - Presenter changes live on branches; visitor-side changes (widget order,
   what-if simulation) live in the visitor's `localStorage` and reset with the
-  **Refresh Now** button or a hard reload.
+  **Reset Demo** button or a hard reload.
 - Rollback = `git revert` or re-deploying a previous tag.
 
 ## Visibility: private phase → public launch
