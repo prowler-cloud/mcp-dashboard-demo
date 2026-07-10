@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ==PROWLER_HEADER_START== Prowler Security Dashboard - Generated from live Prowler API data
   ============================================================
-  Generated: 2026-07-10T01:02:36.086198+00:00
+  Generated: 2026-07-10T01:11:35.763416+00:00
   Provider(s) found: 18
     - manuel-okta (okta | UID integrator-8206651.okta.com | connected: true)
     - workshop-lab-01 (aws | UID 935890553952 | connected: true)
@@ -393,7 +393,7 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
    ============================================================ */
 /* ==PROWLER_DATA_START== */
 const PROWLER_DATA = {
-  generatedAt: "2026-07-10T01:02:36.086198+00:00",
+  generatedAt: "2026-07-10T01:11:35.763416+00:00",
   providers: [
   {
     "id": "cff6e7d3-2bf9-4db7-8fb2-d42430957121",
@@ -1602,7 +1602,7 @@ const PROWLER_DATA = {
     "region": "-",
     "risk": "Publicly accessible buckets jeopardize **confidentiality** through unauthenticated reads, **integrity** through write or ACL changes, and **availability** via object deletion or overwrite. Attackers can mass-exfiltrate data, host malware, or pivot after discovering secrets stored in objects.",
     "steps": [
-      "{'description': '1. In the AWS Console, go to S3 and open the bucket <example_resource_name>\n2. Select the Permissions tab\n3. Under Block public access (bucket settings), click Edit\n4. Check only:\n   - Ignore public ACLs (true)\n   - Restrict public buckets (true)\n5. Click Save changes and confirm'}"
+      "{'description': '1. In the AWS Console, go to S3 and open the bucket <example_resource_name>\\n2. Select the Permissions tab\\n3. Under Block public access (bucket settings), click Edit\\n4. Check only:\\n   - Ignore public ACLs (true)\\n   - Restrict public buckets (true)\\n5. Click Save changes and confirm'}"
     ]
   },
   {
@@ -1613,7 +1613,7 @@ const PROWLER_DATA = {
     "region": "-",
     "risk": "Publicly accessible buckets jeopardize **confidentiality** through unauthenticated reads, **integrity** through write or ACL changes, and **availability** via object deletion or overwrite. Attackers can mass-exfiltrate data, host malware, or pivot after discovering secrets stored in objects.",
     "steps": [
-      "{'description': '1. In the AWS Console, go to S3 and open the bucket <example_resource_name>\n2. Select the Permissions tab\n3. Under Block public access (bucket settings), click Edit\n4. Check only:\n   - Ignore public ACLs (true)\n   - Restrict public buckets (true)\n5. Click Save changes and confirm'}"
+      "{'description': '1. In the AWS Console, go to S3 and open the bucket <example_resource_name>\\n2. Select the Permissions tab\\n3. Under Block public access (bucket settings), click Edit\\n4. Check only:\\n   - Ignore public ACLs (true)\\n   - Restrict public buckets (true)\\n5. Click Save changes and confirm'}"
     ]
   },
   {
@@ -1622,13 +1622,9 @@ const PROWLER_DATA = {
     "title": "IAM user does not have AdministratorAccess policy attached",
     "resource": "-",
     "region": "-",
-    "risk": "Assigning an IAM user full admin rights concentrates power in long-lived credentials. If compromised, attackers gain:
-- **Confidentiality**: read/export all data
-- **Integrity**: change configs, policies, code
-- **Availability**: delete resources, disrupt services
-Also enables persistence and uncontrolled spend.",
+    "risk": "Assigning an IAM user full admin rights concentrates power in long-lived credentials. If compromised, attackers gain:\n- **Confidentiality**: read/export all data\n- **Integrity**: change configs, policies, code\n- **Availability**: delete resources, disrupt services\nAlso enables persistence and uncontrolled spend.",
     "steps": [
-      "{'description': '1. Sign in to the AWS Console and open IAM\n2. Go to Users and select the target user\n3. Open the Permissions tab\n4. In Attached policies (or Permissions policies), find AdministratorAccess\n5. Select it and click Detach policy (or Remove)\n6. Confirm to detach'}"
+      "{'description': '1. Sign in to the AWS Console and open IAM\\n2. Go to Users and select the target user\\n3. Open the Permissions tab\\n4. In Attached policies (or Permissions policies), find AdministratorAccess\\n5. Select it and click Detach policy (or Remove)\\n6. Confirm to detach'}"
     ]
   },
   {
@@ -1637,13 +1633,9 @@ Also enables persistence and uncontrolled spend.",
     "title": "IAM user does not have AdministratorAccess policy attached",
     "resource": "-",
     "region": "-",
-    "risk": "Assigning an IAM user full admin rights concentrates power in long-lived credentials. If compromised, attackers gain:
-- **Confidentiality**: read/export all data
-- **Integrity**: change configs, policies, code
-- **Availability**: delete resources, disrupt services
-Also enables persistence and uncontrolled spend.",
+    "risk": "Assigning an IAM user full admin rights concentrates power in long-lived credentials. If compromised, attackers gain:\n- **Confidentiality**: read/export all data\n- **Integrity**: change configs, policies, code\n- **Availability**: delete resources, disrupt services\nAlso enables persistence and uncontrolled spend.",
     "steps": [
-      "{'description': '1. Sign in to the AWS Console and open IAM\n2. Go to Users and select the target user\n3. Open the Permissions tab\n4. In Attached policies (or Permissions policies), find AdministratorAccess\n5. Select it and click Detach policy (or Remove)\n6. Confirm to detach'}"
+      "{'description': '1. Sign in to the AWS Console and open IAM\\n2. Go to Users and select the target user\\n3. Open the Permissions tab\\n4. In Attached policies (or Permissions policies), find AdministratorAccess\\n5. Select it and click Detach policy (or Remove)\\n6. Confirm to detach'}"
     ]
   },
   {
@@ -1654,7 +1646,7 @@ Also enables persistence and uncontrolled spend.",
     "region": "-",
     "risk": "Without **MFA**, compromise of the root password or access keys can lead to full **account takeover**. An attacker with root can disable protections, steal or delete data, change billing, and create persistent admins, undermining confidentiality, integrity, and availability.",
     "steps": [
-      "{'description': '1. Sign in to the AWS Management Console as the root user (choose \"Sign in as root user\" and enter the account email)\n2. Open the account menu (top right) and click \"Security credentials\"\n3. In \"Multi-factor authentication (MFA)\", choose \"Assign MFA device\" (or \"Activate MFA\")\n4. Select \"Authenticator app\" and click \"Next\"\n5. Scan the QR code with your authenticator app and enter two consecutive MFA codes\n6. Click \"Add MFA\" (or \"Assign MFA\") to complete'}"
+      "{'description': '1. Sign in to the AWS Management Console as the root user (choose \"Sign in as root user\" and enter the account email)\\n2. Open the account menu (top right) and click \"Security credentials\"\\n3. In \"Multi-factor authentication (MFA)\", choose \"Assign MFA device\" (or \"Activate MFA\")\\n4. Select \"Authenticator app\" and click \"Next\"\\n5. Scan the QR code with your authenticator app and enter two consecutive MFA codes\\n6. Click \"Add MFA\" (or \"Assign MFA\") to complete'}"
     ]
   },
   {
@@ -1663,12 +1655,9 @@ Also enables persistence and uncontrolled spend.",
     "title": "Root account has a hardware MFA device enabled",
     "resource": "-",
     "region": "-",
-    "risk": "Without **hardware MFA** on the root user:
-- No MFA: stolen password/keys enable full account takeover.
-- Virtual MFA: device compromise or backup restoration weakens second-factor assurance.
-An attacker could delete resources, change policies, and disable logging, harming **confidentiality**, **integrity**, and **availability**.",
+    "risk": "Without **hardware MFA** on the root user:\n- No MFA: stolen password/keys enable full account takeover.\n- Virtual MFA: device compromise or backup restoration weakens second-factor assurance.\nAn attacker could delete resources, change policies, and disable logging, harming **confidentiality**, **integrity**, and **availability**.",
     "steps": [
-      "{'description': '1. Sign in to the AWS Management Console as the root user\n2. Open My Security Credentials: https://console.aws.amazon.com/iam/home?#/security_credentials\n3. In the Multi-factor authentication (MFA) section, choose Activate/Assign MFA\n4. Select a hardware option (Security key or Hardware TOTP token) and complete the prompts (for TOTP: enter the device serial and two consecutive codes)\n5. After the hardware MFA is added, locate any Virtual MFA device listed for root and Deactivate/Remove it\n6. Confirm only the hardware MFA remains assigned'}"
+      "{'description': '1. Sign in to the AWS Management Console as the root user\\n2. Open My Security Credentials: https://console.aws.amazon.com/iam/home?#/security_credentials\\n3. In the Multi-factor authentication (MFA) section, choose Activate/Assign MFA\\n4. Select a hardware option (Security key or Hardware TOTP token) and complete the prompts (for TOTP: enter the device serial and two consecutive codes)\\n5. After the hardware MFA is added, locate any Virtual MFA device listed for root and Deactivate/Remove it\\n6. Confirm only the hardware MFA remains assigned'}"
     ]
   },
   {
@@ -1679,7 +1668,7 @@ An attacker could delete resources, change policies, and disable logging, harmin
     "region": "-",
     "risk": "Granting `*:*` to an identity collapses **least privilege**, enabling total control over AWS. A compromised principal can exfiltrate data (**confidentiality**), alter configs or disable logging (**integrity**), and delete resources or keys (**availability**), enabling rapid **lateral movement** and persistent takeover.",
     "steps": [
-      "{'description': '1. In the AWS Console, open IAM\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\n3. Select the entity, then open the Inline policies section\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\n5. Replace it with only the specific actions and specific resource ARNs required\n6. Save changes'}"
+      "{'description': '1. In the AWS Console, open IAM\\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\\n3. Select the entity, then open the Inline policies section\\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\\n5. Replace it with only the specific actions and specific resource ARNs required\\n6. Save changes'}"
     ]
   },
   {
@@ -1690,7 +1679,7 @@ An attacker could delete resources, change policies, and disable logging, harmin
     "region": "-",
     "risk": "Granting `*:*` to an identity collapses **least privilege**, enabling total control over AWS. A compromised principal can exfiltrate data (**confidentiality**), alter configs or disable logging (**integrity**), and delete resources or keys (**availability**), enabling rapid **lateral movement** and persistent takeover.",
     "steps": [
-      "{'description': '1. In the AWS Console, open IAM\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\n3. Select the entity, then open the Inline policies section\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\n5. Replace it with only the specific actions and specific resource ARNs required\n6. Save changes'}"
+      "{'description': '1. In the AWS Console, open IAM\\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\\n3. Select the entity, then open the Inline policies section\\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\\n5. Replace it with only the specific actions and specific resource ARNs required\\n6. Save changes'}"
     ]
   },
   {
@@ -1701,7 +1690,7 @@ An attacker could delete resources, change policies, and disable logging, harmin
     "region": "-",
     "risk": "Granting `*:*` to an identity collapses **least privilege**, enabling total control over AWS. A compromised principal can exfiltrate data (**confidentiality**), alter configs or disable logging (**integrity**), and delete resources or keys (**availability**), enabling rapid **lateral movement** and persistent takeover.",
     "steps": [
-      "{'description': '1. In the AWS Console, open IAM\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\n3. Select the entity, then open the Inline policies section\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\n5. Replace it with only the specific actions and specific resource ARNs required\n6. Save changes'}"
+      "{'description': '1. In the AWS Console, open IAM\\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\\n3. Select the entity, then open the Inline policies section\\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\\n5. Replace it with only the specific actions and specific resource ARNs required\\n6. Save changes'}"
     ]
   },
   {
@@ -1712,7 +1701,7 @@ An attacker could delete resources, change policies, and disable logging, harmin
     "region": "-",
     "risk": "Granting `*:*` to an identity collapses **least privilege**, enabling total control over AWS. A compromised principal can exfiltrate data (**confidentiality**), alter configs or disable logging (**integrity**), and delete resources or keys (**availability**), enabling rapid **lateral movement** and persistent takeover.",
     "steps": [
-      "{'description': '1. In the AWS Console, open IAM\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\n3. Select the entity, then open the Inline policies section\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\n5. Replace it with only the specific actions and specific resource ARNs required\n6. Save changes'}"
+      "{'description': '1. In the AWS Console, open IAM\\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\\n3. Select the entity, then open the Inline policies section\\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\\n5. Replace it with only the specific actions and specific resource ARNs required\\n6. Save changes'}"
     ]
   }
 ],
