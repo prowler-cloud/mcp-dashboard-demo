@@ -51,6 +51,24 @@ def api_get(base, key, path, params=None):
         sys.exit(f"Prowler API error {e.code} on {path}\n{body}")
 
 
+UID_REGION_RE = re.compile(r'-((?:us|eu|ap|ca|sa|me|af|il)-[a-z]+-\d|global)-')
+
+def parse_uid(uid, check_id):
+    """Best-effort region/resource extraction from a Prowler finding uid."""
+    try:
+        m = UID_REGION_RE.search(uid)
+        if m:
+            return m.group(1), uid[m.end():][:70]
+        # fall back: strip the known prefix up to the check id, take the tail
+        tail = uid.split(check_id + "-", 1)
+        if len(tail) == 2 and "-" in tail[1]:
+            rest = tail[1].split("-", 1)[1]
+            return "global", rest[:70]
+    except Exception:
+        pass
+    return "global", "-"
+
+
 def fetch(base, key):
     """Pull providers, overview, findings per severity, and enrichment."""
     providers_raw = api_get(base, key, "/providers", {"page[size]": 100})
@@ -92,16 +110,22 @@ def fetch(base, key):
         severity_counts[sev] = meta_count if meta_count is not None else len(items)
         for f in items:
             fa = f.get("attributes", {})
+            uid_raw = fa.get("uid", "") or str(f.get("id", ""))
+            check_id = fa.get("check_id", "-")
+            # REST returns resources as linked references, not embedded fields —
+            # derive region/resource from the uid, honoring embedded values if present.
+            uid_region, uid_resource = parse_uid(uid_raw, check_id)
+            embedded_res = ((fa.get("resources") or [{}])[0].get("name")
+                            if isinstance(fa.get("resources"), list) else None)
             findings.append({
-                "uid_raw": f.get("attributes", {}).get("uid", "") or str(f.get("id","")),
+                "uid_raw": uid_raw,
                 "sev": sev,
                 "service": (fa.get("check_metadata", {}) or {}).get("servicename")
-                           or fa.get("service") or "-",
+                           or fa.get("service") or check_id.split("_")[0],
                 "status": fa.get("status", "FAIL"),
-                "check": fa.get("check_id", "-"),
-                "resource": (fa.get("resources") or [{}])[0].get("name")
-                            if fa.get("resources") else fa.get("resource_uid", "-"),
-                "region": fa.get("region", "-"),
+                "check": check_id,
+                "resource": embedded_res or fa.get("resource_uid") or uid_resource,
+                "region": fa.get("region") or uid_region,
                 "detail": (fa.get("status_extended") or "")[:300],
             })
 
@@ -226,6 +250,8 @@ def rewrite(html_path, out_path, providers, overview, sev_counts, findings, top,
     )
 
     if "==PROWLER_HEADER_START==" in html:
+        # NOTE: replacement must be a lambda — re.sub interprets backslash
+        # escapes in plain replacement strings, corrupting JSON containing \n.
         html = re.sub(r"<!-- ==PROWLER_HEADER_START==.*?==PROWLER_HEADER_END== -->",
                       lambda _m: header, html, count=1, flags=re.S)
         html = re.sub(r"/\* ==PROWLER_DATA_START== \*/.*?/\* ==PROWLER_DATA_END== \*/",
