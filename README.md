@@ -74,6 +74,20 @@ Your API key never leaves your machine and is never sent to this repo.
   **Refresh Now** button or a hard reload.
 - Rollback = `git revert` or re-deploying a previous tag.
 
+## Visibility: private phase → public launch
+
+While this repo is **private**, GitHub Pages stays OFF (on non-Enterprise plans
+a Pages site from a private repo would still be publicly reachable). Internal
+use = clone the repo and open `index.html` — it is fully self-contained.
+Everything else (Actions refresh, secrets, versioning, previews branch) works
+normally while private.
+
+**Go-public checklist** (one-time, ~5 minutes):
+1. Settings → General → Danger Zone → Change visibility → Public
+2. Settings → Pages → Source: **GitHub Actions**
+3. Re-run the *Deploy to GitHub Pages* workflow (Actions tab) — URL goes live
+4. Announce the Pages URL; tag the release
+
 ## One-time repo setup (admin)
 
 1. Create the GitHub repo and push this folder.
