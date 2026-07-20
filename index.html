@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ==PROWLER_HEADER_START== Prowler Security Dashboard - Generated from live Prowler API data
   ============================================================
-  Generated: 2026-07-13T08:59:50.162777+00:00
+  Generated: 2026-07-20T08:50:03.785206+00:00
   Provider(s) found: 18
     - manuel-okta (okta | UID integrator-8206651.okta.com | connected: true)
     - workshop-lab-01 (aws | UID 935890553952 | connected: true)
@@ -23,10 +23,10 @@
     - M365 Demo (m365 | UID prowler.com | connected: true)
 
   Findings overview:
-    Total: 11316 | FAIL: 4200 (37.1%) | PASS: 6866 (60.7%) | Muted: 182
+    Total: 10824 | FAIL: 3910 (36.1%) | PASS: 6669 (61.6%) | Muted: 181
 
   Severity breakdown (FAIL):
-    Critical: 100 | High: 1240 | Medium: 1821 | Low: 1111 | Informational: 2
+    Critical: 95 | High: 1159 | Medium: 1684 | Low: 1043 | Informational: 2
 
   Top critical/high findings enriched via Prowler Hub:
     organizations_delegated_administrators
@@ -393,7 +393,7 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
    ============================================================ */
 /* ==PROWLER_DATA_START== */
 const PROWLER_DATA = {
-  generatedAt: "2026-07-13T08:59:50.162777+00:00",
+  generatedAt: "2026-07-20T08:50:03.785206+00:00",
   providers: [
   {
     "id": "cff6e7d3-2bf9-4db7-8fb2-d42430957121",
@@ -541,16 +541,16 @@ const PROWLER_DATA = {
   }
 ],
   overview: {
-  "total": 11316,
-  "fail": 4200,
-  "pass": 6866,
-  "muted": 182
+  "total": 10824,
+  "fail": 3910,
+  "pass": 6669,
+  "muted": 181
 },
   severityCounts: {
-  "critical": 100,
-  "high": 1240,
-  "medium": 1821,
-  "low": 1111,
+  "critical": 95,
+  "high": 1159,
+  "medium": 1684,
+  "low": 1043,
   "informational": 2
 },
   perProvider: {
@@ -592,7 +592,7 @@ const PROWLER_DATA = {
   },
   "Marketing Ops": {
     "fail": 308,
-    "pass": 115,
+    "pass": 132,
     "sev": {
       "critical": 1,
       "high": 89,
@@ -616,7 +616,7 @@ const PROWLER_DATA = {
   },
   "amits": {
     "fail": 314,
-    "pass": 117,
+    "pass": 134,
     "sev": {
       "critical": 4,
       "high": 90,
@@ -627,13 +627,13 @@ const PROWLER_DATA = {
     "estimated": false
   },
   "Demo AWS": {
-    "fail": 565,
-    "pass": 979,
+    "fail": 561,
+    "pass": 980,
     "sev": {
       "critical": 14,
-      "high": 138,
-      "medium": 272,
-      "low": 141,
+      "high": 133,
+      "medium": 274,
+      "low": 140,
       "informational": 0
     },
     "estimated": false
@@ -664,7 +664,7 @@ const PROWLER_DATA = {
   },
   "K8s EKS Test Cluster": {
     "fail": 43,
-    "pass": 483,
+    "pass": 487,
     "sev": {
       "critical": 0,
       "high": 41,
@@ -687,12 +687,12 @@ const PROWLER_DATA = {
     "estimated": false
   },
   "Alibaba Demo": {
-    "fail": 42,
-    "pass": 41,
+    "fail": 38,
+    "pass": 40,
     "sev": {
       "critical": 2,
       "high": 2,
-      "medium": 37,
+      "medium": 33,
       "low": 1,
       "informational": 0
     },
@@ -810,7 +810,7 @@ const PROWLER_DATA = {
     "resource": "AdministratorAccess",
     "region": "eu-west-1",
     "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "critical",
@@ -820,7 +820,7 @@ const PROWLER_DATA = {
     "resource": "AdministratorAccess",
     "region": "eu-west-1",
     "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
-    "provider": "Marketing Ops"
+    "provider": "amits"
   },
   {
     "sev": "critical",
@@ -978,39 +978,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "securityhub_enabled",
     "resource": "hub/unknown",
-    "region": "ap-northeast-3",
+    "region": "ap-southeast-1",
     "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "us-west-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ap-southeast-2",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ap-northeast-2",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "high",
@@ -1020,7 +990,7 @@ const PROWLER_DATA = {
     "resource": "hub/unknown",
     "region": "ap-northeast-1",
     "detail": "Security Hub is not enabled.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "high",
@@ -1028,9 +998,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "securityhub_enabled",
     "resource": "hub/unknown",
-    "region": "us-east-2",
+    "region": "ap-northeast-3",
     "detail": "Security Hub is not enabled.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "high",
@@ -1038,79 +1008,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "securityhub_enabled",
     "resource": "hub/unknown",
-    "region": "us-west-2",
+    "region": "ap-southeast-2",
     "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "sa-east-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "eu-west-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ap-southeast-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "eu-west-2",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ap-south-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "eu-west-3",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ca-central-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "high",
@@ -1120,7 +1020,27 @@ const PROWLER_DATA = {
     "resource": "hub/unknown",
     "region": "us-east-1",
     "detail": "Security Hub is not enabled.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "us-east-2",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ap-northeast-2",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
   },
   {
     "sev": "high",
@@ -1130,7 +1050,67 @@ const PROWLER_DATA = {
     "resource": "hub/unknown",
     "region": "eu-north-1",
     "detail": "Security Hub is not enabled.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "sa-east-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "us-west-2",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "us-west-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ap-south-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "eu-west-3",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ca-central-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
   },
   {
     "sev": "high",
@@ -1140,7 +1120,47 @@ const PROWLER_DATA = {
     "resource": "hub/unknown",
     "region": "eu-central-1",
     "detail": "Security Hub is not enabled.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "eu-west-2",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "eu-west-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_delegated_admin_enabled_all_regions",
+    "resource": "hub/unknown",
+    "region": "ap-southeast-1",
+    "detail": "Security Hub in region ap-southeast-1 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_delegated_admin_enabled_all_regions",
+    "resource": "hub/unknown",
+    "region": "ap-northeast-1",
+    "detail": "Security Hub in region ap-northeast-1 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
+    "provider": "Marketing Ops"
   },
   {
     "sev": "high",
@@ -1150,27 +1170,17 @@ const PROWLER_DATA = {
     "resource": "hub/unknown",
     "region": "ap-northeast-3",
     "detail": "Security Hub in region ap-northeast-3 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
-    "sev": "high",
-    "service": "securityhub",
+    "sev": "medium",
+    "service": "vpc",
     "status": "FAIL",
-    "check": "securityhub_delegated_admin_enabled_all_regions",
-    "resource": "hub/unknown",
-    "region": "us-west-1",
-    "detail": "Security Hub in region us-west-1 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
-    "provider": "amits"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_delegated_admin_enabled_all_regions",
-    "resource": "hub/unknown",
-    "region": "ap-southeast-2",
-    "detail": "Security Hub in region ap-southeast-2 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
-    "provider": "amits"
+    "check": "vpc_different_regions",
+    "resource": "730883237055",
+    "region": "eu-west-1",
+    "detail": "VPCs found only in one region.",
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1181,6 +1191,16 @@ const PROWLER_DATA = {
     "region": "eu-west-1",
     "detail": "VPCs found only in one region.",
     "provider": "amits"
+  },
+  {
+    "sev": "medium",
+    "service": "ssmincidents",
+    "status": "FAIL",
+    "check": "ssmincidents_enabled_with_plans",
+    "resource": "730883237055",
+    "region": "eu-west-1",
+    "detail": "No SSM Incidents replication set exists.",
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1208,9 +1228,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "inspector2_is_enabled",
     "resource": "Inspector2",
-    "region": "ap-northeast-3",
+    "region": "ap-southeast-1",
     "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1218,9 +1238,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "inspector2_is_enabled",
     "resource": "Inspector2",
-    "region": "us-west-1",
+    "region": "ap-northeast-3",
     "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1230,7 +1250,7 @@ const PROWLER_DATA = {
     "resource": "Inspector2",
     "region": "ap-southeast-2",
     "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1240,7 +1260,7 @@ const PROWLER_DATA = {
     "resource": "Inspector2",
     "region": "ap-northeast-2",
     "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1248,9 +1268,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "inspector2_is_enabled",
     "resource": "Inspector2",
-    "region": "ap-northeast-1",
+    "region": "us-east-1",
     "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1260,7 +1280,7 @@ const PROWLER_DATA = {
     "resource": "Inspector2",
     "region": "us-east-2",
     "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1268,89 +1288,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "inspector2_is_enabled",
     "resource": "Inspector2",
-    "region": "us-west-2",
+    "region": "ap-northeast-1",
     "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "sa-east-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ap-southeast-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "eu-west-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "eu-west-2",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ap-south-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "us-east-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ca-central-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "eu-west-3",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1360,7 +1300,67 @@ const PROWLER_DATA = {
     "resource": "Inspector2",
     "region": "eu-north-1",
     "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "sa-east-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "us-west-2",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "us-west-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "ap-south-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "eu-west-3",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "ca-central-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
   },
   {
     "sev": "medium",
@@ -1370,7 +1370,17 @@ const PROWLER_DATA = {
     "resource": "Inspector2",
     "region": "eu-central-1",
     "detail": "Inspector2 is not enabled in this account.",
-    "provider": "amits"
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "low",
+    "service": "trustedadvisor",
+    "status": "FAIL",
+    "check": "trustedadvisor_premium_support_plan_subscribed",
+    "resource": "730883237055",
+    "region": "us-east-1",
+    "detail": "Amazon Web Services Premium Support Plan isn't subscribed.",
+    "provider": "Marketing Ops"
   },
   {
     "sev": "low",
@@ -1380,26 +1390,6 @@ const PROWLER_DATA = {
     "resource": "932718745857",
     "region": "us-east-1",
     "detail": "Amazon Web Services Premium Support Plan isn't subscribed.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "ap-northeast-3",
-    "detail": "SageMaker Model Registry in region ap-northeast-3 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "us-west-1",
-    "detail": "SageMaker Model Registry in region us-west-1 has no Model Package Groups.",
     "provider": "amits"
   },
   {
@@ -1448,6 +1438,26 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
+    "region": "ap-northeast-3",
+    "detail": "SageMaker Model Registry in region ap-northeast-3 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "eu-west-3",
+    "detail": "SageMaker Model Registry in region eu-west-3 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
     "region": "us-east-2",
     "detail": "SageMaker Model Registry in region us-east-2 has no Model Package Groups.",
     "provider": "amits"
@@ -1478,26 +1488,6 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "eu-west-1",
-    "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "eu-west-2",
-    "detail": "SageMaker Model Registry in region eu-west-2 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
     "region": "ap-south-1",
     "detail": "SageMaker Model Registry in region ap-south-1 has no Model Package Groups.",
     "provider": "amits"
@@ -1508,8 +1498,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "ca-central-1",
-    "detail": "SageMaker Model Registry in region ca-central-1 has no Model Package Groups.",
+    "region": "us-west-1",
+    "detail": "SageMaker Model Registry in region us-west-1 has no Model Package Groups.",
     "provider": "amits"
   },
   {
@@ -1528,8 +1518,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "eu-west-3",
-    "detail": "SageMaker Model Registry in region eu-west-3 has no Model Package Groups.",
+    "region": "ca-central-1",
+    "detail": "SageMaker Model Registry in region ca-central-1 has no Model Package Groups.",
     "provider": "amits"
   },
   {
@@ -1556,10 +1546,20 @@ const PROWLER_DATA = {
     "sev": "low",
     "service": "sagemaker",
     "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "ap-northeast-3",
-    "detail": "No SageMaker monitoring schedules found in region ap-northeast-3.",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "eu-west-2",
+    "detail": "SageMaker Model Registry in region eu-west-2 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "eu-west-1",
+    "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
     "provider": "amits"
   },
   {
@@ -1568,8 +1568,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
     "resource": "SageMaker Monitoring Schedules",
-    "region": "us-west-1",
-    "detail": "No SageMaker monitoring schedules found in region us-west-1.",
+    "region": "ap-southeast-2",
+    "detail": "No SageMaker monitoring schedules found in region ap-southeast-2.",
     "provider": "amits"
   },
   {
@@ -1705,7 +1705,7 @@ const PROWLER_DATA = {
     ]
   }
 ],
-  trend: [4202, 4216, 4209, 4198, 4193, 4195, 4200]
+  trend: [3912, 3926, 3919, 3908, 3903, 3905, 3910]
 };
 /* ==PROWLER_DATA_END== */
 
