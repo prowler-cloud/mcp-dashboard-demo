@@ -1,0 +1,2731 @@
+<!DOCTYPE html>
+<!-- ==PROWLER_HEADER_START== Prowler Security Dashboard - Generated from live Prowler API data
+  ============================================================
+  Generated: 2026-07-20T08:50:03.785206+00:00
+  Provider(s) found: 18
+    - manuel-okta (okta | UID integrator-8206651.okta.com | connected: true)
+    - workshop-lab-01 (aws | UID 935890553952 | connected: true)
+    - amit_appd (aws | UID 418021145162 | connected: true)
+    - Marketing Ops (aws | UID 730883237055 | connected: true)
+    - marketing dev (aws | UID 799168734816 | connected: true)
+    - amits (aws | UID 932718745857 | connected: true)
+    - Demo AWS (aws | UID 552455647653 | connected: true)
+    - myAppVercel (vercel | UID team_Yj41RYnEfdjpqxzAecFgwYAR | connected: true)
+    - Google Workspace playground (googleworkspace | UID C015lvimi | connected: true)
+    - K8s EKS Test Cluster (kubernetes | UID prowler-sa | connected: true)
+    - MongoDB Atlas Demo (mongodbatlas | UID 68a82910b6189c7263c04353 | connected: true)
+    - Alibaba Demo (alibabacloud | UID 5805463570028839 | connected: true)
+    - Azure Demo (azure | UID 0b070121-2ad4-4e44-aba0-39dcd5310b60 | connected: true)
+    - OCI Demo (oraclecloud | UID ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5grlhgnkwtyt6dmwyou7no6mdmzda | connected: true)
+    - IaC Demo (iac | UID https://github.com/RhinoSecurityLabs/cloudgoat | connected: true)
+    - My Github Demo Repo (github | UID dTroop3r | connected: true)
+    - Google Cloud Demo (gcp | UID lucky-coast-419309 | connected: true)
+    - M365 Demo (m365 | UID prowler.com | connected: true)
+
+  Findings overview:
+    Total: 10824 | FAIL: 3910 (36.1%) | PASS: 6669 (61.6%) | Muted: 181
+
+  Severity breakdown (FAIL):
+    Critical: 95 | High: 1159 | Medium: 1684 | Low: 1043 | Informational: 2
+
+  Top critical/high findings enriched via Prowler Hub:
+    organizations_delegated_administrators
+    iam_root_mfa_enabled
+    iam_root_hardware_mfa_enabled
+    iam_aws_attached_policy_no_administrative_privileges
+  ==PROWLER_HEADER_END== -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="86400">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prowler Security Dashboard</title>
+<!-- Inter is progressive enhancement: offline, the system stack below renders instead. Keep this the ONLY external reference. -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  /* Prowler Cloud dark theme — tokens from prowler-cloud/prowler ui/styles/globals.css */
+  --bg-1:#000000;--bg-2:#121110;
+  --primary:#6ee7b7;--primary-hover:#99f6e4;--secondary:#3c8dff;
+  --crit:#ff006a;--high:#f77852;--med:#fec94d;--low:#fdfbd4;--info:#3c8dff;
+  --pass:#4ade80;--fail:#f43f5e;
+  --text:#ffffff;--mute:#a1a1aa;
+  --card-bg:#0c0a09;--card-border:#27272a;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{min-height:100vh;font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;color:var(--text);background:linear-gradient(135deg,var(--bg-1) 0%,var(--bg-2) 100%);background-attachment:fixed}
+body{padding:24px;max-width:1600px;margin:0 auto}
+a{color:var(--primary);text-decoration:none}
+button{font-family:inherit;cursor:pointer;border:none;color:inherit}
+.header{display:flex;align-items:center;gap:20px;padding:18px 24px;background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:18px;margin-bottom:24px;flex-wrap:wrap}
+.header img.logo{max-height:34px;filter:drop-shadow(0 2px 10px rgba(110,231,183,0.2))}
+.header .title{font-size:22px;font-weight:700;letter-spacing:-0.3px}
+.header .title .sub{font-size:13px;font-weight:400;color:var(--mute);display:block;margin-top:2px}
+.header .spacer{flex:1}
+.live-badge{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:rgba(110,231,183,0.1);border:1px solid rgba(110,231,183,0.35);border-radius:999px;font-size:12px;font-weight:600;color:var(--primary);letter-spacing:0.5px}
+.live-dot{width:8px;height:8px;border-radius:50%;background:var(--primary);box-shadow:0 0 0 0 rgba(110,231,183,0.6);animation:pulse 1.6s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(110,231,183,0.6)}70%{box-shadow:0 0 0 12px rgba(110,231,183,0)}100%{box-shadow:0 0 0 0 rgba(110,231,183,0)}}
+.btn{padding:8px 14px;border-radius:10px;font-size:13px;font-weight:600;transition:all .2s ease;border:1px solid var(--card-border);background:rgba(255,255,255,0.05)}
+.btn:hover{transform:translateY(-1px);background:rgba(255,255,255,0.1);border-color:var(--primary)}
+.btn-primary{background:var(--primary);color:#000;border:none}
+.btn-primary:hover{background:var(--primary-hover);box-shadow:0 6px 20px rgba(110,231,183,0.35);transform:translateY(-1px)}
+.btn-secondary{background:linear-gradient(135deg,#3c8dff,#2563eb);color:#fff;border:none}
+.countdown{font-family:"SF Mono",Menlo,Consolas,monospace;font-size:13px;color:var(--mute);padding:6px 12px;border:1px solid var(--card-border);border-radius:10px;background:rgba(0,0,0,0.2)}
+.countdown b{color:var(--primary);font-weight:600}
+.timestamp{font-size:11px;color:var(--mute)}
+.grid{display:grid;grid-template-columns:repeat(12,1fr);gap:20px}
+.widget{background:var(--card-bg);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--card-border);border-radius:18px;padding:20px;position:relative;transition:transform .25s ease,border-color .25s ease,box-shadow .25s ease}
+.widget:hover{transform:translateY(-3px);border-color:rgba(110,231,183,0.25);box-shadow:0 10px 40px rgba(110,231,183,0.08)}
+.widget.dragging{opacity:0.4;transform:scale(0.98)}
+.widget.drag-over{border-color:var(--primary);box-shadow:0 0 0 2px rgba(110,231,183,0.3)}
+.drag-handle{position:absolute;top:12px;left:12px;cursor:grab;color:var(--mute);font-size:18px;line-height:1;user-select:none;padding:4px 6px;border-radius:6px;transition:all .2s}
+.drag-handle:hover{color:var(--primary);background:rgba(110,231,183,0.08)}
+.drag-handle:active{cursor:grabbing}
+.widget-title{font-size:14px;font-weight:600;letter-spacing:0.2px;color:var(--text);margin:0 0 14px 32px;text-transform:uppercase;opacity:0.9}
+.col-3{grid-column:span 3}.col-4{grid-column:span 4}.col-5{grid-column:span 5}.col-6{grid-column:span 6}.col-7{grid-column:span 7}.col-8{grid-column:span 8}.col-9{grid-column:span 9}.col-10{grid-column:span 10}.col-11{grid-column:span 11}.col-12{grid-column:span 12}
+@media (max-width:768px){.col-3,.col-4,.col-5,.col-6,.col-7,.col-8,.col-9,.col-10,.col-11,.col-12{grid-column:span 12}.header{padding:14px}.header .title{font-size:18px}body{padding:14px}}
+.stat-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:6px}
+.stat{flex:1;min-width:120px}
+.stat-num{font-size:32px;font-weight:700;letter-spacing:-1px}
+.stat-num.crit{color:var(--crit)}.stat-num.high{color:var(--high)}.stat-num.med{color:var(--med)}.stat-num.low{color:var(--low)}.stat-num.pass{color:var(--pass)}.stat-num.fail{color:var(--fail)}
+.stat-label{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:0.8px;margin-top:4px}
+.provider-cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;max-height:340px;overflow-y:auto;padding-right:4px}
+.provider-card{display:flex;align-items:center;gap:10px;padding:10px 12px;background:rgba(255,255,255,0.03);border:1px solid var(--card-border);border-radius:12px}
+.status-dot.off{background:var(--crit);box-shadow:0 0 8px rgba(255,0,106,0.7)}
+.provider-icon{width:42px;height:42px;border-radius:10px;background:var(--pi-bg,#6ee7b7);display:flex;align-items:center;justify-content:center;font-weight:700;color:var(--pi-fg,#000);font-size:11px;flex-shrink:0}
+.provider-info{flex:1}
+.provider-name{font-weight:600;font-size:14px}
+.provider-meta{font-size:11px;color:var(--mute);margin-top:2px}
+.status-dot{width:10px;height:10px;border-radius:50%;background:var(--primary);box-shadow:0 0 8px rgba(110,231,183,0.7)}
+.donut-wrap{display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.donut-svg{flex-shrink:0}
+.donut-legend{flex:1;display:flex;flex-direction:column;gap:8px;min-width:140px}
+.legend-item{display:flex;align-items:center;gap:10px;font-size:13px}
+.legend-swatch{width:12px;height:12px;border-radius:3px}
+.legend-label{flex:1;color:var(--mute)}
+.legend-val{font-weight:600;color:var(--text)}
+.search-bar{display:flex;gap:10px;margin-bottom:14px;margin-left:32px}
+.search-bar input{flex:1;padding:9px 14px;background:rgba(0,0,0,0.25);border:1px solid var(--card-border);border-radius:10px;color:var(--text);font-size:13px;font-family:inherit}
+.search-bar input:focus{outline:none;border-color:var(--primary)}
+table{width:100%;border-collapse:collapse;font-size:12.5px}
+th{text-align:left;padding:10px 12px;background:rgba(0,0,0,0.25);color:var(--mute);font-weight:600;text-transform:uppercase;font-size:10.5px;letter-spacing:0.6px;cursor:pointer;user-select:none;border-bottom:1px solid var(--card-border)}
+th:hover{color:var(--primary)}
+th .sort-ind{opacity:0.5;margin-left:4px;font-size:9px}
+td{padding:10px 12px;border-bottom:1px solid rgba(255,255,255,0.04)}
+tbody tr{transition:background .15s}
+tbody tr:hover{background:rgba(110,231,183,0.04)}
+.sev-badge{display:inline-block;padding:3px 9px;border-radius:6px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.5px}
+.sev-critical{background:rgba(255,0,106,0.15);color:var(--crit);border:1px solid rgba(255,0,106,0.4)}
+.sev-high{background:rgba(255,140,66,0.15);color:var(--high);border:1px solid rgba(255,140,66,0.4)}
+.sev-medium{background:rgba(255,217,61,0.12);color:var(--med);border:1px solid rgba(255,217,61,0.35)}
+.sev-low{background:rgba(58,191,248,0.13);color:var(--low);border:1px solid rgba(58,191,248,0.35)}
+.sev-informational{background:rgba(148,163,184,0.13);color:var(--info);border:1px solid rgba(148,163,184,0.3)}
+.stat-badge{display:inline-block;padding:2px 7px;border-radius:5px;font-size:10px;font-weight:700;background:rgba(255,0,106,0.18);color:var(--fail)}
+.pagination{display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12px;color:var(--mute);margin-left:32px}
+.pagination .pages button{padding:5px 10px;margin:0 2px;border-radius:6px;background:rgba(255,255,255,0.05);border:1px solid var(--card-border);font-size:12px}
+.pagination .pages button.active{background:var(--primary);color:#0a0e27;border-color:var(--primary);font-weight:700}
+.pagination .pages button:disabled{opacity:0.3;cursor:not-allowed}
+.accordion-item{background:rgba(0,0,0,0.18);border:1px solid var(--card-border);border-radius:12px;margin-bottom:10px;overflow:hidden;transition:border-color .2s}
+.accordion-item:hover{border-color:rgba(110,231,183,0.2)}
+.accordion-head{padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;flex-wrap:wrap}
+.accordion-head .meta{flex:1;min-width:200px}
+.accordion-head .check-title{font-weight:600;font-size:13.5px;margin-bottom:3px}
+.accordion-head .resource{font-size:11.5px;color:var(--mute);font-family:"SF Mono",Menlo,monospace}
+.accordion-arrow{font-size:14px;color:var(--mute);transition:transform .25s}
+.accordion-item.open .accordion-arrow{transform:rotate(180deg);color:var(--primary)}
+.accordion-body{display:none;padding:0 16px 16px 16px;border-top:1px solid var(--card-border);margin-top:0}
+.accordion-item.open .accordion-body{display:block;animation:slideDown .25s ease}
+@keyframes slideDown{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:translateY(0)}}
+.remediation-section{margin-top:14px}
+.remediation-section h4{font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:10px}
+.remediation-section .risk{font-size:12.5px;color:var(--text);background:rgba(255,0,106,0.06);border-left:3px solid var(--crit);padding:10px 12px;border-radius:6px;line-height:1.5}
+.step{display:flex;align-items:flex-start;gap:10px;padding:8px 0;font-size:13px;line-height:1.5}
+.step input[type=checkbox]{margin-top:3px;width:16px;height:16px;accent-color:var(--primary);cursor:pointer;flex-shrink:0}
+.step.done label{text-decoration:line-through;opacity:0.5}
+.step label{cursor:pointer;flex:1}
+.step .step-num{font-weight:700;color:var(--primary);margin-right:4px}
+.pr-btn{margin-top:14px;display:inline-flex;align-items:center;gap:8px;padding:9px 16px;background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;border-radius:9px;font-size:12.5px;font-weight:600;transition:all .2s;cursor:pointer;border:none;font-family:inherit}
+.pr-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,0.4);color:#fff}
+.modal-backdrop{position:fixed;inset:0;background:rgba(5,8,20,0.78);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:1000;display:none;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto;animation:fadeIn .2s ease}
+.modal-backdrop.open{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:linear-gradient(135deg,#131830,#0a0e27);border:1px solid rgba(124,58,237,0.4);border-radius:18px;padding:28px;width:100%;max-width:680px;box-shadow:0 30px 80px rgba(0,0,0,0.6),0 0 0 1px rgba(255,255,255,0.05);position:relative;animation:slideIn .25s ease}
+@keyframes slideIn{from{opacity:0;transform:translateY(-20px) scale(0.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-head{display:flex;align-items:center;gap:12px;margin-bottom:22px;padding-bottom:16px;border-bottom:1px solid var(--card-border)}
+.modal-icon{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#7c3aed,#5b21b6);display:flex;align-items:center;justify-content:center;font-size:18px}
+.modal-title{font-size:17px;font-weight:700;letter-spacing:-0.2px}
+.modal-sub{font-size:12px;color:var(--mute);margin-top:2px}
+.modal-close{margin-left:auto;background:rgba(255,255,255,0.06);border:1px solid var(--card-border);color:var(--mute);width:32px;height:32px;border-radius:8px;font-size:18px;display:flex;align-items:center;justify-content:center;transition:all .15s}
+.modal-close:hover{background:rgba(255,0,106,0.15);color:var(--crit);border-color:var(--crit)}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:11px;color:var(--mute);text-transform:uppercase;letter-spacing:0.7px;margin-bottom:6px;font-weight:600}
+.field input,.field textarea{width:100%;padding:10px 14px;background:rgba(0,0,0,0.3);border:1px solid var(--card-border);border-radius:9px;color:var(--text);font-size:13px;font-family:inherit;transition:border-color .15s}
+.field input:focus,.field textarea:focus{outline:none;border-color:var(--primary);background:rgba(0,0,0,0.4)}
+.field textarea{resize:vertical;min-height:200px;font-family:"SF Mono",Menlo,Consolas,monospace;font-size:12px;line-height:1.55}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:600px){.field-row{grid-template-columns:1fr}}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:22px;padding-top:18px;border-top:1px solid var(--card-border);flex-wrap:wrap}
+.modal-actions .btn{padding:10px 18px;font-size:13px}
+.modal-actions .btn-cancel{background:rgba(255,255,255,0.05);border:1px solid var(--card-border);color:var(--text)}
+.modal-actions .btn-cancel:hover{background:rgba(255,255,255,0.1)}
+.modal-actions .btn-submit{background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;border:none}
+.modal-actions .btn-submit:hover{box-shadow:0 6px 20px rgba(124,58,237,0.4);transform:translateY(-1px)}
+.modal-actions .btn-copy{background:rgba(110,231,183,0.08);border:1px solid rgba(110,231,183,0.3);color:var(--primary)}
+.modal-actions .btn-copy:hover{background:rgba(110,231,183,0.15)}
+.modal-meta{font-size:11px;color:var(--mute);margin-top:-6px;margin-bottom:14px;font-family:"SF Mono",Menlo,monospace}
+.modal-meta b{color:var(--text);font-weight:600}
+.modal-tip{font-size:12px;color:var(--mute);background:rgba(110,231,183,0.04);border:1px solid rgba(110,231,183,0.2);border-radius:8px;padding:10px 14px;margin-bottom:16px;line-height:1.55}
+.modal-tip b{color:var(--primary);font-weight:600}
+.modal-tip code{background:rgba(0,0,0,0.4);padding:1px 6px;border-radius:4px;font-family:"SF Mono",Menlo,monospace;font-size:11px;color:var(--text)}
+.spark-wrap{position:relative}
+.spark-stats{display:flex;justify-content:space-between;margin-bottom:8px;font-size:12px;color:var(--mute)}
+.spark-stats b{color:var(--primary);font-size:14px}
+.range-chips{position:absolute;top:18px;right:20px;display:flex;gap:4px}
+.range-chip{padding:4px 11px;border-radius:7px;border:1px solid var(--card-border);font-size:11.5px;font-weight:600;color:var(--mute);cursor:pointer;user-select:none;transition:all .15s;background:rgba(255,255,255,0.03)}
+.range-chip:hover{border-color:var(--primary);color:var(--text)}
+.range-chip.active{background:rgba(110,231,183,0.12);border-color:var(--primary);color:var(--primary)}
+.trend-legend{display:flex;gap:8px;margin:0 0 14px 32px;flex-wrap:wrap}
+.trend-legend-item{display:inline-flex;align-items:center;gap:7px;font-size:12px;color:var(--text);cursor:pointer;padding:5px 11px;border-radius:7px;border:1px solid var(--card-border);background:rgba(255,255,255,0.03);transition:all .15s;user-select:none;font-weight:500}
+.trend-legend-item:hover{background:rgba(255,255,255,0.07);border-color:rgba(255,255,255,0.18)}
+.trend-legend-item.muted{opacity:0.4}
+.trend-legend-item.muted .trend-swatch{opacity:0.3}
+.trend-swatch{width:16px;height:3px;border-radius:2px}
+.trend-chart-wrap{position:relative;margin:0 16px;padding:0 16px}
+.trend-svg{display:block;width:100%;height:auto;cursor:crosshair}
+.trend-svg polyline{transition:opacity .2s}
+.trend-svg polyline.hidden{display:none}
+.trend-svg circle.hidden{display:none}
+.trend-svg polygon.hidden{display:none}
+.trend-svg g.hidden{display:none}
+.trend-tooltip{position:absolute;background:rgba(10,14,39,0.96);border:1px solid rgba(124,58,237,0.4);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);padding:11px 13px;border-radius:9px;pointer-events:none;z-index:100;box-shadow:0 10px 30px rgba(0,0,0,0.5);min-width:170px;display:none;transition:opacity .15s}
+.trend-tooltip .date{font-weight:700;color:var(--text);margin-bottom:8px;font-size:12px;font-family:"SF Mono",Menlo,Consolas,monospace;border-bottom:1px solid var(--card-border);padding-bottom:6px}
+.trend-tooltip .row{display:flex;justify-content:space-between;align-items:center;gap:14px;font-size:12px;padding:3px 0}
+.trend-tooltip .row .lbl{display:flex;align-items:center;gap:7px;color:var(--mute)}
+.trend-tooltip .row .val{font-weight:700;color:var(--text);font-family:"SF Mono",Menlo,Consolas,monospace}
+.trend-tooltip .swatch{width:9px;height:9px;border-radius:2px}
+.trend-tooltip .row.total{margin-top:6px;padding-top:6px;border-top:1px solid var(--card-border)}
+.trend-tooltip .row.total .lbl{color:var(--text);font-weight:600}
+.compliance-wrap{display:flex;flex-direction:column;align-items:center;gap:12px}
+.compliance-svg{filter:drop-shadow(0 4px 18px rgba(110,231,183,0.18))}
+.compliance-num{font-size:13px;color:var(--mute);text-align:center}
+.compliance-num b{font-size:28px;color:var(--primary);display:block;font-weight:700}
+.sim-pill{display:inline-block;padding:2px 8px;border-radius:5px;font-size:9.5px;font-weight:700;letter-spacing:0.6px;background:linear-gradient(135deg,var(--secondary),#5b21b6);color:#fff;margin-left:8px;text-transform:uppercase;animation:simPulse 2s infinite;vertical-align:middle}
+@keyframes simPulse{0%,100%{opacity:1}50%{opacity:0.65}}
+.sim-btn{margin-top:14px;width:100%;padding:10px 14px;border-radius:10px;background:linear-gradient(135deg,rgba(124,58,237,0.18),rgba(124,58,237,0.06));border:1px dashed rgba(124,58,237,0.5);color:#c4b5fd;font-size:12px;font-weight:600;transition:all .2s ease;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;font-family:inherit}
+.sim-btn:hover{background:linear-gradient(135deg,rgba(124,58,237,0.28),rgba(124,58,237,0.12));border-color:var(--secondary);transform:translateY(-1px);box-shadow:0 6px 20px rgba(124,58,237,0.25)}
+.sim-btn.active{background:linear-gradient(135deg,rgba(110,231,183,0.18),rgba(110,231,183,0.06));border:1px solid var(--primary);color:var(--primary)}
+.sim-btn .icon{font-size:14px}
+.delta{display:inline-block;font-size:11px;font-weight:600;padding:2px 7px;border-radius:5px;margin-left:6px;vertical-align:middle}
+.delta.up{background:rgba(110,231,183,0.12);color:var(--primary);border:1px solid rgba(110,231,183,0.3)}
+.delta.down{background:rgba(255,0,106,0.12);color:var(--crit);border:1px solid rgba(255,0,106,0.3)}
+.ts-bar{margin-top:10px;width:100%;height:6px;background:rgba(0,0,0,0.3);border-radius:3px;overflow:hidden;position:relative}
+.ts-bar-inner{height:100%;background:linear-gradient(90deg,var(--crit),var(--high),var(--med),var(--primary));border-radius:3px;transition:width .5s ease}
+
+/* Provider filter panel — hierarchy: provider type -> accounts */
+.filter-bar{padding:20px;background:var(--card-bg);border:1px solid var(--card-border);border-radius:18px;margin-bottom:24px}
+.filter-head{display:flex;align-items:center;gap:12px;margin:0 0 14px 32px}
+.filter-head .widget-title{margin:0}
+.chip-ctl{padding:5px 12px;border-radius:999px;border:1px solid var(--card-border);background:transparent;color:var(--mute);font-size:11.5px;font-weight:600;letter-spacing:0.3px}
+.chip-ctl:hover{color:var(--primary);border-color:var(--primary)}
+.chip-ctl.active{background:rgba(110,231,183,0.14);border-color:var(--primary);color:var(--primary)}
+.filter-note{margin-left:auto;font-size:11px;color:var(--mute)}
+.ptype-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:10px}
+.ptype{position:relative;border:1px solid var(--card-border);border-radius:12px;padding:0;background:rgba(255,255,255,0.02);transition:border-color .15s,opacity .15s}
+.ptype.none{opacity:0.45}
+.ptype.partial{border-color:rgba(110,231,183,0.35)}
+.ptype.open{border-color:var(--primary);z-index:60;opacity:1}
+.ptype-head{display:flex;align-items:center;gap:10px;cursor:pointer;user-select:none;padding:11px 12px;height:58px;box-sizing:border-box}
+.ptype-head:hover{background:rgba(255,255,255,0.03);border-radius:12px}
+.ptype-head .plogo{width:26px;height:26px;border-radius:6px;overflow:hidden;flex-shrink:0}
+.ptype-head .plogo svg{width:100%;height:100%;display:block}
+.ptype-head .pcol{min-width:0}
+.ptype-head .pname{font-size:12.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptype-head .psub{font-size:10.5px;color:var(--mute);white-space:nowrap}
+.ptype-head .psub b{color:var(--fail);font-weight:600}
+.ptype-head .psel{margin-left:auto;font-size:10.5px;font-weight:600;padding:3px 8px;border-radius:999px;border:1px solid var(--card-border);color:var(--mute);white-space:nowrap;flex-shrink:0}
+.ptype.full .psel{color:var(--primary);border-color:rgba(110,231,183,0.4)}
+.ptype-head .pcaret{flex-shrink:0;color:var(--mute);font-size:9px;transition:transform .15s}
+.ptype.open .pcaret{transform:rotate(180deg)}
+.ptype-pop{position:absolute;top:calc(100% + 6px);left:0;min-width:100%;max-width:330px;background:#121110;border:1px solid var(--primary);border-radius:12px;padding:12px;z-index:70;box-shadow:0 14px 44px rgba(0,0,0,0.75),0 0 0 1px rgba(110,231,183,0.12);transform-origin:top;animation:popin .14s ease}
+.ptype-pop.pop-right{left:auto;right:0}
+@keyframes popin{from{opacity:0;transform:scaleY(0.9) translateY(-4px)}to{opacity:1;transform:scaleY(1) translateY(0)}}
+.ptype-pop .pop-head{display:flex;gap:6px;align-items:center;margin-bottom:9px}
+.ptype-pop .pop-title{font-size:10.5px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mute);font-weight:600;margin-right:auto}
+.ptype-pop .pop-accounts{display:flex;flex-wrap:wrap;gap:6px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:999px;border:1px solid var(--card-border);cursor:pointer;font-size:11.5px;user-select:none;transition:all .15s ease;background:rgba(255,255,255,0.03)}
+.chip .cdot{width:7px;height:7px;border-radius:50%;background:var(--chip-c,var(--primary));flex-shrink:0}
+.chip .ccount{color:var(--mute);font-size:10.5px}
+.chip:hover{border-color:var(--chip-c,var(--primary))}
+.chip.active{border-color:var(--chip-c,var(--primary));background:rgba(255,255,255,0.07)}
+.chip:not(.active){opacity:0.38}
+.chip:not(.active) .cdot{background:var(--mute)}
+
+/* Header: brand stack + centered title + stacked controls */
+.header{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;column-gap:112px;padding:24px 32px}
+.brand-stack{display:flex;flex-direction:column;gap:10px;align-items:flex-start;justify-self:end;width:220px}
+.customer-lockup{display:flex;align-items:center;gap:10px}
+.for-label{font-size:12px;color:var(--mute);text-transform:uppercase;letter-spacing:1.5px}
+.acme-logo{height:38px;width:auto;opacity:0.97}
+.title-center{text-align:center;justify-self:center}
+.title-main{font-size:38px;font-weight:800;letter-spacing:-0.7px;background:linear-gradient(90deg,var(--primary),var(--secondary));-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1.15}
+.title-sub{font-size:13px;color:var(--mute);margin-top:5px}
+.header-controls{display:flex;flex-direction:column;align-items:stretch;gap:8px;justify-self:start;position:relative;width:220px}
+.header-controls .btn{text-align:center;justify-content:center;display:inline-flex;align-items:center}
+.live-badge{cursor:pointer;justify-content:center}
+.snap-refresh{margin-left:4px;padding:0 4px;border-radius:6px;font-size:14px;line-height:1;opacity:0.75;transition:all .15s}
+.snap-refresh:hover{opacity:1;transform:rotate(90deg);color:var(--primary)}
+.live-badge.stale{background:rgba(254,201,77,0.08);border-color:rgba(254,201,77,0.4);color:var(--med)}
+.live-badge.stale .live-dot{background:var(--med);box-shadow:none;animation:none}
+.header-controls .timestamp{text-align:center}
+.provenance{position:absolute;top:calc(100% + 10px);right:0;z-index:80;background:#121110;border:1px solid var(--primary);border-radius:12px;padding:14px 16px;min-width:300px;box-shadow:0 14px 44px rgba(0,0,0,0.75);font-size:12px;line-height:1.7;color:var(--text);transform-origin:top;animation:popin .14s ease}
+.provenance h4{font-size:10.5px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mute);margin-bottom:6px}
+.provenance b{color:var(--primary)}
+@media (max-width:1100px){.header{grid-template-columns:1fr;justify-items:center}.brand-stack{align-items:center}.header-controls{flex-direction:row;flex-wrap:wrap;justify-content:center}.title-main{font-size:26px}}
+
+.top-accounts{margin-top:16px}
+.top-accounts-label{font-size:11px;text-transform:uppercase;letter-spacing:0.7px;color:var(--mute);font-weight:600;margin-bottom:8px}
+.top-account-row{display:flex;align-items:center;gap:8px;padding:5px 0}
+.ta-logo{width:18px;height:18px;border-radius:4px;overflow:hidden;flex-shrink:0}
+.ta-logo svg{width:100%;height:100%;display:block}
+.ta-alias{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:110px}
+.ta-bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,0.06);overflow:hidden}
+.ta-bar span{display:block;height:100%;border-radius:3px;background:linear-gradient(90deg,var(--fail),var(--high))}
+.ta-count{font-size:12px;color:var(--fail);flex-shrink:0;min-width:38px;text-align:right}
+
+/* Resizable + FLIP-movable widgets */
+.resize-h{position:absolute;top:14px;bottom:14px;right:3px;width:9px;border-radius:5px;cursor:ew-resize;background:transparent;transition:background .15s;z-index:5}
+.resize-h:hover,.resize-h.active{background:rgba(110,231,183,0.35)}
+.widget.resizing{border-color:var(--primary);box-shadow:0 0 0 2px rgba(110,231,183,0.25)}
+.widget.resizing::after{content:attr(data-colspan) ' / 12';position:absolute;top:10px;right:22px;font-size:10.5px;color:var(--primary);font-weight:700;background:rgba(0,0,0,0.55);padding:2px 8px;border-radius:6px}
+.widget.dragging{opacity:0.35;transform:scale(0.985)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="brand-stack">
+    <img class="logo" id="logoImg" alt="Prowler"/>
+    <div class="customer-lockup">
+      <span class="for-label">for</span>
+      <svg class="acme-logo" viewBox="0 0 220 40" xmlns="http://www.w3.org/2000/svg" aria-label="ACME Corp">
+        <polygon points="4,33 17,6 30,33 23.5,33 17,18 10.5,33" fill="#f59e0b"/>
+        <text x="38" y="31" font-family="Inter,-apple-system,sans-serif" font-size="30" font-weight="800" letter-spacing="4" fill="#ffffff">ACME</text>
+        <text x="152" y="31" font-family="Inter,-apple-system,sans-serif" font-size="13" font-weight="500" letter-spacing="1.5" fill="#a1a1aa">CORP</text>
+      </svg>
+    </div>
+  </div>
+  <div class="title-center">
+    <div class="title-main">Custom Security Dashboard</div>
+    <div class="title-sub">Multi-cloud security posture · powered by Prowler MCP</div>
+  </div>
+  <div class="header-controls">
+    <span class="live-badge" id="freshBadge" title="Click for data provenance"><span class="live-dot"></span>SNAPSHOT · <b id="snapAge">—</b><span class="snap-refresh" id="snapRefresh" title="Load the latest published snapshot">↻</span></span>
+    <a class="btn btn-secondary" href="https://github.com/prowler-cloud/mcp-dashboard-demo" target="_blank" rel="noopener" title="Open the demo repository">View on GitHub →</a>
+    <button class="btn btn-primary" id="refreshBtn" title="Clear cache, widget order, filters and simulation — back to the canonical view">↺ Reset Demo</button>
+    <span class="timestamp" id="genTs">Generated: —</span>
+    <div class="provenance" id="provPop" hidden></div>
+  </div>
+</div>
+</div>
+
+<div class="grid" id="grid">
+  <!-- widgets injected by JS -->
+</div>
+
+<div class="modal-backdrop" id="prModal" role="dialog" aria-modal="true" aria-labelledby="prModalTitle">
+  <div class="modal" id="prModalInner">
+    <div class="modal-head">
+      <div class="modal-icon">📤</div>
+      <div>
+        <div class="modal-title" id="prModalTitle">Create Pull Request</div>
+        <div class="modal-sub">Edit the details below, then submit to GitHub</div>
+      </div>
+      <button class="modal-close" id="prModalClose" aria-label="Close">×</button>
+    </div>
+    <div class="modal-meta" id="prModalMeta"></div>
+    <div class="modal-tip">
+      <b>Before submitting:</b> create the branch locally, commit your fix, and push it.
+      <br>
+      <code>git checkout -b fix/prowler-remediation</code> &nbsp;
+      <code>git commit -am "fix: remediate finding"</code> &nbsp;
+      <code>git push -u origin fix/prowler-remediation</code>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="prRepo">Repository (owner/name)</label>
+        <input id="prRepo" type="text" placeholder="owner/repo" value="acme-cloud-infra/cloud-infrastructure"/>
+      </div>
+      <div class="field">
+        <label for="prBase">Base branch</label>
+        <input id="prBase" type="text" value="main"/>
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="prHead">Head (feature) branch</label>
+        <input id="prHead" type="text"/>
+      </div>
+      <div class="field">
+        <label for="prLabels">Labels (comma-separated, optional)</label>
+        <input id="prLabels" type="text" placeholder="Remediation" value="Remediation"/>
+      </div>
+    </div>
+    <div class="field">
+      <label for="prTitle">PR Title</label>
+      <input id="prTitle" type="text"/>
+    </div>
+    <div class="field">
+      <label for="prBody">PR Description (Markdown)</label>
+      <textarea id="prBody"></textarea>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-cancel" id="prCancel">Cancel</button>
+      <button class="btn btn-copy" id="prCopy">📋 Copy Markdown</button>
+      <button class="btn btn-submit" id="prSubmit">Submit to GitHub →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================================
+   DATA — fetched live via Prowler MCP tools
+   ============================================================ */
+/* ==PROWLER_DATA_START== */
+const PROWLER_DATA = {
+  generatedAt: "2026-07-20T08:50:03.785206+00:00",
+  providers: [
+  {
+    "id": "cff6e7d3-2bf9-4db7-8fb2-d42430957121",
+    "uid": "integrator-8206651.okta.com",
+    "alias": "manuel-okta",
+    "provider": "okta",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "482c2149-de90-45f0-b0d5-0205ec69a907",
+    "uid": "935890553952",
+    "alias": "workshop-lab-01",
+    "provider": "aws",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "306ab5af-8eed-4b2f-a64f-d9646fd36b68",
+    "uid": "418021145162",
+    "alias": "amit_appd",
+    "provider": "aws",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "cc33a10f-3813-4126-bbf9-ba141a04f91f",
+    "uid": "730883237055",
+    "alias": "Marketing Ops",
+    "provider": "aws",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "2a73bac2-c487-45bd-a08a-df82839e14ae",
+    "uid": "799168734816",
+    "alias": "marketing dev",
+    "provider": "aws",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "51f32445-0707-4df6-ab02-b157e86e49e7",
+    "uid": "932718745857",
+    "alias": "amits",
+    "provider": "aws",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "7eeddd70-bc86-45b6-b596-8da1256a8592",
+    "uid": "552455647653",
+    "alias": "Demo AWS",
+    "provider": "aws",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "020529f9-244d-48f5-8c0e-69370e94323b",
+    "uid": "team_Yj41RYnEfdjpqxzAecFgwYAR",
+    "alias": "myAppVercel",
+    "provider": "vercel",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "a165464d-c7ed-491f-8583-83fbcdbd7ba1",
+    "uid": "C015lvimi",
+    "alias": "Google Workspace playground",
+    "provider": "googleworkspace",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "2bebcdb9-dc7e-4b80-8d89-e2bc6bcc8aea",
+    "uid": "prowler-sa",
+    "alias": "K8s EKS Test Cluster",
+    "provider": "kubernetes",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "8132dc88-5825-4e25-bb46-dcf84c495b4a",
+    "uid": "68a82910b6189c7263c04353",
+    "alias": "MongoDB Atlas Demo",
+    "provider": "mongodbatlas",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "b7970ebd-15c3-4850-9079-2def86177810",
+    "uid": "5805463570028839",
+    "alias": "Alibaba Demo",
+    "provider": "alibabacloud",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "94211821-5e6a-4bc5-9f9f-6923de716af5",
+    "uid": "0b070121-2ad4-4e44-aba0-39dcd5310b60",
+    "alias": "Azure Demo",
+    "provider": "azure",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "b1c183df-5529-492b-89a3-54171d7e2c20",
+    "uid": "ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5grlhgnkwtyt6dmwyou7no6mdmzda",
+    "alias": "OCI Demo",
+    "provider": "oraclecloud",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "58d51e38-279b-4664-b575-6d222ee0ac7d",
+    "uid": "https://github.com/RhinoSecurityLabs/cloudgoat",
+    "alias": "IaC Demo",
+    "provider": "iac",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "c7b7b1bf-fff7-44f2-9e0a-a08f9de6b480",
+    "uid": "dTroop3r",
+    "alias": "My Github Demo Repo",
+    "provider": "github",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "b55e3a10-3d2d-4b1b-849b-c30960c0036c",
+    "uid": "lucky-coast-419309",
+    "alias": "Google Cloud Demo",
+    "provider": "gcp",
+    "connected": true,
+    "region": "-"
+  },
+  {
+    "id": "1448f941-6313-4bab-a396-77bf0765064d",
+    "uid": "prowler.com",
+    "alias": "M365 Demo",
+    "provider": "m365",
+    "connected": true,
+    "region": "-"
+  }
+],
+  overview: {
+  "total": 10824,
+  "fail": 3910,
+  "pass": 6669,
+  "muted": 181
+},
+  severityCounts: {
+  "critical": 95,
+  "high": 1159,
+  "medium": 1684,
+  "low": 1043,
+  "informational": 2
+},
+  perProvider: {
+  "manuel-okta": {
+    "fail": 20,
+    "pass": 3,
+    "sev": {
+      "critical": 0,
+      "high": 1,
+      "medium": 14,
+      "low": 4,
+      "informational": 1
+    },
+    "estimated": false
+  },
+  "workshop-lab-01": {
+    "fail": 317,
+    "pass": 122,
+    "sev": {
+      "critical": 1,
+      "high": 92,
+      "medium": 120,
+      "low": 104,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "amit_appd": {
+    "fail": 908,
+    "pass": 1015,
+    "sev": {
+      "critical": 5,
+      "high": 140,
+      "medium": 545,
+      "low": 218,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Marketing Ops": {
+    "fail": 308,
+    "pass": 132,
+    "sev": {
+      "critical": 1,
+      "high": 89,
+      "medium": 114,
+      "low": 104,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "marketing dev": {
+    "fail": 308,
+    "pass": 115,
+    "sev": {
+      "critical": 1,
+      "high": 89,
+      "medium": 114,
+      "low": 104,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "amits": {
+    "fail": 314,
+    "pass": 134,
+    "sev": {
+      "critical": 4,
+      "high": 90,
+      "medium": 115,
+      "low": 105,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Demo AWS": {
+    "fail": 561,
+    "pass": 980,
+    "sev": {
+      "critical": 14,
+      "high": 133,
+      "medium": 274,
+      "low": 140,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "myAppVercel": {
+    "fail": 18,
+    "pass": 20,
+    "sev": {
+      "critical": 3,
+      "high": 5,
+      "medium": 8,
+      "low": 2,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Google Workspace playground": {
+    "fail": 17,
+    "pass": 48,
+    "sev": {
+      "critical": 0,
+      "high": 3,
+      "medium": 12,
+      "low": 2,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "K8s EKS Test Cluster": {
+    "fail": 43,
+    "pass": 487,
+    "sev": {
+      "critical": 0,
+      "high": 41,
+      "medium": 2,
+      "low": 0,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "MongoDB Atlas Demo": {
+    "fail": 12,
+    "pass": 4,
+    "sev": {
+      "critical": 4,
+      "high": 6,
+      "medium": 2,
+      "low": 0,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Alibaba Demo": {
+    "fail": 38,
+    "pass": 40,
+    "sev": {
+      "critical": 2,
+      "high": 2,
+      "medium": 33,
+      "low": 1,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Azure Demo": {
+    "fail": 69,
+    "pass": 63,
+    "sev": {
+      "critical": 1,
+      "high": 39,
+      "medium": 27,
+      "low": 2,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "OCI Demo": {
+    "fail": 35,
+    "pass": 42,
+    "sev": {
+      "critical": 0,
+      "high": 16,
+      "medium": 19,
+      "low": 0,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "IaC Demo": {
+    "fail": 474,
+    "pass": 2142,
+    "sev": {
+      "critical": 40,
+      "high": 164,
+      "medium": 70,
+      "low": 200,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "My Github Demo Repo": {
+    "fail": 20,
+    "pass": 1,
+    "sev": {
+      "critical": 0,
+      "high": 10,
+      "medium": 8,
+      "low": 2,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "Google Cloud Demo": {
+    "fail": 13,
+    "pass": 7,
+    "sev": {
+      "critical": 0,
+      "high": 1,
+      "medium": 12,
+      "low": 0,
+      "informational": 0
+    },
+    "estimated": false
+  },
+  "M365 Demo": {
+    "fail": 92,
+    "pass": 338,
+    "sev": {
+      "critical": 6,
+      "high": 46,
+      "medium": 34,
+      "low": 6,
+      "informational": 0
+    },
+    "estimated": false
+  }
+},
+  findings: [
+  {
+    "sev": "critical",
+    "service": "organizations",
+    "status": "FAIL",
+    "check": "organizations_delegated_administrators",
+    "resource": "o-v327192ora",
+    "region": "eu-west-1",
+    "detail": "AWS Organization o-v327192ora has an untrusted Delegated Administrator: 932718745857.",
+    "provider": "amits"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_root_mfa_enabled",
+    "resource": "<root_account>",
+    "region": "eu-west-1",
+    "detail": "MFA is not enabled for root account.",
+    "provider": "amits"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_root_hardware_mfa_enabled",
+    "resource": "<root_account>",
+    "region": "eu-west-1",
+    "detail": "MFA is not enabled for root account.",
+    "provider": "amits"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_aws_attached_policy_no_administrative_privileges",
+    "resource": "AdministratorAccess",
+    "region": "eu-west-1",
+    "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_aws_attached_policy_no_administrative_privileges",
+    "resource": "AdministratorAccess",
+    "region": "eu-west-1",
+    "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
+    "provider": "amits"
+  },
+  {
+    "sev": "critical",
+    "service": "s3",
+    "status": "FAIL",
+    "check": "s3_bucket_public_access",
+    "resource": "prowler-cfn-templates-example",
+    "region": "eu-west-1",
+    "detail": "S3 Bucket prowler-cfn-templates-example has public access due to bucket policy.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "s3",
+    "status": "FAIL",
+    "check": "s3_bucket_public_access",
+    "resource": "demo-bucket-1763841210",
+    "region": "us-east-1",
+    "detail": "S3 Bucket demo-bucket-1763841210 has public access due to bucket policy.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_user_administrator_access_policy",
+    "resource": "rsac-demo-admin-user",
+    "region": "eu-west-1",
+    "detail": "IAM User rsac-demo-admin-user has AdministratorAccess policy attached.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_user_administrator_access_policy",
+    "resource": "aws-demo-user",
+    "region": "eu-west-1",
+    "detail": "IAM User aws-demo-user has AdministratorAccess policy attached.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_root_mfa_enabled",
+    "resource": "<root_account>",
+    "region": "eu-west-1",
+    "detail": "MFA is not enabled for root account.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_root_hardware_mfa_enabled",
+    "resource": "<root_account>",
+    "region": "eu-west-1",
+    "detail": "MFA is not enabled for root account.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_inline_policy_no_administrative_privileges",
+    "resource": "prowler-blog-vulnerable-admin-role/dangerous-wildcard-policy",
+    "region": "eu-west-1",
+    "detail": "Inline policy dangerous-wildcard-policy attached to role prowler-blog-vulnerable-admin-role allows '*:*' administrative privileges.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_inline_policy_no_administrative_privileges",
+    "resource": "privesc-demo-target-admin-role/privesc-demo-admin-policy",
+    "region": "eu-west-1",
+    "detail": "Inline policy privesc-demo-admin-policy attached to role privesc-demo-target-admin-role allows '*:*' administrative privileges.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_inline_policy_no_administrative_privileges",
+    "resource": "privesc-demo-ec2-admin-role/privesc-demo-ec2-admin-policy",
+    "region": "eu-west-1",
+    "detail": "Inline policy privesc-demo-ec2-admin-policy attached to role privesc-demo-ec2-admin-role allows '*:*' administrative privileges.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_inline_policy_no_administrative_privileges",
+    "resource": "AWSReservedSSO_ManagementAccess_6ab9972a4c6a515b/AwsSSOInlinePolicy",
+    "region": "eu-west-1",
+    "detail": "Inline policy AwsSSOInlinePolicy attached to role AWSReservedSSO_ManagementAccess_6ab9972a4c6a515b allows '*:*' administrative privileges.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_inline_policy_no_administrative_privileges",
+    "resource": "AWSReservedSSO_DevelopmentAccess_88df3906a91f28ed/AwsSSOInlinePolicy",
+    "region": "eu-west-1",
+    "detail": "Inline policy AwsSSOInlinePolicy attached to role AWSReservedSSO_DevelopmentAccess_88df3906a91f28ed allows '*:*' administrative privileges.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_aws_attached_policy_no_administrative_privileges",
+    "resource": "AdministratorAccess",
+    "region": "eu-west-1",
+    "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "ec2",
+    "status": "FAIL",
+    "check": "ec2_instance_port_ssh_exposed_to_internet",
+    "resource": "i-0aeeaa92b3fb95a35",
+    "region": "us-east-1",
+    "detail": "Instance i-0aeeaa92b3fb95a35 has SSH exposed to 0.0.0.0/0 on public IP address 52.22.247.240 in public subnet subnet-05d3a7b8f85214922.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "ec2",
+    "status": "FAIL",
+    "check": "ec2_instance_port_ssh_exposed_to_internet",
+    "resource": "i-05075b63eb51baacb",
+    "region": "us-east-1",
+    "detail": "Instance i-05075b63eb51baacb has SSH exposed to 0.0.0.0/0 on public IP address 34.228.30.208 in public subnet subnet-05484df59f9616ab6.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "critical",
+    "service": "teams",
+    "status": "FAIL",
+    "check": "teams_external_users_cannot_start_conversations",
+    "resource": "Teams User Settings",
+    "region": "global",
+    "detail": "External Teams users can initiate conversations.",
+    "provider": "M365 Demo"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ap-southeast-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ap-northeast-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ap-northeast-3",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ap-southeast-2",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "us-east-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "us-east-2",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ap-northeast-2",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "eu-north-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "sa-east-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "us-west-2",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "us-west-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ap-south-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "eu-west-3",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "ca-central-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "eu-central-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "eu-west-2",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_enabled",
+    "resource": "hub/unknown",
+    "region": "eu-west-1",
+    "detail": "Security Hub is not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_delegated_admin_enabled_all_regions",
+    "resource": "hub/unknown",
+    "region": "ap-southeast-1",
+    "detail": "Security Hub in region ap-southeast-1 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_delegated_admin_enabled_all_regions",
+    "resource": "hub/unknown",
+    "region": "ap-northeast-1",
+    "detail": "Security Hub in region ap-northeast-1 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "high",
+    "service": "securityhub",
+    "status": "FAIL",
+    "check": "securityhub_delegated_admin_enabled_all_regions",
+    "resource": "hub/unknown",
+    "region": "ap-northeast-3",
+    "detail": "Security Hub in region ap-northeast-3 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_different_regions",
+    "resource": "730883237055",
+    "region": "eu-west-1",
+    "detail": "VPCs found only in one region.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_different_regions",
+    "resource": "932718745857",
+    "region": "eu-west-1",
+    "detail": "VPCs found only in one region.",
+    "provider": "amits"
+  },
+  {
+    "sev": "medium",
+    "service": "ssmincidents",
+    "status": "FAIL",
+    "check": "ssmincidents_enabled_with_plans",
+    "resource": "730883237055",
+    "region": "eu-west-1",
+    "detail": "No SSM Incidents replication set exists.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "ssmincidents",
+    "status": "FAIL",
+    "check": "ssmincidents_enabled_with_plans",
+    "resource": "932718745857",
+    "region": "eu-west-1",
+    "detail": "No SSM Incidents replication set exists.",
+    "provider": "amits"
+  },
+  {
+    "sev": "medium",
+    "service": "organizations",
+    "status": "FAIL",
+    "check": "organizations_opt_out_ai_services_policy",
+    "resource": "o-v327192ora",
+    "region": "eu-west-1",
+    "detail": "AWS Organization o-v327192ora has no opt-out policy for AI services.",
+    "provider": "amits"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "ap-southeast-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "ap-northeast-3",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "ap-southeast-2",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "ap-northeast-2",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "us-east-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "us-east-2",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "ap-northeast-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "eu-north-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "sa-east-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "us-west-2",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "us-west-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "ap-south-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "eu-west-3",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "ca-central-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "medium",
+    "service": "inspector2",
+    "status": "FAIL",
+    "check": "inspector2_is_enabled",
+    "resource": "Inspector2",
+    "region": "eu-central-1",
+    "detail": "Inspector2 is not enabled in this account.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "low",
+    "service": "trustedadvisor",
+    "status": "FAIL",
+    "check": "trustedadvisor_premium_support_plan_subscribed",
+    "resource": "730883237055",
+    "region": "us-east-1",
+    "detail": "Amazon Web Services Premium Support Plan isn't subscribed.",
+    "provider": "Marketing Ops"
+  },
+  {
+    "sev": "low",
+    "service": "trustedadvisor",
+    "status": "FAIL",
+    "check": "trustedadvisor_premium_support_plan_subscribed",
+    "resource": "932718745857",
+    "region": "us-east-1",
+    "detail": "Amazon Web Services Premium Support Plan isn't subscribed.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "ap-southeast-2",
+    "detail": "SageMaker Model Registry in region ap-southeast-2 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "ap-northeast-2",
+    "detail": "SageMaker Model Registry in region ap-northeast-2 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "ap-northeast-1",
+    "detail": "SageMaker Model Registry in region ap-northeast-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "us-west-2",
+    "detail": "SageMaker Model Registry in region us-west-2 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "ap-northeast-3",
+    "detail": "SageMaker Model Registry in region ap-northeast-3 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "eu-west-3",
+    "detail": "SageMaker Model Registry in region eu-west-3 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "us-east-2",
+    "detail": "SageMaker Model Registry in region us-east-2 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "ap-southeast-1",
+    "detail": "SageMaker Model Registry in region ap-southeast-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "sa-east-1",
+    "detail": "SageMaker Model Registry in region sa-east-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "ap-south-1",
+    "detail": "SageMaker Model Registry in region ap-south-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "us-west-1",
+    "detail": "SageMaker Model Registry in region us-west-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "us-east-1",
+    "detail": "SageMaker Model Registry in region us-east-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "ca-central-1",
+    "detail": "SageMaker Model Registry in region ca-central-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "eu-north-1",
+    "detail": "SageMaker Model Registry in region eu-north-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "eu-central-1",
+    "detail": "SageMaker Model Registry in region eu-central-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "eu-west-2",
+    "detail": "SageMaker Model Registry in region eu-west-2 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "eu-west-1",
+    "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
+    "provider": "amits"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-southeast-2",
+    "detail": "No SageMaker monitoring schedules found in region ap-southeast-2.",
+    "provider": "amits"
+  },
+  {
+    "sev": "informational",
+    "service": "signon",
+    "status": "FAIL",
+    "check": "signon_dod_warning_banner_configured",
+    "resource": "prowler-integrator-8206651",
+    "region": "global",
+    "detail": "Default sign-in page for brand 'prowler-integrator-8206651' does not contain the DOD Notice and Consent Banner (DTM-08-060).",
+    "provider": "manuel-okta"
+  },
+  {
+    "sev": "informational",
+    "service": "signon",
+    "status": "FAIL",
+    "check": "signon_dod_warning_banner_configured",
+    "resource": "prowler-trial-3638350",
+    "region": "global",
+    "detail": "Default sign-in page for brand 'prowler-trial-3638350' does not contain the DOD Notice and Consent Banner (DTM-08-060).",
+    "provider": null
+  }
+],
+  topCritical: [
+  {
+    "sev": "critical",
+    "check": "organizations_delegated_administrators",
+    "title": "AWS Organization has only trusted delegated administrators",
+    "resource": "o-v327192ora",
+    "region": "eu-west-1",
+    "risk": "Unapproved delegated administrators can alter **SCPs**, invite/move accounts, and create privileged roles, enabling **privilege escalation**. This undermines guardrails, risking loss of **integrity**, exposure of **confidentiality** across accounts, and impacts **availability** through organization-wide policy changes.",
+    "steps": [
+      "{'description': '1. Sign in to the AWS Management Console with the organization management account\\n2. Open AWS Organizations\\n3. In the left pane, select **Delegated administrators**\\n4. Select the untrusted account (by Account ID) from the list\\n5. For each service shown for that account, choose **Deregister delegated administrator** and confirm\\n6. Repeat for all untrusted accounts until only trusted accounts (or none) remain'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_root_mfa_enabled",
+    "title": "Root account has MFA enabled",
+    "resource": "<root_account>",
+    "region": "eu-west-1",
+    "risk": "Without **MFA**, compromise of the root password or access keys can lead to full **account takeover**. An attacker with root can disable protections, steal or delete data, change billing, and create persistent admins, undermining confidentiality, integrity, and availability.",
+    "steps": [
+      "{'description': '1. Sign in to the AWS Management Console as the root user (choose \"Sign in as root user\" and enter the account email)\\n2. Open the account menu (top right) and click \"Security credentials\"\\n3. In \"Multi-factor authentication (MFA)\", choose \"Assign MFA device\" (or \"Activate MFA\")\\n4. Select \"Authenticator app\" and click \"Next\"\\n5. Scan the QR code with your authenticator app and enter two consecutive MFA codes\\n6. Click \"Add MFA\" (or \"Assign MFA\") to complete'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_root_hardware_mfa_enabled",
+    "title": "Root account has a hardware MFA device enabled",
+    "resource": "<root_account>",
+    "region": "eu-west-1",
+    "risk": "Without **hardware MFA** on the root user:\n- No MFA: stolen password/keys enable full account takeover.\n- Virtual MFA: device compromise or backup restoration weakens second-factor assurance.\nAn attacker could delete resources, change policies, and disable logging, harming **confidentiality**, **integrity**, and **availability**.",
+    "steps": [
+      "{'description': '1. Sign in to the AWS Management Console as the root user\\n2. Open My Security Credentials: https://console.aws.amazon.com/iam/home?#/security_credentials\\n3. In the Multi-factor authentication (MFA) section, choose Activate/Assign MFA\\n4. Select a hardware option (Security key or Hardware TOTP token) and complete the prompts (for TOTP: enter the device serial and two consecutive codes)\\n5. After the hardware MFA is added, locate any Virtual MFA device listed for root and Deactivate/Remove it\\n6. Confirm only the hardware MFA remains assigned'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_aws_attached_policy_no_administrative_privileges",
+    "title": "Attached AWS-managed IAM policy does not allow '*:*' administrative privileges",
+    "resource": "AdministratorAccess",
+    "region": "eu-west-1",
+    "risk": "**Unrestricted `*:*` access** enables any action on any resource, risking:\n- Data exfiltration (**confidentiality**)\n- Unauthorized changes and policy tampering (**integrity**)\n- Service deletion or shutdown (**availability**)\nAttackers can disable logging, create backdoor principals, and expand lateral movement.",
+    "steps": [
+      "{'description': '1. In the AWS Console, go to IAM > Policies\\n2. Search for the flagged AWS-managed policy (e.g., AdministratorAccess) and open it\\n3. Click Attached entities\\n4. Select all Users, Groups, and Roles shown and click Detach\\n5. Confirm the policy shows 0 attached entities\\n6. Rerun the check to verify it passes'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_aws_attached_policy_no_administrative_privileges",
+    "title": "Attached AWS-managed IAM policy does not allow '*:*' administrative privileges",
+    "resource": "AdministratorAccess",
+    "region": "eu-west-1",
+    "risk": "**Unrestricted `*:*` access** enables any action on any resource, risking:\n- Data exfiltration (**confidentiality**)\n- Unauthorized changes and policy tampering (**integrity**)\n- Service deletion or shutdown (**availability**)\nAttackers can disable logging, create backdoor principals, and expand lateral movement.",
+    "steps": [
+      "{'description': '1. In the AWS Console, go to IAM > Policies\\n2. Search for the flagged AWS-managed policy (e.g., AdministratorAccess) and open it\\n3. Click Attached entities\\n4. Select all Users, Groups, and Roles shown and click Detach\\n5. Confirm the policy shows 0 attached entities\\n6. Rerun the check to verify it passes'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "s3_bucket_public_access",
+    "title": "S3 bucket is not publicly accessible to Everyone or Authenticated Users",
+    "resource": "prowler-cfn-templates-example",
+    "region": "eu-west-1",
+    "risk": "Publicly accessible buckets jeopardize **confidentiality** through unauthenticated reads, **integrity** through write or ACL changes, and **availability** via object deletion or overwrite. Attackers can mass-exfiltrate data, host malware, or pivot after discovering secrets stored in objects.",
+    "steps": [
+      "{'description': '1. In the AWS Console, go to S3 and open the bucket <example_resource_name>\\n2. Select the Permissions tab\\n3. Under Block public access (bucket settings), click Edit\\n4. Check only:\\n   - Ignore public ACLs (true)\\n   - Restrict public buckets (true)\\n5. Click Save changes and confirm'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "s3_bucket_public_access",
+    "title": "S3 bucket is not publicly accessible to Everyone or Authenticated Users",
+    "resource": "demo-bucket-1763841210",
+    "region": "us-east-1",
+    "risk": "Publicly accessible buckets jeopardize **confidentiality** through unauthenticated reads, **integrity** through write or ACL changes, and **availability** via object deletion or overwrite. Attackers can mass-exfiltrate data, host malware, or pivot after discovering secrets stored in objects.",
+    "steps": [
+      "{'description': '1. In the AWS Console, go to S3 and open the bucket <example_resource_name>\\n2. Select the Permissions tab\\n3. Under Block public access (bucket settings), click Edit\\n4. Check only:\\n   - Ignore public ACLs (true)\\n   - Restrict public buckets (true)\\n5. Click Save changes and confirm'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_user_administrator_access_policy",
+    "title": "IAM user does not have AdministratorAccess policy attached",
+    "resource": "rsac-demo-admin-user",
+    "region": "eu-west-1",
+    "risk": "Assigning an IAM user full admin rights concentrates power in long-lived credentials. If compromised, attackers gain:\n- **Confidentiality**: read/export all data\n- **Integrity**: change configs, policies, code\n- **Availability**: delete resources, disrupt services\nAlso enables persistence and uncontrolled spend.",
+    "steps": [
+      "{'description': '1. Sign in to the AWS Console and open IAM\\n2. Go to Users and select the target user\\n3. Open the Permissions tab\\n4. In Attached policies (or Permissions policies), find AdministratorAccess\\n5. Select it and click Detach policy (or Remove)\\n6. Confirm to detach'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_user_administrator_access_policy",
+    "title": "IAM user does not have AdministratorAccess policy attached",
+    "resource": "aws-demo-user",
+    "region": "eu-west-1",
+    "risk": "Assigning an IAM user full admin rights concentrates power in long-lived credentials. If compromised, attackers gain:\n- **Confidentiality**: read/export all data\n- **Integrity**: change configs, policies, code\n- **Availability**: delete resources, disrupt services\nAlso enables persistence and uncontrolled spend.",
+    "steps": [
+      "{'description': '1. Sign in to the AWS Console and open IAM\\n2. Go to Users and select the target user\\n3. Open the Permissions tab\\n4. In Attached policies (or Permissions policies), find AdministratorAccess\\n5. Select it and click Detach policy (or Remove)\\n6. Confirm to detach'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_root_mfa_enabled",
+    "title": "Root account has MFA enabled",
+    "resource": "<root_account>",
+    "region": "eu-west-1",
+    "risk": "Without **MFA**, compromise of the root password or access keys can lead to full **account takeover**. An attacker with root can disable protections, steal or delete data, change billing, and create persistent admins, undermining confidentiality, integrity, and availability.",
+    "steps": [
+      "{'description': '1. Sign in to the AWS Management Console as the root user (choose \"Sign in as root user\" and enter the account email)\\n2. Open the account menu (top right) and click \"Security credentials\"\\n3. In \"Multi-factor authentication (MFA)\", choose \"Assign MFA device\" (or \"Activate MFA\")\\n4. Select \"Authenticator app\" and click \"Next\"\\n5. Scan the QR code with your authenticator app and enter two consecutive MFA codes\\n6. Click \"Add MFA\" (or \"Assign MFA\") to complete'}"
+    ]
+  }
+],
+  trend: [3912, 3926, 3919, 3908, 3903, 3905, 3910]
+};
+/* ==PROWLER_DATA_END== */
+
+/* Generate 30-day historical trend (deterministic, ends at live counts) */
+/* ============================================================
+   TREND SERIES — deterministic historical backfill ending at the
+   LIVE selection's current severity counts. Range-selectable:
+   1W / 1M (daily points) and 6M / 1Y (weekly points).
+   Prowler doesn't expose long history, so points before "now" are a
+   deterministic sin+cos backfill — stable across reloads, honest about
+   its endpoint (today's real numbers), and it recomputes per filter.
+   ============================================================ */
+const TREND_RANGES = {
+  '1W': {N:7,  stepDays:1, label:'1 Week',   labelEvery:1},
+  '1M': {N:30, stepDays:1, label:'1 Month',  labelEvery:5},
+  '6M': {N:26, stepDays:7, label:'6 Months', labelEvery:4},
+  '1Y': {N:52, stepDays:7, label:'1 Year',   labelEvery:8}
+};
+let TREND_RANGE = '1M';
+function trendSeries(){
+  const {N, stepDays} = TREND_RANGES[TREND_RANGE];
+  const targets = selectedCounts(); /* history ends at the real, filtered counts */
+  const today = new Date(PROWLER_DATA.generatedAt);
+  /* longer ranges start further from today's value so the story reads as a decline */
+  const drift = {'1W':1.06,'1M':1.15,'6M':1.45,'1Y':1.8}[TREND_RANGE];
+  const out = {dates:[], critical:[], high:[], medium:[], low:[]};
+  for(let i=N-1;i>=0;i--){
+    const d = new Date(today); d.setDate(d.getDate()-i*stepDays);
+    out.dates.push(d.toISOString().slice(0,10));
+    const t = (N-1-i)/(N-1);
+    ['critical','high','medium','low'].forEach((k,kIdx)=>{
+      const target = targets[k]||0;
+      const start = Math.round(target*drift) + (target===0?0:2);
+      const lerp = start + (target-start)*t;
+      const amp = Math.max(1, Math.abs(start-target)*0.18);
+      const noise = Math.sin(i*stepDays*1.7 + kIdx*2.3)*amp + Math.cos(i*stepDays*0.6 + kIdx)*amp*0.4;
+      out[k].push(Math.max(0, Math.round(lerp + noise)));
+    });
+  }
+  ['critical','high','medium','low'].forEach(k=>{ out[k][N-1] = targets[k]||0; });
+  return out;
+}
+</script>
+<script>
+/* logo - inline SVG wordmark (Prowler) rendered as data URI */
+const LOGO_SVG = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1233.67 204.4" width="220" height="36" fill="none">
+  <path d="M1169.38 132.04c20.76-12.21 34.44-34.9 34.44-59.79 0-38.18-31.06-69.25-69.25-69.25l-216.9.23V148.4h-64.8V3h-79.95l-47.14 95.97V3h-52.09l-47.14 95.97V3h-53.48v69.6C560.37 30.64 521.34 0 475.28 0c-42.63 0-79.24 26.25-94.54 63.43C376.39 29.4 347.26 3 312.07 3H212.06v47.43C202.9 22.91 176.91 3 146.35 3H0l46.34 46.33v151.64h53.47v-76.68l17.21 17.21h29.33c30.56 0 56.54-19.91 65.71-47.43v106.91h53.48v-81.51l76.01 81.51h69.62l-64.29-68.94c11.14-6.56 20.22-16.15 26.26-27.46 1.27 55.26 46.58 99.82 102.14 99.82 46.06 0 85.09-30.64 97.81-72.6v69.18h60.88l38.34-78.06v78.06h60.88l66.2-134.78v135.69h95.41l22.86-22.86v22.86h95.05l21.84-21.84v20.93h53.48v-81.5l76.01 81.5h69.62l-64.29-68.94ZM146.35 88.02H99.81V56.48h46.54c8.7 0 15.77 7.07 15.77 15.77s-7.07 15.77-15.77 15.77Zm165.72 0-46.54-.18V56.48h46.54c8.7 0 15.77 7.07 15.77 15.77s-7.08 15.77-15.77 15.77Zm163.21 62.9c-26.86 0-48.72-21.86-48.72-48.72s21.86-48.72 48.72-48.72S524 75.34 524 102.2s-21.86 48.72-48.72 48.72Zm559.28-2.51h-63.41v-20.35h42.91V77.18h-42.91V56.72h63.41v91.69Zm100.01-60.39-46.54-.18V56.48h46.54c8.7 0 15.77 7.07 15.77 15.77s-7.07 15.77-15.77 15.77Z" fill="#ffffff" fill-rule="evenodd" clip-rule="evenodd"/>
+</svg>`;
+const LOGO_B64 = btoa(LOGO_SVG);
+const LOGO_DATA_URI = "data:image/svg+xml;base64," + LOGO_B64;
+document.getElementById('logoImg').src = LOGO_DATA_URI;
+document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_DATA.generatedAt).toLocaleString();
+</script>
+<script>
+/* ============================================================
+   CACHE — 24h localStorage
+   ============================================================ */
+const CACHE_KEY = 'prowler_cached_data';
+const CACHE_TS_KEY = 'prowler_last_fetch';
+const LAYOUT_KEY = 'prowler_layout_v1';
+const TTL_MS = 24*60*60*1000;
+(function initCache(){
+  const ts = localStorage.getItem(CACHE_TS_KEY);
+  const cached = localStorage.getItem(CACHE_KEY);
+  const now = Date.now();
+  const embeddedTs = Date.parse(PROWLER_DATA.generatedAt) || 0;
+  let cacheValid = false;
+  if(ts && cached && (now - parseInt(ts,10)) < TTL_MS){
+    try{
+      const d = JSON.parse(cached);
+      /* A newer embedded snapshot always wins over an older cache — prevents a
+         freshly deployed dashboard from rendering stale data left by a previous version. */
+      if((Date.parse(d.generatedAt) || 0) >= embeddedTs){
+        Object.assign(PROWLER_DATA, d);
+        document.getElementById('genTs').textContent = 'Generated: ' + new Date(PROWLER_DATA.generatedAt).toLocaleString();
+        cacheValid = true;
+      }
+    }catch(e){}
+  }
+  if(!cacheValid){
+    localStorage.setItem(CACHE_KEY, JSON.stringify(PROWLER_DATA));
+    localStorage.setItem(CACHE_TS_KEY, String(now));
+  }
+})();
+document.getElementById('refreshBtn').addEventListener('click', ()=>{
+  /* Reset Demo: back to the canonical view — cache, widget order,
+     provider filter and simulation all return to their defaults. */
+  localStorage.removeItem(CACHE_KEY);
+  localStorage.removeItem(CACHE_TS_KEY);
+  localStorage.removeItem(LAYOUT_KEY);
+  location.reload();
+});
+/* ============================================================
+   SNAPSHOT AGE + DATA PROVENANCE — honest freshness signalling.
+   Green pulsing badge while the snapshot is younger than the refresh
+   cadence (7 days, matching the CI schedule); amber STALE beyond that.
+   ============================================================ */
+const FRESH_LIMIT_MS = 7*24*3600000;
+function fmtAge(ms){
+  const d = Math.floor(ms/86400000), h = Math.floor(ms%86400000/3600000),
+        m = Math.floor(ms%3600000/60000), s = Math.floor(ms%60000/1000);
+  if(d>0) return `${d}d ${h}h`;
+  if(h>0) return `${h}h ${String(m).padStart(2,'0')}m`;
+  return `${m}m ${String(s).padStart(2,'0')}s`;
+}
+(function snapshotAge(){
+  const ageEl = document.getElementById('snapAge');
+  const badge = document.getElementById('freshBadge');
+  function tick(){
+    const age = Date.now() - Date.parse(PROWLER_DATA.generatedAt);
+    ageEl.textContent = fmtAge(age);
+    badge.classList.toggle('stale', age > FRESH_LIMIT_MS);
+  }
+  tick();
+  setInterval(tick, 1000);
+})();
+/* Snapshot refresh: reload past the cache to pick up the newest published snapshot.
+   (Data-only: unlike Reset Demo it does NOT touch widget order.) */
+document.getElementById('snapRefresh').addEventListener('click', e=>{
+  e.stopPropagation();
+  localStorage.removeItem(CACHE_KEY);
+  localStorage.removeItem(CACHE_TS_KEY);
+  location.reload();
+});
+/* Provenance popover on the freshness badge */
+(function provenance(){
+  const badge = document.getElementById('freshBadge');
+  const pop = document.getElementById('provPop');
+  badge.addEventListener('click', e=>{
+    e.stopPropagation();
+    if(!pop.hidden){ pop.hidden = true; return; }
+    const gen = new Date(PROWLER_DATA.generatedAt);
+    const nProv = PROWLER_DATA.providers.length;
+    pop.innerHTML = `<h4>Data provenance</h4>
+      This dashboard shows a <b>point-in-time snapshot</b>, not a realtime feed.<br>
+      Generated: <b>${gen.toLocaleString()}</b><br>
+      Source: <b>Prowler Cloud API</b> (via Prowler MCP)<br>
+      Scope: <b>${nProv} connected providers</b> · ${selectedOverview().total.toLocaleString()} checks<br>
+      Refresh cadence: <b>weekly</b> via GitHub Actions, or on demand.`;
+    pop.hidden = false;
+  });
+  pop.addEventListener('click', e=>e.stopPropagation());
+  document.addEventListener('click', ()=>{ pop.hidden = true; });
+})();
+</script>
+<script>
+/* ============================================================
+   WIDGET RENDERERS
+   ============================================================ */
+const $ = (sel,ctx=document)=>ctx.querySelector(sel);
+const $$ = (sel,ctx=document)=>[...ctx.querySelectorAll(sel)];
+const filteredFindings = () => PROWLER_DATA.findings.filter(f => !f.provider || FILTER.has(f.provider));
+const filteredTopCritical = () => PROWLER_DATA.topCritical.filter(f => !f.provider || FILTER.has(f.provider));
+const esc = s => String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+/* ============================================================
+   SIMULATION — "What if I fix criticals?"
+   ============================================================ */
+const SIM = { fixCritical: false };
+const TS_WEIGHTS = { critical:25, high:2.5, medium:0.5, low:0.2, informational:0 };
+
+/* ============================================================
+   PROVIDER FILTER — chips under the header filter the FULL dashboard.
+   All widget math flows through selectedCounts()/selectedOverview(),
+   which sum PROWLER_DATA.perProvider over the active selection.
+   Selection is session-only (never persisted): reload = all providers.
+   ============================================================ */
+const FILTER = new Set(PROWLER_DATA.providers.map(p=>p.alias));
+const provStats = a => PROWLER_DATA.perProvider[a] || {fail:0,pass:0,sev:{critical:0,high:0,medium:0,low:0,informational:0}};
+
+function selectedCounts(){
+  const c = {critical:0,high:0,medium:0,low:0,informational:0};
+  FILTER.forEach(a=>{ const s=provStats(a).sev; for(const k in c) c[k]+=s[k]||0; });
+  return c;
+}
+function selectedOverview(){
+  let fail=0, pass=0;
+  FILTER.forEach(a=>{ const s=provStats(a); fail+=s.fail; pass+=s.pass; });
+  return {fail, pass, total: fail+pass, muted: 0};
+}
+
+function effectiveCounts(){
+  const c = selectedCounts();
+  if(SIM.fixCritical) c.critical = 0;
+  return c;
+}
+function effectiveOverview(){
+  const ov = selectedOverview();
+  if(SIM.fixCritical){
+    const n = selectedCounts().critical;
+    ov.fail = Math.max(0, ov.fail - n);
+    ov.pass = ov.pass + n;
+  }
+  return ov;
+}
+function threatScore(counts, ov){
+  /* Severity-weighted pass ratio: passed checks vs risk-weighted failed checks.
+     Robust at any scale (a 12-finding provider or the full tenant) — never
+     saturates to 0/100 the way size-normalized penalties do. Returns null when
+     no providers are selected: an empty scope has no score, not a perfect one.
+     `ov` must come from the same state as `counts` (simulated or not). */
+  ov = ov || effectiveOverview();
+  if(!selectedOverview().total) return null;
+  const weightedFail = counts.critical*TS_WEIGHTS.critical + counts.high*TS_WEIGHTS.high +
+                       counts.medium*TS_WEIGHTS.medium + counts.low*TS_WEIGHTS.low;
+  if(ov.pass + weightedFail === 0) return null;
+  return Math.max(0, Math.min(100, 100 * ov.pass / (ov.pass + weightedFail)));
+}
+
+const PROVIDER_LOGOS = {"alibabacloud": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><g fill=\"none\"><rect width=\"256\" height=\"256\" fill=\"#f4f2ed\" rx=\"60\" /><g transform=\"translate(28, 66) scale(1.66)\"><rect x=\"40.1\" y=\"32.8\" fill=\"#FF6A00\" width=\"40.1\" height=\"9\" /><path fill=\"#FF6A00\" d=\"M100.2,0H73.7l6.4,9.1L99.5,15c3.6,1.1,5.9,4.5,5.8,8c0,0,0,0,0,0V52c0,0,0,0,0,0c0,3.6-2.3,6.9-5.8,8l-19.3,5.9L73.7,75h26.5c11.1,0,20-9,20-20V20C120.3,9,111.3,0,100.2,0\" /><path fill=\"#FF6A00\" d=\"M20,0h26.5l-6.4,9.1L20.8,15c-3.6,1.1-5.9,4.5-5.8,8c0,0,0,0,0,0V52c0,0,0,0,0,0c0,3.6,2.3,6.9,5.8,8l19.3,5.9l6.4,9.1H20C9,75,0,66,0,55V20C0,9,9,0,20,0\" /></g></g></svg>", "aws": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><g fill=\"none\"><rect width=\"256\" height=\"256\" fill=\"#f4f2ed\" rx=\"60\" /><path fill=\"#252f3e\" d=\"M84.745 111.961c0 2.434.263 4.407.723 5.855a35 35 0 0 0 2.106 4.737c.329.526.46 1.052.46 1.513c0 .658-.395 1.316-1.25 1.973l-4.145 2.764c-.592.394-1.184.592-1.71.592c-.658 0-1.316-.329-1.974-.921a20.4 20.4 0 0 1-2.368-3.092a51 51 0 0 1-2.04-3.882q-7.697 9.08-19.342 9.079c-5.526 0-9.934-1.579-13.158-4.737c-3.223-3.158-4.868-7.368-4.868-12.631c0-5.593 1.974-10.132 5.987-13.553s9.342-5.132 16.118-5.132c2.237 0 4.54.198 6.974.527s4.934.855 7.566 1.447v-4.803c0-5-1.053-8.487-3.092-10.526c-2.106-2.04-5.658-3.026-10.724-3.026c-2.303 0-4.671.263-7.105.855s-4.803 1.316-7.106 2.237a19 19 0 0 1-2.302.855c-.46.132-.79.198-1.053.198c-.92 0-1.382-.658-1.382-2.04v-3.224c0-1.052.132-1.842.461-2.302s.921-.921 1.842-1.382q3.454-1.776 8.29-2.96c3.223-.856 6.644-1.25 10.263-1.25c7.829 0 13.552 1.776 17.237 5.328c3.618 3.553 5.46 8.948 5.46 16.185v21.316zm-26.71 10c2.17 0 4.407-.395 6.776-1.185c2.368-.789 4.473-2.237 6.25-4.21c1.052-1.25 1.842-2.632 2.236-4.211s.658-3.487.658-5.723v-2.764a55 55 0 0 0-6.052-1.118a50 50 0 0 0-6.185-.395c-4.408 0-7.631.856-9.802 2.632s-3.224 4.276-3.224 7.566c0 3.092.79 5.394 2.434 6.973c1.58 1.645 3.882 2.435 6.908 2.435m52.828 7.105c-1.184 0-1.974-.198-2.5-.658c-.526-.395-.987-1.316-1.381-2.566l-15.46-50.855c-.396-1.316-.593-2.171-.593-2.632c0-1.052.526-1.645 1.579-1.645h6.447c1.25 0 2.106.198 2.566.658c.526.395.921 1.316 1.316 2.566l11.052 43.553l10.264-43.553c.329-1.316.723-2.17 1.25-2.566c.526-.394 1.447-.657 2.631-.657h5.263c1.25 0 2.106.197 2.632.657c.526.395.987 1.316 1.25 2.566l10.395 44.079l11.381-44.079c.395-1.316.856-2.17 1.316-2.566c.526-.394 1.382-.657 2.566-.657h6.118c1.053 0 1.645.526 1.645 1.644c0 .33-.066.658-.132 1.053c-.065.395-.197.92-.46 1.645l-15.855 50.855q-.593 1.974-1.382 2.566c-.526.394-1.382.658-2.5.658h-5.658c-1.25 0-2.105-.198-2.631-.658c-.527-.461-.987-1.316-1.25-2.632l-10.198-42.434l-10.131 42.368c-.329 1.316-.724 2.171-1.25 2.632c-.527.46-1.448.658-2.632.658zm84.54 1.776c-3.421 0-6.842-.395-10.132-1.184c-3.289-.79-5.855-1.645-7.566-2.632c-1.052-.592-1.776-1.25-2.039-1.842a4.65 4.65 0 0 1-.395-1.842v-3.355c0-1.382.526-2.04 1.513-2.04q.593 0 1.184.198c.395.131.987.394 1.645.658a35.8 35.8 0 0 0 7.237 2.302a39.5 39.5 0 0 0 7.829.79c4.145 0 7.368-.724 9.605-2.171c2.237-1.448 3.421-3.553 3.421-6.25c0-1.842-.592-3.356-1.776-4.606s-3.421-2.368-6.645-3.421l-9.539-2.96c-4.803-1.513-8.356-3.75-10.527-6.71c-2.171-2.895-3.289-6.12-3.289-9.54q0-4.144 1.776-7.303c1.184-2.105 2.763-3.947 4.737-5.394c1.974-1.514 4.211-2.632 6.842-3.422c2.632-.79 5.395-1.118 8.29-1.118c1.447 0 2.96.066 4.408.263c1.513.197 2.894.46 4.276.724c1.316.329 2.566.658 3.75 1.053q1.776.591 2.763 1.184c.921.526 1.579 1.052 1.974 1.644q.592.79.592 2.172v3.092c0 1.381-.526 2.105-1.513 2.105c-.527 0-1.382-.263-2.5-.79q-5.625-2.565-12.632-2.565c-3.75 0-6.71.592-8.75 1.842s-3.092 3.158-3.092 5.855c0 1.842.658 3.421 1.974 4.671s3.75 2.5 7.237 3.618l9.342 2.96c4.736 1.514 8.158 3.619 10.197 6.317s3.026 5.789 3.026 9.21c0 2.829-.592 5.395-1.71 7.632c-1.184 2.237-2.763 4.21-4.803 5.789c-2.039 1.645-4.474 2.829-7.302 3.685c-2.961.921-6.053 1.381-9.408 1.381\" /><path fill=\"#f90\" fill-rule=\"evenodd\" d=\"M207.837 162.816c-21.645 15.987-53.092 24.474-80.132 24.474c-37.894 0-72.04-14.014-97.829-37.303c-2.04-1.842-.197-4.342 2.237-2.895c27.895 16.184 62.303 25.987 97.895 25.987c24.013 0 50.395-5 74.671-15.263c3.618-1.645 6.71 2.368 3.158 5\" clip-rule=\"evenodd\" /><path fill=\"#f90\" fill-rule=\"evenodd\" d=\"M216.85 152.553c-2.763-3.553-18.289-1.711-25.329-.856c-2.105.264-2.434-1.579-.526-2.96c12.368-8.684 32.697-6.184 35.066-3.29c2.368 2.961-.658 23.29-12.237 33.027c-1.777 1.513-3.487.723-2.698-1.25c2.632-6.513 8.487-21.185 5.724-24.671\" clip-rule=\"evenodd\" /></g></svg>", "azure": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><g fill=\"none\"><rect width=\"256\" height=\"256\" fill=\"#f4f2ed\" rx=\"60\" /><path fill=\"url(#azure-gradientId0)\" d=\"M94.674 34.002h59.182L92.42 216.032a9.44 9.44 0 0 1-8.94 6.419H37.422a9.42 9.42 0 0 1-9.318-8.026a9.4 9.4 0 0 1 .39-4.407L85.733 40.421A9.44 9.44 0 0 1 94.674 34z\" /><path fill=\"#0078d4\" d=\"M180.674 156.095H86.826a4.34 4.34 0 0 0-4.045 2.75a4.34 4.34 0 0 0 1.079 4.771l60.305 56.287a9.48 9.48 0 0 0 6.468 2.548h53.141z\" /><path fill=\"url(#azure-gradientId1)\" d=\"M94.675 34.002a9.36 9.36 0 0 0-8.962 6.544L28.565 209.863a9.412 9.412 0 0 0 8.882 12.588h47.247a10.1 10.1 0 0 0 7.75-6.592l11.397-33.586l40.708 37.968a9.63 9.63 0 0 0 6.059 2.21h52.943l-23.22-66.355l-67.689.016l41.428-122.11z\" /><path fill=\"url(#azure-gradientId2)\" d=\"M170.264 40.412a9.42 9.42 0 0 0-8.928-6.41H95.379a9.42 9.42 0 0 1 8.928 6.41l57.241 169.604a9.43 9.43 0 0 1-1.273 8.509a9.43 9.43 0 0 1-7.655 3.928h65.959a9.43 9.43 0 0 0 7.654-3.929a9.42 9.42 0 0 0 1.272-8.508z\" /><defs><linearGradient id=\"azure-gradientId0\" x1=\"116.244\" x2=\"54.783\" y1=\"47.967\" y2=\"229.54\" gradient-units=\"userSpaceOnUse\" ><stop stop-color=\"#114a8b\" /><stop offset=\"1\" stop-color=\"#0669bc\" /></linearGradient><linearGradient id=\"azure-gradientId1\" x1=\"135.444\" x2=\"121.227\" y1=\"132.585\" y2=\"137.392\" gradient-units=\"userSpaceOnUse\" ><stop stop-opacity=\"0.3\" /><stop offset=\"0.071\" stop-opacity=\"0.2\" /><stop offset=\"0.321\" stop-opacity=\"0.1\" /><stop offset=\"0.623\" stop-opacity=\"0.05\" /><stop offset=\"1\" stop-opacity=\"0\" /></linearGradient><linearGradient id=\"azure-gradientId2\" x1=\"127.625\" x2=\"195.091\" y1=\"42.671\" y2=\"222.414\" gradient-units=\"userSpaceOnUse\" ><stop stop-color=\"#3ccbf4\" /><stop offset=\"1\" stop-color=\"#2892df\" /></linearGradient></defs></g></svg>", "gcp": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><g fill=\"none\"><rect width=\"256\" height=\"256\" fill=\"#f4f2ed\" rx=\"60\" /><path fill=\"#ea4335\" d=\"m161.009 92.39l17.385-17.386l1.159-7.32c-31.68-28.807-82.04-25.54-110.6 6.816c-7.932 8.986-13.817 20.19-16.955 31.76l6.226-.878l34.77-5.733l2.684-2.745c15.466-16.986 41.617-19.272 59.475-4.82z\" /><path fill=\"#4285f4\" d=\"M203.16 105.749a78.3 78.3 0 0 0-23.607-38.064l-24.4 24.4a43.37 43.37 0 0 1 15.921 34.404v4.331c11.993 0 21.716 9.722 21.716 21.715s-9.723 21.473-21.716 21.473h-43.493l-4.27 4.636v26.047l4.27 4.087h43.493c31.195.243 56.681-24.605 56.924-55.8a56.48 56.48 0 0 0-24.838-47.229\" /><path fill=\"#34a853\" d=\"M84.149 208.778h43.432v-34.77H84.149a21.3 21.3 0 0 1-8.906-1.952l-6.161 1.891l-17.507 17.385l-1.525 5.917c9.818 7.413 21.796 11.582 34.099 11.529\" /><path fill=\"#fbbc05\" d=\"M84.149 95.989C52.953 96.175 27.815 121.615 28 152.81a56.49 56.49 0 0 0 22.049 44.438l25.193-25.193c-10.93-4.938-15.787-17.802-10.849-28.731s17.802-15.787 28.73-10.85a21.72 21.72 0 0 1 10.85 10.85l25.193-25.193a56.42 56.42 0 0 0-45.018-22.143\" /></g></svg>", "github": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 98 96\" ><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M48.854 0C21.839 0 0 22 0 49.217c0 21.756 13.993 40.172 33.405 46.69 2.427.49 3.316-1.059 3.316-2.362 0-1.141-.08-5.052-.08-9.127-13.59 2.934-16.42-5.867-16.42-5.867-2.184-5.704-5.42-7.17-5.42-7.17-4.448-3.015.324-3.015.324-3.015 4.934.326 7.523 5.052 7.523 5.052 4.367 7.496 11.404 5.378 14.235 4.074.404-3.178 1.699-5.378 3.074-6.6-10.839-1.141-22.243-5.378-22.243-24.283 0-5.378 1.94-9.778 5.014-13.2-.485-1.222-2.184-6.275.486-13.038 0 0 4.125-1.304 13.426 5.052a46.97 46.97 0 0 1 12.214-1.63c4.125 0 8.33.571 12.213 1.63 9.302-6.356 13.427-5.052 13.427-5.052 2.67 6.763.97 11.816.485 13.038 3.155 3.422 5.015 7.822 5.015 13.2 0 18.905-11.404 23.06-22.324 24.283 1.78 1.548 3.316 4.481 3.316 9.126 0 6.6-.08 11.897-.08 13.526 0 1.304.89 2.853 3.316 2.364 19.412-6.52 33.405-24.935 33.405-46.691C97.707 22 75.788 0 48.854 0z\" fill=\"currentColor\" /></svg>", "googleworkspace": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><g fill=\"none\"><rect width=\"256\" height=\"256\" fill=\"#f4f2ed\" rx=\"60\" /><g transform=\"translate(64 64) scale(2.0)\"><path d=\"M62.3 30.9c0-2.5-.2-4.9-.6-7.2H32v13.6h17c-.7 3.9-3 7.2-6.3 9.4v8.3h10.2c6-5.5 9.4-13.6 9.4-23.1z\" fill=\"#4285F4\" /><path d=\"M32 64c8.5 0 15.6-2.8 20.8-7.6l-10.2-7.9c-2.8 1.9-6.4 3-10.6 3-8.1 0-15-5.5-17.4-12.9H4.1v8.1C9.3 57.3 19.9 64 32 64z\" fill=\"#34A853\" /><path d=\"M14.6 38.6c-.6-1.9-1-3.9-1-6s.3-4.1 1-6v-8.1H4.1C1.5 22.4 0 27 0 32s1.5 9.6 4.1 13.5l10.5-7.9z\" fill=\"#FBBC05\" /><path d=\"M32 12.7c4.6 0 8.7 1.6 11.9 4.7l8.9-8.9C47.6 3.4 40.5 0 32 0 19.9 0 9.3 6.7 4.1 17.5l10.5 8.1C17 18.2 23.9 12.7 32 12.7z\" fill=\"#EA4335\" /></g></g></svg>", "iac": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><rect width=\"256\" height=\"256\" fill=\"#e8eaed\" rx=\"60\" /><g stroke=\"#5f6368\" stroke-width=\"14\" stroke-linecap=\"round\" stroke-linejoin=\"round\" ><path d=\"M112 205L148 51\" /><path d=\"M85 85L45 128L85 171\" /><path d=\"M171 85L211 128L171 171\" /></g></svg>", "kubernetes": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><g fill=\"none\"><rect width=\"256\" height=\"256\" fill=\"#326ce5\" rx=\"60\" /><path fill=\"#fff\" stroke=\"#fff\" stroke-width=\".11\" d=\"M128.073 30a6.014 6.014 0 0 0-5.589 6.314v1.605c.153 1.817.426 3.617.785 5.4a53 53 0 0 1 .563 10.326 6.23 6.23 0 0 1-1.86 2.943l-.128 2.407c-3.456.29-6.886.819-10.265 1.587a73.1 73.1 0 0 0-37.153 21.204l-2.047-1.45a4.42 4.42 0 0 1-3.37-.342 53 53 0 0 1-7.655-6.912 47 47 0 0 0-3.729-3.967l-1.263-1.007a6.82 6.82 0 0 0-3.95-1.493 5.46 5.46 0 0 0-4.531 2.013 6.02 6.02 0 0 0 1.4 8.388l1.177.939a47 47 0 0 0 4.71 2.756 49 49 0 0 1 8.516 5.973 6.3 6.3 0 0 1 1.134 3.276l1.86 1.707a73.54 73.54 0 0 0-11.587 51.248l-2.39.683a7.8 7.8 0 0 1-2.44 2.457 53 53 0 0 1-10.188 1.681 48 48 0 0 0-5.46.427l-1.511.341h-.17a5.716 5.716 0 0 0-4.791 6.924 5.7 5.7 0 0 0 1.488 2.736 5.72 5.72 0 0 0 5.836 1.407h.111l1.536-.17a46 46 0 0 0 5.103-1.86 53 53 0 0 1 9.915-2.901 6.2 6.2 0 0 1 3.26 1.151l2.56-.426a73.92 73.92 0 0 0 32.766 40.983l-1.041 2.176a5.7 5.7 0 0 1 .512 3.208 55 55 0 0 1-5.146 9.318 48 48 0 0 0-3.054 4.548l-.726 1.536a5.72 5.72 0 0 0 2.49 8.015 5.7 5.7 0 0 0 3.057.527 5.72 5.72 0 0 0 4.719-3.687l.707-1.45a47 47 0 0 0 1.639-5.205c1.51-3.729 2.33-7.731 4.394-10.206a4.6 4.6 0 0 1 2.441-1.194l1.28-2.33a73.55 73.55 0 0 0 52.443.128l1.134 2.176a4.44 4.44 0 0 1 2.902 1.749 54 54 0 0 1 3.891 9.557 48 48 0 0 0 1.655 5.214l.708 1.45a5.72 5.72 0 0 0 7.784 3.154 5.7 5.7 0 0 0 2.345-2.036 5.71 5.71 0 0 0 .136-5.981l-.742-1.536a47 47 0 0 0-3.055-4.531c-1.962-2.833-3.652-5.854-5.12-9.019a4.43 4.43 0 0 1 .581-3.414 20 20 0 0 1-.948-2.295 74.02 74.02 0 0 0 32.622-41.128l2.423.426a4.53 4.53 0 0 1 3.183-1.177c3.387.648 6.706 1.706 9.915 2.901a43 43 0 0 0 5.102 1.963c.41.111 1.007.204 1.468.315h.111a5.71 5.71 0 0 0 5.823-1.421 5.7 5.7 0 0 0 1.504-2.729 5.7 5.7 0 0 0-.151-3.111 5.72 5.72 0 0 0-4.642-3.806l-1.655-.392a48 48 0 0 0-5.461-.427 52 52 0 0 1-10.188-1.681 6.4 6.4 0 0 1-2.458-2.457l-2.304-.683a73.8 73.8 0 0 0-11.826-51.137l2.014-1.86a4.5 4.5 0 0 1 1.058-3.226 53.6 53.6 0 0 1 8.447-5.939 48 48 0 0 0 4.71-2.756l1.246-1.007a5.72 5.72 0 0 0 1.456-8.42 5.716 5.716 0 0 0-8.53-.463l-1.262 1.007a48 48 0 0 0-3.729 3.968 53.3 53.3 0 0 1-7.45 7.023 6.3 6.3 0 0 1-3.447.375l-2.159 1.536a74.55 74.55 0 0 0-47.229-22.783c0-.853-.111-2.133-.128-2.534a4.48 4.48 0 0 1-1.86-2.833 53 53 0 0 1 .648-10.3c.367-1.791.623-3.583.785-5.4v-1.707a6.01 6.01 0 0 0-5.589-6.314zm-7.117 44.08-1.706 29.806h-.128c-.086 1.843-1.169 3.413-2.833 4.301-1.664.887-3.635.623-5.12-.461L86.722 90.404a58.54 58.54 0 0 1 28.184-15.35 60 60 0 0 1 6.033-.973zm14.233 0a59.1 59.1 0 0 1 34.046 16.418l-24.216 17.211a5.02 5.02 0 0 1-5.274.614 5.02 5.02 0 0 1-2.867-4.471zm-57.34 27.536 22.355 19.95v.128a5.02 5.02 0 0 1 1.587 4.898 5.02 5.02 0 0 1-3.558 3.712v.085l-28.687 8.251a58.53 58.53 0 0 1 8.31-37.032zm100.286 0a59.58 59.58 0 0 1 8.55 36.922l-28.73-8.277v-.111a4.96 4.96 0 0 1-3.559-3.712 5.05 5.05 0 0 1 1.588-4.897l22.185-19.856zm-54.645 21.503h9.148l5.589 7.099-2.031 8.875-8.217 3.95-8.235-3.95-1.937-8.875zm29.302 24.216a5.3 5.3 0 0 1 1.152 0l29.584 4.992c-4.267 12.287-12.689 22.783-23.679 29.805l-11.434-27.68a5 5 0 0 1-.383-2.354 5.04 5.04 0 0 1 4.726-4.635zm-49.687.128a5.03 5.03 0 0 1 4.13 2.287 4.99 4.99 0 0 1 .401 4.693v.111l-11.365 27.459a58.7 58.7 0 0 1-23.534-29.498l29.327-4.975q.489-.051.99 0zm24.78 11.946a5.04 5.04 0 0 1 4.582 2.628h.111l14.455 26.085-5.777 1.707a58.83 58.83 0 0 1-32.067-1.655l14.506-26.085c.879-1.536 2.5-2.475 4.267-2.518z\" /></g></svg>", "m365": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><g><rect width=\"256\" height=\"256\" rx=\"60\" fill=\"#f4f2ed\" /><g transform=\"scale(3.1) translate(2 2)\"><g clip-path=\"url(#m365-clipId0)\"><g clip-path=\"url(#m365-clipId1)\"><path d=\"M53.1574 10.3146C52.1706 7.19669 49.2773 5.07764 46.007 5.07764L43.5352 5.07764C39.9228 5.07764 36.8237 7.65268 36.1621 11.2039L32.4891 30.9179L33.5912 27.2788C34.5491 24.1158 37.4644 21.9526 40.7692 21.9526H52.2499L58.8326 24.2562L62.3337 21.9644C59.0634 21.9644 56.1701 19.8336 55.1833 16.7157L53.1574 10.3146Z\" fill=\"url(#m365-gradientId0)\" /><path d=\"M20.615 62.8082C21.5914 65.9426 24.4927 68.0777 27.7757 68.0777H32.6415C36.7421 68.0777 40.0824 64.7845 40.1408 60.6844L40.3984 42.5737L39.4114 45.86C38.459 49.0313 35.5396 51.2027 32.2284 51.2027H20.75L14.8141 48.4965L11.4807 51.2027C14.7636 51.2027 17.665 53.3378 18.6414 56.4722L20.615 62.8082Z\" fill=\"url(#m365-gradientId1)\" /><path d=\"M45.5 5.07764H19.25C11.75 5.07764 7.25001 14.7496 4.25002 24.4216C0.695797 35.8804 -3.95498 51.2056 9.50001 51.2056H20.931C24.2656 51.2056 27.1975 49.0121 28.135 45.812C30.1073 39.0797 33.5545 27.3661 36.2631 18.446C37.6417 13.906 38.79 10.007 40.5523 7.57888C41.5404 6.21761 43.1871 5.07764 45.5 5.07764Z\" fill=\"url(#m365-gradientId2)\" /><path d=\"M27.4946 68.0776H53.7446C61.2446 68.0776 65.7446 58.4071 68.7446 48.7365C72.2988 37.2794 76.9496 21.9565 63.4946 21.9565H52.0633C48.7288 21.9565 45.797 24.1499 44.8594 27.3499C42.8871 34.0812 39.44 45.7927 36.7314 54.7113C35.3529 59.2506 34.2046 63.149 32.4422 65.5768C31.4542 66.9378 29.8075 68.0776 27.4946 68.0776Z\" fill=\"url(#m365-gradientId4)\" /><rect x=\"24.125\" y=\"51.2031\" width=\"48.375\" height=\"21.375\" rx=\"3.63727\" fill=\"#131313\" /><text x=\"27.5\" y=\"67\" fill=\"#ffffff\" fontFamily=\"Inter, Arial, sans-serif\" fontSize=\"16\" fontWeight=\"700\" > M365 </text></g></g><defs><radialGradient id=\"m365-gradientId0\" cx=\"0\" cy=\"0\" r=\"1\" gradient-units=\"userSpaceOnUse\" gradient-transform=\"translate(59.4363 31.0868) rotate(-130.285) scale(27.6431 26.1575)\" ><stop offset=\"0.0955758\" stop-color=\"#00AEFF\" /><stop offset=\"0.773185\" stop-color=\"#2253CE\" /><stop offset=\"1\" stop-color=\"#0736C4\" /></radialGradient><radialGradient id=\"m365-gradientId1\" cx=\"0\" cy=\"0\" r=\"1\" gradient-units=\"userSpaceOnUse\" gradient-transform=\"translate(15.3608 50.9716) rotate(50.2556) scale(25.0142 24.5538)\" ><stop stop-color=\"#FFB657\" /><stop offset=\"0.633728\" stop-color=\"#FF5F3D\" /><stop offset=\"0.923392\" stop-color=\"#C02B3C\" /></radialGradient><linearGradient id=\"m365-gradientId2\" x1=\"17.6789\" y1=\"10.6669\" x2=\"21.2461\" y2=\"52.961\" gradient-units=\"userSpaceOnUse\" ><stop offset=\"0.156162\" stop-color=\"#0D91E1\" /><stop offset=\"0.487484\" stop-color=\"#52B471\" /><stop offset=\"0.652394\" stop-color=\"#98BD42\" /><stop offset=\"0.937361\" stop-color=\"#FFC800\" /></linearGradient><radialGradient id=\"m365-gradientId4\" cx=\"0\" cy=\"0\" r=\"1\" gradient-units=\"userSpaceOnUse\" gradient-transform=\"translate(64.843 17.441) rotate(109.722) scale(61.4524 75.0539)\" ><stop offset=\"0.0661714\" stop-color=\"#8C48FF\" /><stop offset=\"0.5\" stop-color=\"#F2598A\" /><stop offset=\"0.895833\" stop-color=\"#FFB152\" /></radialGradient><clipPath id=\"m365-clipId0\"><rect width=\"72\" height=\"72\" fill=\"white\" transform=\"translate(0.5 0.578125)\" /></clipPath><clipPath id=\"m365-clipId1\"><rect width=\"72\" height=\"72\" fill=\"white\" transform=\"translate(0.5 0.578125)\" /></clipPath></defs></g></g></svg>", "mongodbatlas": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><g fill=\"none\"><rect width=\"256\" height=\"256\" fill=\"#e6f4ec\" rx=\"60\" /><g transform=\"translate(128 128) scale(7.25) translate(-16 -16)\"><path d=\"M15.9.087l.854 1.604c.192.296.4.558.645.802.715.715 1.394 1.464 2.004 2.266 1.447 1.9 2.423 4.01 3.12 6.292.418 1.394.645 2.824.662 4.27.07 4.323-1.412 8.035-4.4 11.12-.488.488-1.01.94-1.57 1.342-.296 0-.436-.227-.558-.436-.227-.383-.366-.82-.436-1.255-.105-.523-.174-1.046-.14-1.586v-.244C16.057 24.21 15.796.21 15.9.087z\" fill=\"#599636\" /><path d=\"M15.9.034c-.035-.07-.07-.017-.105.017.017.35-.105.662-.296.96-.21.296-.488.523-.767.767-1.55 1.342-2.77 2.963-3.747 4.776-1.3 2.44-1.97 5.055-2.16 7.808-.087.993.314 4.497.627 5.508.854 2.684 2.388 4.933 4.375 6.885.488.47 1.01.906 1.55 1.325.157 0 .174-.14.21-.244a4.78 4.78 0 0 0 .157-.68l.35-2.614L15.9.034z\" fill=\"#6cac48\" /><path d=\"M16.754 28.845c.035-.4.227-.732.436-1.063-.21-.087-.366-.26-.488-.453-.105-.174-.192-.383-.26-.575-.244-.732-.296-1.5-.366-2.248v-.453c-.087.07-.105.662-.105.75a17.37 17.37 0 0 1-.314 2.353c-.052.314-.087.627-.28.906 0 .035 0 .07.017.122.314.924.4 1.865.453 2.824v.35c0 .418-.017.33.33.47.14.052.296.07.436.174.105 0 .122-.087.122-.157l-.052-.575v-1.604c-.017-.28.035-.558.07-.82z\" fill=\"#c2bfbf\" /></g></g></svg>", "oraclecloud": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><g fill=\"none\"><rect width=\"256\" height=\"256\" fill=\"#f4f2ed\" rx=\"60\" /><path fill=\"#c74634\" d=\"M 56 128 C 56 101.5 87.2 80 128 80 C 168.8 80 200 101.5 200 128 C 200 154.5 168.8 176 128 176 C 87.2 176 56 154.5 56 128 Z M 72 128 C 72 145.7 96.5 160 128 160 C 159.5 160 184 145.7 184 128 C 184 110.3 159.5 96 128 96 C 96.5 96 72 110.3 72 128 Z\" fill-rule=\"evenodd\" /></g></svg>", "vercel": "<svg xmlns=\"http://www.w3.org/2000/svg\" fill=\"none\" viewBox=\"0 0 256 256\" ><rect width=\"256\" height=\"256\" fill=\"#000000\" rx=\"60\" /><path d=\"M128 45L217 195H39L128 45Z\" fill=\"#ffffff\" /></svg>", "okta": "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 63 63\" fill=\"none\"><rect width=\"63\" height=\"63\" fill=\"#191919\" rx=\"14\"/><g transform=\"translate(7.5,7.5) scale(0.76)\"><path fill=\"#FFFFFF\" d=\"M34.6,0.4l-1.3,16c-0.6-0.1-1.2-0.1-1.9-0.1c-0.8,0-1.6,0.1-2.3,0.2l-0.7-7.7c0-0.2,0.2-0.5,0.4-0.5h1.3l-0.6-7.8c0-0.2,0.2-0.5,0.4-0.5h4.3C34.5,0,34.7,0.2,34.6,0.4L34.6,0.4L34.6,0.4z M23.8,1.2c-0.1-0.2-0.3-0.4-0.5-0.3l-4,1.5C19,2.5,18.9,2.8,19,3l3.3,7.1l-1.2,0.5c-0.2,0.1-0.3,0.3-0.2,0.6l3.3,7c1.2-0.7,2.5-1.2,3.9-1.5L23.8,1.2L23.8,1.2z M14,5.7l9.3,13.1c-1.2,0.8-2.2,1.7-3.1,2.7L14.5,16c-0.2-0.2-0.2-0.5,0-0.6l1-0.8L10,9c-0.2-0.2-0.2-0.5,0-0.6l3.3-2.7C13.5,5.4,13.8,5.5,14,5.7L14,5.7z M6.2,13.2c-0.2-0.1-0.5-0.1-0.6,0.1l-2.1,3.7c-0.1,0.2,0,0.5,0.2,0.6l7.1,3.4l-0.7,1.1c-0.1,0.2,0,0.5,0.2,0.6l7.1,3.2c0.5-1.3,1.2-2.5,2-3.6L6.2,13.2z M0.9,23.3c0-0.2,0.3-0.4,0.5-0.3l15.5,4c-0.4,1.3-0.6,2.7-0.7,4.1l-7.8-0.6c-0.2,0-0.4-0.2-0.4-0.5l0.2-1.3L0.6,28c-0.2,0-0.4-0.2-0.4-0.5L0.9,23.3L0.9,23.3L0.9,23.3z M0.4,33.8C0.1,33.8,0,34,0,34.3l0.8,4.2c0,0.2,0.3,0.4,0.5,0.3l7.6-2l0.2,1.3c0,0.2,0.3,0.4,0.5,0.3l7.5-2.1c-0.4-1.3-0.7-2.7-0.8-4.1L0.4,33.8L0.4,33.8z M2.9,44.9c-0.1-0.2,0-0.5,0.2-0.6l14.5-6.9c0.5,1.3,1.3,2.5,2.2,3.6l-6.3,4.5c-0.2,0.1-0.5,0.1-0.6-0.1L12,44.3l-6.5,4.5c-0.2,0.1-0.5,0.1-0.6-0.1L2.9,44.9L2.9,44.9z M20.4,41.9L9.1,53.3c-0.2,0.2-0.2,0.5,0,0.6l3.3,2.7c0.2,0.2,0.5,0.1,0.6-0.1l4.6-6.4l1,0.9c0.2,0.2,0.5,0.1,0.6-0.1l4.4-6.4C22.4,43.8,21.3,42.9,20.4,41.9L20.4,41.9z M18.2,60.1c-0.2-0.1-0.3-0.3-0.2-0.6L24.6,45c1.2,0.6,2.6,1.1,3.9,1.4l-2,7.5c-0.1,0.2-0.3,0.4-0.5,0.3l-1.2-0.5l-2.1,7.6c-0.1,0.2-0.3,0.4-0.5,0.3L18.2,60.1L18.2,60.1L18.2,60.1z M29.6,46.6l-1.3,16c0,0.2,0.2,0.5,0.4,0.5H33c0.2,0,0.4-0.2,0.4-0.5l-0.6-7.8h1.3c0.2,0,0.4-0.2,0.4-0.5l-0.7-7.7c-0.8,0.1-1.5,0.2-2.3,0.2C30.9,46.7,30.2,46.7,29.6,46.6L29.6,46.6z M45.1,3.4c0.1-0.2,0-0.5-0.2-0.6l-4-1.5c-0.2-0.1-0.5,0.1-0.5,0.3l-2.1,7.6l-1.2-0.5c-0.2-0.1-0.5,0.1-0.5,0.3l-2,7.5c1.4,0.3,2.7,0.8,3.9,1.4L45.1,3.4L45.1,3.4z M53.9,9.7L42.6,21.1c-0.9-1-2-1.9-3.2-2.6l4.4-6.4c0.1-0.2,0.4-0.2,0.6-0.1l1,0.9l4.6-6.4c0.1-0.2,0.4-0.2,0.6-0.1l3.3,2.7C54,9.3,54,9.6,53.9,9.7L53.9,9.7z M59.9,18.7c0.2-0.1,0.3-0.4,0.2-0.6L58,14.4c-0.1-0.2-0.4-0.3-0.6-0.1l-6.5,4.5l-0.7-1.1c-0.1-0.2-0.4-0.3-0.6-0.1L43.3,22c0.9,1.1,1.6,2.3,2.2,3.6L59.9,18.7L59.9,18.7z M62.2,24.5l0.7,4.2c0,0.2-0.1,0.5-0.4,0.5l-15.9,1.5c-0.1-1.4-0.4-2.8-0.8-4.1l7.5-2.1c0.2-0.1,0.5,0.1,0.5,0.3l0.2,1.3l7.6-2C61.9,24.1,62.1,24.3,62.2,24.5L62.2,24.5L62.2,24.5z M61.5,40c0.2,0.1,0.5-0.1,0.5-0.3l0.7-4.2c0-0.2-0.1-0.5-0.4-0.5l-7.8-0.7l0.2-1.3c0-0.2-0.1-0.5-0.4-0.5l-7.8-0.6c0,1.4-0.3,2.8-0.7,4.1L61.5,40L61.5,40L61.5,40z M57.4,49.6c-0.1,0.2-0.4,0.3-0.6,0.1l-13.2-9.1c0.8-1.1,1.5-2.3,2-3.6l7.1,3.2c0.2,0.1,0.3,0.4,0.2,0.6L52.2,42l7.1,3.4c0.2,0.1,0.3,0.4,0.2,0.6L57.4,49.6C57.4,49.6,57.4,49.6,57.4,49.6z M39.7,44.2L49,57.3c0.1,0.2,0.4,0.2,0.6,0.1l3.3-2.7c0.2-0.2,0.2-0.4,0-0.6l-5.5-5.6l1-0.8c0.2-0.2,0.2-0.4,0-0.6l-5.5-5.5C42,42.6,40.9,43.5,39.7,44.2L39.7,44.2L39.7,44.2z M39.7,62c-0.2,0.1-0.5-0.1-0.5-0.3l-4.2-15.4c1.4-0.3,2.7-0.8,3.9-1.5l3.3,7c0.1,0.2,0,0.5-0.2,0.6l-1.2,0.5l3.3,7.1c0.1,0.2,0,0.5-0.2,0.6L39.7,62L39.7,62L39.7,62z\"/></g></svg>"};
+const PROVIDER_TYPE_NAMES = {aws:'AWS',azure:'Azure',gcp:'Google Cloud',kubernetes:'Kubernetes',m365:'Microsoft 365',okta:'Okta',mongodbatlas:'MongoDB Atlas',alibabacloud:'Alibaba Cloud',oraclecloud:'Oracle Cloud',iac:'Infrastructure as Code',github:'GitHub',vercel:'Vercel',googleworkspace:'Google Workspace'};
+const PROVIDER_CHIP_COLORS = {aws:'#f59e0b',azure:'#38bdf8',gcp:'#ef4444',kubernetes:'#4f46e5',m365:'#4ade80',github:'#e5e5e5',okta:'#3c8dff',mongodbatlas:'#4ade80',alibabacloud:'#f77852',oraclecloud:'#ef4444',iac:'#a1a1aa',vercel:'#e5e5e5',googleworkspace:'#fec94d'};
+const PROVIDER_SHORT = {aws:'AWS',azure:'AZR',gcp:'GCP',m365:'M365',kubernetes:'K8S',okta:'OKTA',mongodbatlas:'MDB',alibabacloud:'ALI',oraclecloud:'OCI',iac:'IAC',github:'GH',vercel:'VRC',googleworkspace:'GWS'};
+
+let OPEN_PTYPE = null; /* which provider-type popover is open */
+
+function providersPanelHTML(){
+  const types = [];
+  const byType = {};
+  PROWLER_DATA.providers.forEach(p=>{
+    if(!byType[p.provider]){ byType[p.provider]=[]; types.push(p.provider); }
+    byType[p.provider].push(p);
+  });
+  const groups = types.map(t=>{
+    const accounts = byType[t];
+    const selN = accounts.filter(p=>FILTER.has(p.alias)).length;
+    const failSum = accounts.reduce((s,p)=>s+provStats(p.alias).fail,0);
+    const col = PROVIDER_CHIP_COLORS[t]||'#6ee7b7';
+    const state = selN===0?'none':(selN===accounts.length?'full':'partial');
+    const open = OPEN_PTYPE===t;
+    const chips = accounts.map(p=>{
+      const st = provStats(p.alias);
+      return `<span class="chip ${FILTER.has(p.alias)?'active':''}" data-alias="${esc(p.alias)}" style="--chip-c:${col}" title="${esc(p.alias)} · ${st.fail} failed / ${st.pass} passed">
+        <span class="cdot"></span>${esc(p.alias)} <span class="ccount">${st.fail}</span></span>`;
+    }).join('');
+    const pop = open ? `
+      <div class="ptype-pop" data-pop="${t}">
+        <div class="pop-head">
+          <span class="pop-title">${esc(PROVIDER_TYPE_NAMES[t]||t)} accounts</span>
+          <button class="chip-ctl ${selN===accounts.length?'active':''}" data-ptype-all="${t}">All</button>
+          <button class="chip-ctl ${selN===0?'active':''}" data-ptype-none="${t}">None</button>
+        </div>
+        <div class="pop-accounts">${chips}</div>
+      </div>` : '';
+    return `<div class="ptype ${state} ${open?'open':''}" data-ptype="${t}">
+      <div class="ptype-head" data-ptype-click="${t}" title="Click to choose accounts">
+        <span class="plogo">${PROVIDER_LOGOS[t]||''}</span>
+        <span class="pcol">
+          <div class="pname">${esc(PROVIDER_TYPE_NAMES[t]||t)}</div>
+          <div class="psub">${accounts.length} account${accounts.length>1?'s':''} · <b>${failSum}</b> fail</div>
+        </span>
+        <span class="psel">${selN}/${accounts.length}</span>
+        <span class="pcaret">▼</span>
+      </div>
+      ${pop}
+    </div>`;
+  }).join('');
+  const allOn = FILTER.size === PROWLER_DATA.providers.length;
+  const noneOn = FILTER.size === 0;
+  return `
+    <div class="filter-head">
+      <h3 class="widget-title" style="margin:0 6px 0 0">Cloud Providers</h3>
+      <button class="chip-ctl ${allOn?'active':''}" data-fltr="all">All</button>
+      <button class="chip-ctl ${noneOn?'active':''}" data-fltr="none">None</button>
+      <span class="filter-note">${FILTER.size}/${PROWLER_DATA.providers.length} accounts selected · filters the whole dashboard</span>
+    </div>
+    <div class="ptype-grid">${groups}</div>`;
+}
+function attachFilterHandlers(){
+  const bar = document.querySelector('.widget[data-id="providers"]');
+  if(!bar) return;
+  bar.querySelectorAll('.ptype-pop').forEach(pop=>{
+    const r = pop.closest('.ptype').getBoundingClientRect();
+    if(r.left + 330 > window.innerWidth - 24) pop.classList.add('pop-right');
+  });
+  bar.querySelectorAll('[data-ptype-click]').forEach(h=>h.addEventListener('click', e=>{
+    e.stopPropagation();
+    const t = h.dataset.ptypeClick;
+    OPEN_PTYPE = (OPEN_PTYPE===t) ? null : t;
+    rerenderWidgets(['providers']);
+  }));
+  bar.querySelectorAll('.ptype-pop').forEach(pop=>pop.addEventListener('click', e=>e.stopPropagation()));
+  bar.querySelectorAll('.chip').forEach(ch=>ch.addEventListener('click', e=>{
+    e.stopPropagation();
+    const a = ch.dataset.alias;
+    FILTER.has(a) ? FILTER.delete(a) : FILTER.add(a);
+    onFilterChange();
+  }));
+  bar.querySelectorAll('[data-ptype-all]').forEach(b=>b.addEventListener('click', e=>{
+    e.stopPropagation();
+    PROWLER_DATA.providers.filter(p=>p.provider===b.dataset.ptypeAll).forEach(p=>FILTER.add(p.alias));
+    onFilterChange();
+  }));
+  bar.querySelectorAll('[data-ptype-none]').forEach(b=>b.addEventListener('click', e=>{
+    e.stopPropagation();
+    PROWLER_DATA.providers.filter(p=>p.provider===b.dataset.ptypeNone).forEach(p=>FILTER.delete(p.alias));
+    onFilterChange();
+  }));
+  bar.querySelectorAll('.chip-ctl[data-fltr]').forEach(b=>b.addEventListener('click', e=>{
+    e.stopPropagation();
+    FILTER.clear();
+    if(b.dataset.fltr==='all') PROWLER_DATA.providers.forEach(p=>FILTER.add(p.alias));
+    onFilterChange();
+  }));
+}
+document.addEventListener('click', ()=>{ if(OPEN_PTYPE){ OPEN_PTYPE=null; rerenderWidgets(['providers']); } });
+
+function onFilterChange(){
+  renderGrid(); /* every widget (incl. the providers panel) recomputes */
+}
+
+function renderProvidersPanel(){ return providersPanelHTML(); }
+function topFailingAccounts(n){
+  const rows = PROWLER_DATA.providers.filter(p=>FILTER.has(p.alias))
+    .map(p=>({alias:p.alias, provider:p.provider, fail:provStats(p.alias).fail}))
+    .sort((a,b)=>b.fail-a.fail).slice(0,n);
+  const max = rows.length ? rows[0].fail : 1;
+  rows.forEach(r=>r.pct = Math.max(4, Math.round(r.fail/max*100)));
+  return rows;
+}
+function renderChecks(){
+  const ov = effectiveOverview();
+  const real = selectedOverview();
+  const failDelta = ov.fail - real.fail;
+  const passDelta = ov.pass - real.pass;
+  const sim = SIM.fixCritical;
+  const rate = ov.total ? Math.round(ov.pass/ov.total*100) : 0;
+  const est = [...FILTER].some(a => provStats(a).estimated);
+  return `
+    <h3 class="widget-title">Checks Summary${sim?' <span class="sim-pill">simulated</span>':''}</h3>
+    <div class="stat-row" style="margin-top:8px">
+      <div class="stat">
+        <div class="stat-num fail">${ov.fail.toLocaleString()}</div>
+        <div class="stat-label">Failed Checks${sim?` <span class="delta ${failDelta<0?'up':'down'}">${failDelta>=0?'+':''}${failDelta}</span>`:''}</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num pass">${ov.pass.toLocaleString()}</div>
+        <div class="stat-label">Passed${sim?` <span class="delta ${passDelta>0?'up':'down'}">${passDelta>=0?'+':''}${passDelta}</span>`:''}</div>
+      </div>
+      <div class="stat"><div class="stat-num" style="color:var(--info)">${ov.total.toLocaleString()}</div><div class="stat-label">Total</div></div>
+    </div>
+    <div style="margin-top:16px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;color:var(--mute);margin-bottom:6px"><span>Pass rate</span><b style="color:var(--pass)">${rate}%</b></div>
+      <div style="height:8px;border-radius:4px;background:rgba(255,255,255,0.06);overflow:hidden"><div style="height:100%;width:${rate}%;border-radius:4px;background:linear-gradient(90deg,var(--pass),var(--primary));box-shadow:0 0 10px rgba(110,231,183,0.5)"></div></div>
+    </div>
+    <div class="top-accounts">
+      <div class="top-accounts-label">Top failing accounts</div>
+      ${topFailingAccounts(3).map(a=>`
+        <div class="top-account-row">
+          <span class="ta-logo">${PROVIDER_LOGOS[a.provider]||''}</span>
+          <span class="ta-alias" title="${esc(a.alias)}">${esc(a.alias)}</span>
+          <span class="ta-bar"><span style="width:${a.pct}%"></span></span>
+          <b class="ta-count">${a.fail.toLocaleString()}</b>
+        </div>`).join('') || '<div style="font-size:11.5px;color:var(--mute)">no providers selected</div>'}
+    </div>
+    <div style="margin-top:12px;font-size:11.5px;color:var(--mute)">${FILTER.size} of ${PROWLER_DATA.providers.length} providers in scope${est?' · severity split partly estimated for small providers':''}</div>`;
+}
+
+function renderDonut(){
+  const c = effectiveCounts();
+  const realCrit = selectedCounts().critical;
+  const sim = SIM.fixCritical;
+  const segments = [
+    {key:'critical',val:c.critical,color:'var(--crit)'},
+    {key:'high',val:c.high,color:'var(--high)'},
+    {key:'medium',val:c.medium,color:'var(--med)'},
+    {key:'low',val:c.low,color:'var(--low)'},
+    {key:'informational',val:c.informational,color:'var(--info)'}
+  ];
+  const displayTotal = segments.reduce((s,x)=>s+x.val,0);
+  const total = displayTotal || 1; /* geometry divisor only — never display this */
+  const R = 70, C = 2*Math.PI*R;
+  let offset = 0;
+  const GAP = segments.filter(s=>s.val>0).length > 1 ? 3 : 0; /* px gap between slices */
+  const arcs = segments.map(s=>{
+    const len = (s.val/total)*C;
+    if(len <= 0){ return ''; } /* zero-length arcs paint nothing (avoids cap artifacts) */
+    const drawn = Math.max(len - GAP, 1);
+    const dash = `${drawn} ${C-drawn}`;
+    const el = `<circle r="${R}" cx="90" cy="90" fill="transparent" stroke="${s.color}" stroke-width="22" stroke-dasharray="${dash}" stroke-dashoffset="${-(offset + GAP/2)}" transform="rotate(-90 90 90)"/>`;
+    offset += len;
+    return el;
+  }).join('');
+  const legend = segments.map(s=>{
+    const isCrit = s.key==='critical';
+    const strike = sim && isCrit ? 'text-decoration:line-through;opacity:0.55' : '';
+    return `
+      <div class="legend-item" style="${strike}">
+        <div class="legend-swatch" style="background:${s.color}"></div>
+        <div class="legend-label">${s.key.charAt(0).toUpperCase()+s.key.slice(1)}</div>
+        <div class="legend-val">${s.val}</div>
+      </div>`;
+  }).join('');
+  const btn = realCrit > 0
+    ? `<button class="sim-btn ${sim?'active':''}" data-sim-action="fix-critical">
+         <span class="icon">${sim?'✓':'⚡'}</span>
+         ${sim ? `Showing impact of fixing ${realCrit} critical · click to reset` : `What if I fix ${realCrit} critical finding${realCrit===1?'':'s'}?`}
+       </button>`
+    : '';
+  return `
+    <h3 class="widget-title">Severity Breakdown${sim?' <span class="sim-pill">simulated</span>':''}</h3>
+    <div class="donut-wrap">
+      <svg class="donut-svg" width="180" height="180" viewBox="0 0 180 180">
+        <circle r="${R}" cx="90" cy="90" fill="transparent" stroke="rgba(255,255,255,0.05)" stroke-width="22"/>
+        ${arcs}
+        <text x="90" y="86" text-anchor="middle" fill="#e6edf3" font-size="28" font-weight="700">${displayTotal.toLocaleString()}</text>
+        <text x="90" y="106" text-anchor="middle" fill="#8b95a7" font-size="11" letter-spacing="1.5">FAIL TOTAL</text>
+      </svg>
+      <div class="donut-legend">${legend}</div>
+    </div>
+    ${btn}`;
+}
+
+const TREND_SERIES = [
+  {key:'critical', color:'#ff006a', label:'Critical'},
+  {key:'high',     color:'#f77852', label:'High'},
+  {key:'medium',   color:'#fec94d', label:'Medium'},
+  {key:'low',      color:'#fdfbd4', label:'Low'}
+];
+const TREND_W = 900, TREND_H = 320, TREND_P = {t:24, r:24, b:42, l:46};
+
+function renderSparkline(){
+  const t = trendSeries();
+  const W=TREND_W, H=TREND_H, P=TREND_P;
+  const allVals = TREND_SERIES.flatMap(s=>t[s.key]);
+  const rawMax = Math.max(...allVals);
+  const maxY = Math.ceil(rawMax / 20) * 20 || 20;
+  const plotW = W - P.l - P.r;
+  const plotH = H - P.t - P.b;
+  const xAt = i => P.l + (i/(t.dates.length-1)) * plotW;
+  const yAt = v => P.t + (1 - v/maxY) * plotH;
+
+  /* gridlines + y labels */
+  const yTicks = [];
+  for(let i=0;i<=5;i++){
+    const v = (maxY/5)*i;
+    const y = yAt(v);
+    yTicks.push(`<line x1="${P.l}" x2="${W-P.r}" y1="${y.toFixed(1)}" y2="${y.toFixed(1)}" stroke="rgba(255,255,255,0.05)"/>`);
+    yTicks.push(`<text x="${P.l-10}" y="${(y+4).toFixed(1)}" text-anchor="end" fill="#8b95a7" font-size="10.5" font-family="SF Mono,Menlo,monospace">${Math.round(v)}</text>`);
+  }
+
+  /* x-axis labels - cadence depends on the selected range */
+  const LBL_EVERY = TREND_RANGES[TREND_RANGE].labelEvery;
+  const lastIdx = t.dates.length-1;
+  const xLabels = t.dates.map((d,i)=>{
+    /* periodic labels, but suppress any that would crowd the final label */
+    const periodic = i%LBL_EVERY===0 && (lastIdx - i) >= Math.ceil(LBL_EVERY/2);
+    if(!periodic && i!==lastIdx) return '';
+    const lbl = d.slice(5).replace('-','/'); // MM/DD
+    return `<text x="${xAt(i).toFixed(1)}" y="${H-P.b+18}" text-anchor="middle" fill="#8b95a7" font-size="10.5" font-family="SF Mono,Menlo,monospace">${lbl}</text>`;
+  }).join('');
+
+  /* polylines + light area fill for each series */
+  const lines = TREND_SERIES.map(s=>{
+    const pts = t[s.key].map((v,i)=>`${xAt(i).toFixed(1)},${yAt(v).toFixed(1)}`).join(' ');
+    const areaPts = `${P.l},${(H-P.b).toFixed(1)} ${pts} ${(W-P.r).toFixed(1)},${(H-P.b).toFixed(1)}`;
+    return `
+      <polygon class="trend-area" data-series="${s.key}" points="${areaPts}" fill="${s.color}" opacity="0.06"/>
+      <polyline data-series="${s.key}" points="${pts}" fill="none" stroke="${s.color}" stroke-width="2.2" stroke-linejoin="round" stroke-linecap="round"/>
+      <g data-series-dots="${s.key}">${t[s.key].map((v,i)=>`<circle cx="${xAt(i).toFixed(1)}" cy="${(P.t + plotH - (v/maxY)*plotH).toFixed(1)}" r="2.6" fill="var(--bg-2)" stroke="${s.color}" stroke-width="1.6"/>`).join('')}</g>
+    `;
+  }).join('');
+
+  /* hover overlay + dots + cursor line */
+  const hoverDots = TREND_SERIES.map(s=>
+    `<circle data-series="${s.key}" r="5" fill="${s.color}" stroke="#121110" stroke-width="2.5"/>`
+  ).join('');
+
+  const legend = TREND_SERIES.map(s=>
+    `<span class="trend-legend-item" data-series="${s.key}">
+       <span class="trend-swatch" style="background:${s.color}"></span>${s.label}
+     </span>`).join('');
+
+  return `
+    <h3 class="widget-title">Findings Trend · ${TREND_RANGES[TREND_RANGE].label} by Severity</h3>
+    <div class="range-chips">${Object.keys(TREND_RANGES).map(r=>`<span class="range-chip ${r===TREND_RANGE?'active':''}" data-range="${r}">${r}</span>`).join('')}</div>
+    <div class="trend-legend">${legend}<span style="color:var(--mute);font-size:11px;align-self:center;margin-left:6px">Click a label to toggle · hover for details</span></div>
+    <div class="trend-chart-wrap" id="trendWrap">
+      <svg class="trend-svg" id="trendSvg" viewBox="0 0 ${W} ${H}" preserveAspectRatio="xMidYMid meet">
+        ${yTicks.join('')}
+        <line x1="${P.l}" x2="${W-P.r}" y1="${H-P.b}" y2="${H-P.b}" stroke="rgba(255,255,255,0.12)"/>
+        <line x1="${P.l}" x2="${P.l}" y1="${P.t}" y2="${H-P.b}" stroke="rgba(255,255,255,0.12)"/>
+        ${lines}
+        ${xLabels}
+        <g id="trendHover" style="display:none;pointer-events:none">
+          <line id="trendCursor" stroke="rgba(255,255,255,0.35)" stroke-width="1" stroke-dasharray="4,4" y1="${P.t}" y2="${H-P.b}"/>
+          ${hoverDots}
+        </g>
+        <rect id="trendOverlay" x="${P.l}" y="${P.t}" width="${plotW}" height="${plotH}" fill="transparent"/>
+      </svg>
+      <div class="trend-tooltip" id="trendTooltip"></div>
+    </div>`;
+}
+
+function attachTrendHandlers(){
+  $$('.range-chip').forEach(ch=>ch.addEventListener('click', e=>{
+    e.stopPropagation();
+    TREND_RANGE = ch.dataset.range;
+    rerenderWidgets(['sparkline']);
+  }));
+  const svg = document.getElementById('trendSvg');
+  const wrap = document.getElementById('trendWrap');
+  if(!svg || !wrap) return;
+  const overlay = svg.querySelector('#trendOverlay');
+  const cursor = svg.querySelector('#trendCursor');
+  const hover = svg.querySelector('#trendHover');
+  const tooltip = wrap.querySelector('#trendTooltip');
+  const t = trendSeries();
+  const W=TREND_W, H=TREND_H, P=TREND_P;
+  const allVals = TREND_SERIES.flatMap(s=>t[s.key]);
+  const maxY = Math.ceil(Math.max(...allVals) / 20) * 20 || 20;
+  const plotW = W - P.l - P.r;
+  const plotH = H - P.t - P.b;
+  const xAt = i => P.l + (i/(t.dates.length-1)) * plotW;
+  const yAt = v => P.t + (1 - v/maxY) * plotH;
+
+  const hidden = new Set(); // hidden series
+
+  function updateHover(clientX, clientY){
+    const rect = svg.getBoundingClientRect();
+    const sx = (clientX - rect.left) * (W / rect.width);
+    const xRel = sx - P.l;
+    let i = Math.round((xRel/plotW) * (t.dates.length-1));
+    i = Math.max(0, Math.min(t.dates.length-1, i));
+    const xPx = xAt(i);
+    cursor.setAttribute('x1', xPx);
+    cursor.setAttribute('x2', xPx);
+    hover.querySelectorAll('circle').forEach(c=>{
+      const s = c.dataset.series;
+      c.setAttribute('cx', xPx);
+      c.setAttribute('cy', yAt(t[s][i]));
+      c.classList.toggle('hidden', hidden.has(s));
+    });
+    hover.style.display = '';
+
+    const visible = TREND_SERIES.filter(s=>!hidden.has(s.key));
+    const total = visible.reduce((sum,s)=>sum+t[s.key][i], 0);
+    const dateObj = new Date(t.dates[i]);
+    const dateLbl = dateObj.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric',year:'numeric'});
+    const rows = visible.map(s=>`
+      <div class="row">
+        <div class="lbl"><span class="swatch" style="background:${s.color}"></span>${s.label}</div>
+        <div class="val">${t[s.key][i]}</div>
+      </div>`).join('');
+    tooltip.innerHTML = `<div class="date">${dateLbl}</div>${rows}<div class="row total"><div class="lbl">Total FAIL</div><div class="val">${total}</div></div>`;
+    tooltip.style.display = 'block';
+
+    const wrapRect = wrap.getBoundingClientRect();
+    const tw = tooltip.offsetWidth || 180;
+    const th = tooltip.offsetHeight || 140;
+    let tx = (clientX - wrapRect.left) + 16;
+    let ty = (clientY - wrapRect.top) + 16;
+    if(tx + tw > wrapRect.width - 8) tx = (clientX - wrapRect.left) - tw - 16;
+    if(ty + th > wrapRect.height - 8) ty = wrapRect.height - th - 8;
+    tooltip.style.left = Math.max(4, tx) + 'px';
+    tooltip.style.top = Math.max(4, ty) + 'px';
+  }
+
+  overlay.addEventListener('mousemove', e=>updateHover(e.clientX, e.clientY));
+  overlay.addEventListener('mouseleave', ()=>{
+    hover.style.display = 'none';
+    tooltip.style.display = 'none';
+  });
+
+  /* touch support */
+  overlay.addEventListener('touchmove', e=>{
+    if(e.touches.length){
+      e.preventDefault();
+      updateHover(e.touches[0].clientX, e.touches[0].clientY);
+    }
+  }, {passive:false});
+
+  /* legend toggles */
+  wrap.parentElement.querySelectorAll('.trend-legend-item').forEach(el=>{
+    el.addEventListener('click', ()=>{
+      const s = el.dataset.series;
+      if(hidden.has(s)) hidden.delete(s); else hidden.add(s);
+      el.classList.toggle('muted');
+      svg.querySelectorAll(`polyline[data-series="${s}"], polygon[data-series="${s}"], g[data-series-dots="${s}"]`)
+        .forEach(p=>p.classList.toggle('hidden'));
+    });
+  });
+}
+
+function renderCompliance(){
+  const sim = SIM.fixCritical;
+  const ov = effectiveOverview();
+  const realCounts = selectedCounts(); /* baseline = selection without simulation */
+  const effCounts = effectiveCounts();
+  const tsN = threatScore(effCounts, effectiveOverview());
+  const tsRealN = threatScore(realCounts, selectedOverview());
+  const empty = tsN === null;
+  const ts = empty ? 0 : tsN;
+  const tsDelta = empty ? 0 : ts - tsRealN;
+  const R = 60, C = 2*Math.PI*R;
+  const dash = (ts/100)*C;
+  const passRate = ov.total ? Math.round((ov.pass / ov.total) * 100) : 0;
+  return `
+    <h3 class="widget-title">ThreatScore${sim?' <span class="sim-pill">simulated</span>':''}</h3>
+    <div class="compliance-wrap">
+      <svg class="compliance-svg" width="160" height="160" viewBox="0 0 160 160">
+        <defs>
+          <linearGradient id="complGrad" x1="0" x2="1" y1="0" y2="1">
+            <stop offset="0%" stop-color="var(--primary)"/>
+            <stop offset="100%" stop-color="var(--secondary)"/>
+          </linearGradient>
+        </defs>
+        <circle r="${R}" cx="80" cy="80" fill="transparent" stroke="rgba(255,255,255,0.06)" stroke-width="14"/>
+        ${dash > 0.5 ? `<circle r="${R}" cx="80" cy="80" fill="transparent" stroke="url(#complGrad)" stroke-width="14" stroke-linecap="round"
+                stroke-dasharray="${dash.toFixed(2)} ${(C-dash).toFixed(2)}" transform="rotate(-90 80 80)" style="transition:stroke-dasharray .6s ease"/>` : ''}
+        <text x="80" y="78" text-anchor="middle" fill="#e6edf3" font-size="30" font-weight="700">${empty?'—':ts.toFixed(1)}</text>
+        <text x="80" y="98" text-anchor="middle" fill="#8b95a7" font-size="10" letter-spacing="1.5">THREATSCORE</text>
+      </svg>
+      <div class="compliance-num">
+        <b>${ov.pass}/${ov.total}</b>
+        ${empty ? 'select at least one provider' : `passing · ${passRate}% pass rate`}
+        ${sim ? `<div style="margin-top:8px"><span class="delta ${tsDelta>0?'up':'down'}">${tsDelta>0?'+':''}${tsDelta.toFixed(1)} pts</span> from fixing criticals</div>` : ''}
+      </div>
+    </div>`;
+}
+
+/* findings table state */
+let tableState = { sort:'sev', dir:'asc', page:1, search:'', pageSize:20 };
+const SEV_ORDER = { critical:0, high:1, medium:2, low:3, informational:4 };
+
+function renderFindingsTable(){
+  return `
+    <h3 class="widget-title">Findings · ${filteredFindings().length} loaded</h3>
+    <div class="search-bar">
+      <input id="searchInput" placeholder="Search by check, resource, service, region…" value="${esc(tableState.search)}"/>
+    </div>
+    <div style="overflow-x:auto;margin-left:32px">
+      <table id="findingsTable">
+        <thead>
+          <tr>
+            <th data-col="sev">Severity<span class="sort-ind">▼</span></th>
+            <th data-col="service">Service<span class="sort-ind">▼</span></th>
+            <th data-col="status">Status<span class="sort-ind">▼</span></th>
+            <th data-col="check">Check ID<span class="sort-ind">▼</span></th>
+            <th data-col="resource">Resource<span class="sort-ind">▼</span></th>
+            <th data-col="region">Region<span class="sort-ind">▼</span></th>
+          </tr>
+        </thead>
+        <tbody id="findingsBody"></tbody>
+      </table>
+    </div>
+    <div class="pagination">
+      <span id="paginfo">—</span>
+      <span class="pages" id="pages"></span>
+    </div>`;
+}
+
+function refreshTable(){
+  const body = $('#findingsBody'); if(!body) return;
+  const q = tableState.search.toLowerCase().trim();
+  let data = filteredFindings().filter(f =>
+    !q || f.check.toLowerCase().includes(q) || f.resource.toLowerCase().includes(q) ||
+    f.service.toLowerCase().includes(q) || f.region.toLowerCase().includes(q) ||
+    f.sev.toLowerCase().includes(q));
+  const dir = tableState.dir === 'asc' ? 1 : -1;
+  data.sort((a,b)=>{
+    let av = a[tableState.sort], bv = b[tableState.sort];
+    if(tableState.sort === 'sev'){ av = SEV_ORDER[a.sev]; bv = SEV_ORDER[b.sev]; }
+    if(av < bv) return -1*dir; if(av > bv) return 1*dir; return 0;
+  });
+  const total = data.length;
+  const totalPages = Math.max(1, Math.ceil(total/tableState.pageSize));
+  if(tableState.page > totalPages) tableState.page = totalPages;
+  const start = (tableState.page-1)*tableState.pageSize;
+  const slice = data.slice(start, start+tableState.pageSize);
+  body.innerHTML = slice.map(f=>`
+    <tr>
+      <td><span class="sev-badge sev-${f.sev}">${f.sev}</span></td>
+      <td>${esc(f.service)}</td>
+      <td><span class="stat-badge">${f.status}</span></td>
+      <td style="font-family:'SF Mono',Menlo,monospace;font-size:11.5px">${esc(f.check)}</td>
+      <td style="color:var(--mute)">${esc(f.resource)}</td>
+      <td>${esc(f.region)}</td>
+    </tr>`).join('') || '<tr><td colspan="6" style="text-align:center;color:var(--mute);padding:24px">No findings match your search.</td></tr>';
+  $('#paginfo').textContent = `${total ? start+1 : 0}–${Math.min(start+tableState.pageSize,total)} of ${total}`;
+  const pagesEl = $('#pages');
+  let html = `<button ${tableState.page===1?'disabled':''} data-pg="${tableState.page-1}">‹ Prev</button>`;
+  for(let i=1;i<=totalPages;i++){
+    if(totalPages>7 && i>2 && i<totalPages-1 && Math.abs(i-tableState.page)>1){
+      if(i===3) html+='<span style="color:var(--mute);padding:0 4px">…</span>';
+      continue;
+    }
+    html += `<button class="${i===tableState.page?'active':''}" data-pg="${i}">${i}</button>`;
+  }
+  html += `<button ${tableState.page===totalPages?'disabled':''} data-pg="${tableState.page+1}">Next ›</button>`;
+  pagesEl.innerHTML = html;
+  pagesEl.querySelectorAll('button').forEach(b=>b.addEventListener('click', ()=>{
+    tableState.page = parseInt(b.dataset.pg,10); refreshTable();
+  }));
+}
+
+function buildPrBody(f){
+  return `## Remediation: ${f.title}
+
+**Resource:** ${f.resource}
+**Region:** ${f.region}
+**Severity:** ${f.sev.toUpperCase()}
+**Check ID:** \`${f.check}\`
+
+### Risk
+${f.risk}
+
+### Steps
+${f.steps.map(s=>`- [ ] ${s}`).join('\n')}
+
+---
+Generated by Prowler MCP Dashboard`;
+}
+
+function renderTopCritical(){
+  const items = filteredTopCritical().map((f,idx)=>{
+    const stepsHtml = f.steps.map((s,i)=>`
+      <div class="step" data-finding="${idx}" data-step="${i}">
+        <input type="checkbox" id="s${idx}-${i}"/>
+        <label for="s${idx}-${i}"><span class="step-num">${i+1}.</span>${esc(s)}</label>
+      </div>`).join('');
+    return `
+      <div class="accordion-item" data-idx="${idx}">
+        <div class="accordion-head">
+          <span class="sev-badge sev-${f.sev}">${f.sev}</span>
+          <div class="meta">
+            <div class="check-title">${esc(f.title)}</div>
+            <div class="resource">${esc(f.resource)} · ${esc(f.region)} · <span style="color:var(--primary)">${esc(f.check)}</span></div>
+          </div>
+          <span class="accordion-arrow">▼</span>
+        </div>
+        <div class="accordion-body">
+          <div class="remediation-section">
+            <h4>Risk</h4>
+            <div class="risk">${esc(f.risk)}</div>
+          </div>
+          <div class="remediation-section">
+            <h4>Remediation Steps</h4>
+            ${stepsHtml}
+          </div>
+          <button class="pr-btn" data-pr-idx="${idx}">📤 Create GitHub PR</button>
+        </div>
+      </div>`;
+  }).join('');
+  return `<h3 class="widget-title">Top Critical Findings · Remediation Playbook</h3>${items}`;
+}
+
+/* ============================================================
+   PR MODAL
+   ============================================================ */
+/* ==PR_DEFAULTS_START== */
+const PR_DEFAULTS = {
+  repo: 'acme-cloud-infra/cloud-infrastructure',
+  base: 'main',
+  head: 'fix/prowler-remediation',
+  labels: 'Remediation'
+};
+/* ==PR_DEFAULTS_END== */
+/* Encode branch path while preserving slashes (GitHub allows `feat/foo` literally in compare URLs) */
+const encodeBranch = b => String(b||'').trim().split('/').map(encodeURIComponent).join('/');
+/* Sanitize a string into a valid git ref segment */
+const slugifyRef = s => String(s||'').toLowerCase().replace(/[^a-z0-9._/-]+/g,'-').replace(/-+/g,'-').replace(/^-|-$/g,'');
+
+const prModal = {
+  el: null, currentFinding: null,
+  init(){
+    this.el = document.getElementById('prModal');
+    document.getElementById('prModalClose').addEventListener('click', ()=>this.close());
+    document.getElementById('prCancel').addEventListener('click', ()=>this.close());
+    document.getElementById('prSubmit').addEventListener('click', ()=>this.submit());
+    document.getElementById('prCopy').addEventListener('click', ()=>this.copyBody());
+    this.el.addEventListener('click', e=>{ if(e.target===this.el) this.close(); });
+    document.addEventListener('keydown', e=>{
+      if(e.key==='Escape' && this.el.classList.contains('open')) this.close();
+    });
+  },
+  open(idx){
+    const f = filteredTopCritical()[idx];
+    if(!f) return;
+    this.currentFinding = f;
+    document.getElementById('prModalMeta').innerHTML =
+      `<b>${esc(f.check)}</b> · ${esc(f.resource)} · ${esc(f.region)} · severity <b style="color:var(--${f.sev==='critical'?'crit':'high'})">${f.sev.toUpperCase()}</b>`;
+    document.getElementById('prTitle').value = `fix: remediate ${f.check} - ${f.title}`;
+    document.getElementById('prHead').value = PR_DEFAULTS.head;
+    document.getElementById('prBase').value = PR_DEFAULTS.base;
+    document.getElementById('prRepo').value = document.getElementById('prRepo').value || PR_DEFAULTS.repo;
+    document.getElementById('prLabels').value = PR_DEFAULTS.labels;
+    document.getElementById('prBody').value = buildPrBody(f);
+    this.el.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(()=>document.getElementById('prTitle').focus(), 50);
+  },
+  close(){
+    this.el.classList.remove('open');
+    document.body.style.overflow = '';
+    this.currentFinding = null;
+  },
+  buildUrl(){
+    const repo = (document.getElementById('prRepo').value || PR_DEFAULTS.repo).trim();
+    const base = (document.getElementById('prBase').value || PR_DEFAULTS.base).trim();
+    const head = (document.getElementById('prHead').value || PR_DEFAULTS.head).trim();
+    const title = encodeURIComponent(document.getElementById('prTitle').value);
+    const body = encodeURIComponent(document.getElementById('prBody').value);
+    const labels = document.getElementById('prLabels').value.trim();
+    const labelsParam = labels ? `&labels=${encodeURIComponent(labels)}` : '';
+    /* GitHub quick_pull compare URL — base/head as path segments, query-string for prefill */
+    return `https://github.com/${repo}/compare/${encodeBranch(base)}...${encodeBranch(head)}?quick_pull=1&title=${title}&body=${body}${labelsParam}`;
+  },
+  submit(){
+    const url = this.buildUrl();
+    window.open(url, '_blank', 'noopener,noreferrer');
+    this.close();
+  },
+  async copyBody(){
+    const btn = document.getElementById('prCopy');
+    const orig = btn.textContent;
+    try{
+      await navigator.clipboard.writeText(document.getElementById('prBody').value);
+      btn.textContent = '✓ Copied!';
+    }catch(e){
+      btn.textContent = '✗ Copy failed';
+    }
+    setTimeout(()=>{ btn.textContent = orig; }, 1500);
+  }
+};
+prModal.init();
+
+/* ============================================================
+   WIDGET REGISTRY + DRAG-DROP REORDER
+   ============================================================ */
+const WIDGETS = [
+  {id:'providers', col:12, render:renderProvidersPanel},
+  {id:'compliance',col:4,  render:renderCompliance},
+  {id:'donut',     col:4,  render:renderDonut},
+  {id:'checks',    col:4,  render:renderChecks},
+  {id:'sparkline', col:12, render:renderSparkline},
+  {id:'topcrit',   col:12, render:renderTopCritical},
+  {id:'findings',  col:12, render:renderFindingsTable}
+];
+
+function defaultLayout(){ return WIDGETS.map(w=>({id:w.id, col:w.col})); }
+function getLayout(){
+  try{
+    const saved = JSON.parse(localStorage.getItem(LAYOUT_KEY) || '[]');
+    if(!Array.isArray(saved) || !saved.length) return defaultLayout();
+    const valid = saved.filter(e => e && WIDGETS.find(w=>w.id===e.id))
+                       .map(e => ({id:e.id, col:Math.max(3, Math.min(12, e.col|0)) || 12}));
+    WIDGETS.forEach(w=>{ if(!valid.find(e=>e.id===w.id)) valid.push({id:w.id, col:w.col}); });
+    return valid;
+  }catch(e){ return defaultLayout(); }
+}
+function persistLayout(){
+  const layout = [...$('#grid').children].map(el=>({id:el.dataset.id, col:parseInt(el.dataset.colspan,10)||12}));
+  localStorage.setItem(LAYOUT_KEY, JSON.stringify(layout));
+}
+
+function renderGrid(){
+  const grid = $('#grid');
+  const layout = getLayout();
+  grid.innerHTML = layout.map(entry=>{
+    const w = WIDGETS.find(x=>x.id===entry.id);
+    return `<div class="widget col-${entry.col}" draggable="true" data-id="${entry.id}" data-colspan="${entry.col}">
+      <span class="drag-handle" title="Drag to reorder">⠿</span>
+      <span class="resize-h" title="Drag to resize"></span>
+      ${w.render()}
+    </div>`;
+  }).join('');
+  attachDragHandlers();
+  attachResizeHandlers();
+  attachFilterHandlers();
+  attachTableHandlers();
+  attachAccordionHandlers();
+  attachSimHandlers();
+  attachTrendHandlers();
+}
+
+function rerenderWidgets(ids){
+  ids.forEach(id=>{
+    const w = WIDGETS.find(x=>x.id===id);
+    const el = document.querySelector(`.widget[data-id="${id}"]`);
+    if(w && el) el.innerHTML = `<span class="drag-handle" title="Drag to reorder">⠿</span><span class="resize-h" title="Drag to resize"></span>${w.render()}`;
+  });
+  attachSimHandlers();
+  attachResizeHandlers();
+  if(ids.includes('providers')) attachFilterHandlers();
+  if(ids.includes('sparkline')) attachTrendHandlers();
+}
+
+function attachSimHandlers(){
+  $$('[data-sim-action="fix-critical"]').forEach(btn=>btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    SIM.fixCritical = !SIM.fixCritical;
+    rerenderWidgets(['checks','donut','compliance']);
+  }));
+}
+
+/* FLIP helper: animate grid children from their old positions to new ones */
+function withFLIP(mutate){
+  const grid = $('#grid');
+  const els = [...grid.children];
+  const first = els.map(el=>el.getBoundingClientRect());
+  mutate();
+  els.forEach((el,i)=>{
+    const last = el.getBoundingClientRect();
+    const dx = first[i].left - last.left, dy = first[i].top - last.top;
+    if(dx||dy){
+      el.style.transition = 'none';
+      el.style.transform = `translate(${dx}px,${dy}px)`;
+      requestAnimationFrame(()=>{
+        el.style.transition = 'transform .18s ease';
+        el.style.transform = '';
+        setTimeout(()=>{ el.style.transition=''; }, 200);
+      });
+    }
+  });
+}
+
+function attachDragHandlers(){
+  let dragSrc = null, lastMove = 0;
+  $$('.widget').forEach(el=>{
+    el.addEventListener('dragstart', e=>{
+      dragSrc = el;
+      el.classList.add('dragging');
+      e.dataTransfer.effectAllowed='move';
+      e.dataTransfer.setData('text/plain', el.dataset.id);
+    });
+    el.addEventListener('dragend', ()=>{
+      el.classList.remove('dragging');
+      persistLayout();
+      dragSrc = null;
+    });
+    el.addEventListener('dragover', e=>{
+      e.preventDefault();
+      e.dataTransfer.dropEffect='move';
+      if(!dragSrc || el===dragSrc) return;
+      const now = performance.now();
+      if(now - lastMove < 120) return; /* settle time so cards don't thrash */
+      const grid = $('#grid');
+      const r = el.getBoundingClientRect();
+      /* insertion point: before or after the hovered card, by pointer position */
+      const after = (e.clientY - r.top) > r.height/2 || ((e.clientX - r.left) > r.width/2 && (e.clientY - r.top) > r.height*0.25);
+      const items = [...grid.children];
+      const target = after ? el.nextSibling : el;
+      if(target === dragSrc || (after && el.nextSibling === dragSrc) || (!after && dragSrc.nextSibling === el)) return;
+      lastMove = now;
+      withFLIP(()=> grid.insertBefore(dragSrc, target));
+    });
+    el.addEventListener('drop', e=>{ e.preventDefault(); });
+  });
+}
+
+function attachResizeHandlers(){
+  $$('.resize-h').forEach(h=>{
+    h.addEventListener('mousedown', e=>{
+      e.preventDefault(); e.stopPropagation();
+      const widget = h.closest('.widget');
+      const grid = $('#grid');
+      const cell = grid.getBoundingClientRect().width / 12;
+      const startX = e.clientX;
+      const startCol = parseInt(widget.dataset.colspan,10) || 12;
+      widget.setAttribute('draggable','false');
+      widget.classList.add('resizing');
+      h.classList.add('active');
+      document.body.style.userSelect='none';
+      let col = startCol;
+      const move = ev=>{
+        const next = Math.max(3, Math.min(12, Math.round(startCol + (ev.clientX-startX)/cell)));
+        if(next !== col){
+          col = next;
+          withFLIP(()=>{
+            widget.className = widget.className.replace(/col-\d+/, 'col-'+col);
+            widget.dataset.colspan = col;
+          });
+        }
+      };
+      const up = ()=>{
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('mouseup', up);
+        widget.setAttribute('draggable','true');
+        widget.classList.remove('resizing');
+        h.classList.remove('active');
+        document.body.style.userSelect='';
+        persistLayout();
+      };
+      document.addEventListener('mousemove', move);
+      document.addEventListener('mouseup', up);
+    });
+  });
+}
+
+function attachTableHandlers(){
+  const tbl = $('#findingsTable'); if(!tbl) return;
+  tbl.querySelectorAll('th').forEach(th=>th.addEventListener('click', ()=>{
+    const col = th.dataset.col;
+    if(tableState.sort===col) tableState.dir = tableState.dir==='asc'?'desc':'asc';
+    else { tableState.sort=col; tableState.dir='asc'; }
+    refreshTable();
+  }));
+  const input = $('#searchInput');
+  if(input) input.addEventListener('input', e=>{
+    tableState.search = e.target.value; tableState.page = 1; refreshTable();
+  });
+  refreshTable();
+}
+
+function attachAccordionHandlers(){
+  $$('.accordion-head').forEach(h=>h.addEventListener('click', e=>{
+    if(e.target.tagName==='INPUT' || e.target.tagName==='A' || e.target.tagName==='BUTTON') return;
+    h.parentElement.classList.toggle('open');
+  }));
+  $$('.step input[type=checkbox]').forEach(cb=>cb.addEventListener('change', ()=>{
+    cb.closest('.step').classList.toggle('done', cb.checked);
+  }));
+  $$('.pr-btn[data-pr-idx]').forEach(btn=>btn.addEventListener('click', e=>{
+    e.stopPropagation();
+    prModal.open(parseInt(btn.dataset.prIdx,10));
+  }));
+}
+
+renderGrid();
+</script>
+</body>
+</html>
