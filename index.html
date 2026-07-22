@@ -1,14 +1,13 @@
 <!DOCTYPE html>
 <!-- ==PROWLER_HEADER_START== Prowler Security Dashboard - Generated from live Prowler API data
   ============================================================
-  Generated: 2026-07-20T08:50:03.785206+00:00
-  Provider(s) found: 18
+  Generated: 2026-07-22T02:21:44.264258+00:00
+  Provider(s) found: 17
+    - AcmeAWSAccount (aws | UID 951364905357 | connected: true)
     - manuel-okta (okta | UID integrator-8206651.okta.com | connected: true)
     - workshop-lab-01 (aws | UID 935890553952 | connected: true)
     - amit_appd (aws | UID 418021145162 | connected: true)
-    - Marketing Ops (aws | UID 730883237055 | connected: true)
     - marketing dev (aws | UID 799168734816 | connected: true)
-    - amits (aws | UID 932718745857 | connected: true)
     - Demo AWS (aws | UID 552455647653 | connected: true)
     - myAppVercel (vercel | UID team_Yj41RYnEfdjpqxzAecFgwYAR | connected: true)
     - Google Workspace playground (googleworkspace | UID C015lvimi | connected: true)
@@ -23,16 +22,16 @@
     - M365 Demo (m365 | UID prowler.com | connected: true)
 
   Findings overview:
-    Total: 10824 | FAIL: 3910 (36.1%) | PASS: 6669 (61.6%) | Muted: 181
+    Total: 11355 | FAIL: 4270 (37.6%) | PASS: 6836 (60.2%) | Muted: 181
 
   Severity breakdown (FAIL):
-    Critical: 95 | High: 1159 | Medium: 1684 | Low: 1043 | Informational: 2
+    Critical: 97 | High: 1254 | Medium: 1823 | Low: 1167 | Informational: 2
 
   Top critical/high findings enriched via Prowler Hub:
-    organizations_delegated_administrators
-    iam_root_mfa_enabled
-    iam_root_hardware_mfa_enabled
-    iam_aws_attached_policy_no_administrative_privileges
+    s3_bucket_public_access
+    s3_bucket_public_access
+    iam_user_administrator_access_policy
+    iam_user_administrator_access_policy
   ==PROWLER_HEADER_END== -->
 <html lang="en">
 <head>
@@ -393,8 +392,16 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
    ============================================================ */
 /* ==PROWLER_DATA_START== */
 const PROWLER_DATA = {
-  generatedAt: "2026-07-20T08:50:03.785206+00:00",
+  generatedAt: "2026-07-22T02:21:44.264258+00:00",
   providers: [
+  {
+    "id": "ba342ebb-401e-4b3e-befe-e47834cd85cc",
+    "uid": "951364905357",
+    "alias": "AcmeAWSAccount",
+    "provider": "aws",
+    "connected": true,
+    "region": "-"
+  },
   {
     "id": "cff6e7d3-2bf9-4db7-8fb2-d42430957121",
     "uid": "integrator-8206651.okta.com",
@@ -420,25 +427,9 @@ const PROWLER_DATA = {
     "region": "-"
   },
   {
-    "id": "cc33a10f-3813-4126-bbf9-ba141a04f91f",
-    "uid": "730883237055",
-    "alias": "Marketing Ops",
-    "provider": "aws",
-    "connected": true,
-    "region": "-"
-  },
-  {
     "id": "2a73bac2-c487-45bd-a08a-df82839e14ae",
     "uid": "799168734816",
     "alias": "marketing dev",
-    "provider": "aws",
-    "connected": true,
-    "region": "-"
-  },
-  {
-    "id": "51f32445-0707-4df6-ab02-b157e86e49e7",
-    "uid": "932718745857",
-    "alias": "amits",
     "provider": "aws",
     "connected": true,
     "region": "-"
@@ -541,19 +532,31 @@ const PROWLER_DATA = {
   }
 ],
   overview: {
-  "total": 10824,
-  "fail": 3910,
-  "pass": 6669,
+  "total": 11355,
+  "fail": 4270,
+  "pass": 6836,
   "muted": 181
 },
   severityCounts: {
-  "critical": 95,
-  "high": 1159,
-  "medium": 1684,
-  "low": 1043,
+  "critical": 97,
+  "high": 1254,
+  "medium": 1823,
+  "low": 1167,
   "informational": 2
 },
   perProvider: {
+  "AcmeAWSAccount": {
+    "fail": 359,
+    "pass": 167,
+    "sev": {
+      "critical": 2,
+      "high": 95,
+      "medium": 138,
+      "low": 124,
+      "informational": 0
+    },
+    "estimated": false
+  },
   "manuel-okta": {
     "fail": 20,
     "pass": 3,
@@ -590,18 +593,6 @@ const PROWLER_DATA = {
     },
     "estimated": false
   },
-  "Marketing Ops": {
-    "fail": 308,
-    "pass": 132,
-    "sev": {
-      "critical": 1,
-      "high": 89,
-      "medium": 114,
-      "low": 104,
-      "informational": 0
-    },
-    "estimated": false
-  },
   "marketing dev": {
     "fail": 308,
     "pass": 115,
@@ -614,25 +605,13 @@ const PROWLER_DATA = {
     },
     "estimated": false
   },
-  "amits": {
-    "fail": 314,
-    "pass": 134,
-    "sev": {
-      "critical": 4,
-      "high": 90,
-      "medium": 115,
-      "low": 105,
-      "informational": 0
-    },
-    "estimated": false
-  },
   "Demo AWS": {
-    "fail": 561,
+    "fail": 562,
     "pass": 980,
     "sev": {
       "critical": 14,
       "high": 133,
-      "medium": 274,
+      "medium": 275,
       "low": 140,
       "informational": 0
     },
@@ -772,56 +751,6 @@ const PROWLER_DATA = {
   }
 },
   findings: [
-  {
-    "sev": "critical",
-    "service": "organizations",
-    "status": "FAIL",
-    "check": "organizations_delegated_administrators",
-    "resource": "o-v327192ora",
-    "region": "eu-west-1",
-    "detail": "AWS Organization o-v327192ora has an untrusted Delegated Administrator: 932718745857.",
-    "provider": "amits"
-  },
-  {
-    "sev": "critical",
-    "service": "iam",
-    "status": "FAIL",
-    "check": "iam_root_mfa_enabled",
-    "resource": "<root_account>",
-    "region": "eu-west-1",
-    "detail": "MFA is not enabled for root account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "critical",
-    "service": "iam",
-    "status": "FAIL",
-    "check": "iam_root_hardware_mfa_enabled",
-    "resource": "<root_account>",
-    "region": "eu-west-1",
-    "detail": "MFA is not enabled for root account.",
-    "provider": "amits"
-  },
-  {
-    "sev": "critical",
-    "service": "iam",
-    "status": "FAIL",
-    "check": "iam_aws_attached_policy_no_administrative_privileges",
-    "resource": "AdministratorAccess",
-    "region": "eu-west-1",
-    "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "critical",
-    "service": "iam",
-    "status": "FAIL",
-    "check": "iam_aws_attached_policy_no_administrative_privileges",
-    "resource": "AdministratorAccess",
-    "region": "eu-west-1",
-    "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
-    "provider": "amits"
-  },
   {
     "sev": "critical",
     "service": "s3",
@@ -964,6 +893,26 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_user_administrator_access_policy",
+    "resource": "acmeProwlerAudit",
+    "region": "eu-west-1",
+    "detail": "IAM User acmeProwlerAudit has AdministratorAccess policy attached.",
+    "provider": "AcmeAWSAccount"
+  },
+  {
+    "sev": "critical",
+    "service": "iam",
+    "status": "FAIL",
+    "check": "iam_aws_attached_policy_no_administrative_privileges",
+    "resource": "AdministratorAccess",
+    "region": "eu-west-1",
+    "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
+    "provider": "AcmeAWSAccount"
+  },
+  {
+    "sev": "critical",
     "service": "teams",
     "status": "FAIL",
     "check": "teams_external_users_cannot_start_conversations",
@@ -973,64 +922,154 @@ const PROWLER_DATA = {
     "provider": "M365 Demo"
   },
   {
-    "sev": "high",
-    "service": "securityhub",
+    "sev": "critical",
+    "service": "entra",
     "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ap-southeast-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
+    "check": "entra_users_mfa_enabled",
+    "resource": "Require compliant device OR hybrid joined device OR MFA for admins or ",
+    "region": "global",
+    "detail": "Conditional Access Policy 'Require compliant device OR hybrid joined device OR MFA for admins or all users' reports MFA requirement for all users but does not enforce it.",
+    "provider": "M365 Demo"
+  },
+  {
+    "sev": "critical",
+    "service": "entra",
+    "status": "FAIL",
+    "check": "entra_legacy_authentication_blocked",
+    "resource": "Enable Conditional Access policies to block legacy authentication",
+    "region": "global",
+    "detail": "Conditional Access Policy 'Enable Conditional Access policies to block legacy authentication' reports legacy authentication but does not block it.",
+    "provider": "M365 Demo"
+  },
+  {
+    "sev": "critical",
+    "service": "entra",
+    "status": "FAIL",
+    "check": "entra_break_glass_account_fido2_security_key_registered",
+    "resource": "Engineering Account",
+    "region": "global",
+    "detail": "Break glass account Engineering Account does not have a FIDO2 security key registered.",
+    "provider": "M365 Demo"
   },
   {
     "sev": "high",
-    "service": "securityhub",
+    "service": "vpc",
     "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ap-northeast-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ap-northeast-3",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ap-southeast-2",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
+    "check": "vpc_subnet_no_public_ip_by_default",
+    "resource": "subnet-05484df59f9616ab6",
     "region": "us-east-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
+    "detail": "VPC subnet demo-public-subnet assigns public IP by default.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
-    "service": "securityhub",
+    "service": "vpc",
     "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-089bbc2b35cb0968f",
+    "region": "us-west-2",
+    "detail": "VPC Endpoint vpce-089bbc2b35cb0968f in VPC vpc-0b87b9e8e03804e58 can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-016a9091c07f893d9",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-016a9091c07f893d9 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-0d8f332047187b177",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-0d8f332047187b177 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-04a9c9d80e4e6b2e8",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-04a9c9d80e4e6b2e8 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-0ce201ccf913f1fd5",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-0ce201ccf913f1fd5 in VPC vpc-0e08d2fb6d2ac5b57 can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-0702ee45431bdb3f4",
+    "region": "eu-west-1",
+    "detail": "VPC Endpoint vpce-0702ee45431bdb3f4 in VPC vpc-0e0b6713fe253986a can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-075169e5bcae4deab",
     "region": "us-east-2",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
+    "detail": "VPC Endpoint vpce-075169e5bcae4deab in VPC vpc-0a9716b1f0cc77e2b can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "sns",
+    "status": "FAIL",
+    "check": "sns_topics_kms_encryption_at_rest_enabled",
+    "resource": "aws-controltower-SecurityNotifications",
+    "region": "us-west-2",
+    "detail": "SNS topic aws-controltower-SecurityNotifications is not encrypted.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "sns",
+    "status": "FAIL",
+    "check": "sns_topics_kms_encryption_at_rest_enabled",
+    "resource": "aws-controltower-SecurityNotifications",
+    "region": "eu-west-1",
+    "detail": "SNS topic aws-controltower-SecurityNotifications is not encrypted.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "sns",
+    "status": "FAIL",
+    "check": "sns_topics_kms_encryption_at_rest_enabled",
+    "resource": "aws-controltower-SecurityNotifications",
+    "region": "us-east-2",
+    "detail": "SNS topic aws-controltower-SecurityNotifications is not encrypted.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "sns",
+    "status": "FAIL",
+    "check": "sns_topics_kms_encryption_at_rest_enabled",
+    "resource": "aws-controltower-SecurityNotifications",
+    "region": "us-east-1",
+    "detail": "SNS topic aws-controltower-SecurityNotifications is not encrypted.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -1038,29 +1077,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "securityhub_enabled",
     "resource": "hub/unknown",
-    "region": "ap-northeast-2",
+    "region": "eu-south-2",
     "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "eu-north-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "sa-east-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -1070,7 +1089,7 @@ const PROWLER_DATA = {
     "resource": "hub/unknown",
     "region": "us-west-2",
     "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -1078,69 +1097,39 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "securityhub_enabled",
     "resource": "hub/unknown",
-    "region": "us-west-1",
+    "region": "us-east-2",
     "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
     "service": "securityhub",
     "status": "FAIL",
-    "check": "securityhub_enabled",
+    "check": "securityhub_delegated_admin_enabled_all_regions",
     "resource": "hub/unknown",
-    "region": "ap-south-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
+    "region": "eu-south-2",
+    "detail": "Security Hub in region eu-south-2 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
     "service": "securityhub",
     "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "eu-west-3",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
+    "check": "securityhub_delegated_admin_enabled_all_regions",
+    "resource": "default",
+    "region": "us-east-1",
+    "detail": "Security Hub in region us-east-1 has issues: delegated administrator status could not be determined.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
     "service": "securityhub",
     "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "ca-central-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "eu-central-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
-    "region": "eu-west-2",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_enabled",
-    "resource": "hub/unknown",
+    "check": "securityhub_delegated_admin_enabled_all_regions",
+    "resource": "default",
     "region": "eu-west-1",
-    "detail": "Security Hub is not enabled.",
-    "provider": "Marketing Ops"
+    "detail": "Security Hub in region eu-west-1 has issues: delegated administrator status could not be determined.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -1148,9 +1137,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "securityhub_delegated_admin_enabled_all_regions",
     "resource": "hub/unknown",
-    "region": "ap-southeast-1",
-    "detail": "Security Hub in region ap-southeast-1 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
-    "provider": "Marketing Ops"
+    "region": "us-west-2",
+    "detail": "Security Hub in region us-west-2 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "high",
@@ -1158,239 +1147,219 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "securityhub_delegated_admin_enabled_all_regions",
     "resource": "hub/unknown",
-    "region": "ap-northeast-1",
-    "detail": "Security Hub in region ap-northeast-1 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "high",
-    "service": "securityhub",
-    "status": "FAIL",
-    "check": "securityhub_delegated_admin_enabled_all_regions",
-    "resource": "hub/unknown",
-    "region": "ap-northeast-3",
-    "detail": "Security Hub in region ap-northeast-3 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
-    "provider": "Marketing Ops"
+    "region": "us-east-2",
+    "detail": "Security Hub in region us-east-2 has issues: delegated administrator status could not be determined, Security Hub not enabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
     "service": "vpc",
     "status": "FAIL",
-    "check": "vpc_different_regions",
-    "resource": "730883237055",
-    "region": "eu-west-1",
-    "detail": "VPCs found only in one region.",
-    "provider": "Marketing Ops"
+    "check": "vpc_subnet_separate_private_public",
+    "resource": "vpc-0bdb9eda71f5243c0",
+    "region": "us-east-1",
+    "detail": "VPC demo-vpc has only public subnets.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
     "service": "vpc",
     "status": "FAIL",
-    "check": "vpc_different_regions",
-    "resource": "932718745857",
-    "region": "eu-west-1",
-    "detail": "VPCs found only in one region.",
-    "provider": "amits"
+    "check": "vpc_subnet_different_az",
+    "resource": "vpc-043b150da773aee6f",
+    "region": "us-east-1",
+    "detail": "VPC DatatogAgentlessScanner has only subnets in us-east-1a.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_subnet_different_az",
+    "resource": "vpc-0bdb9eda71f5243c0",
+    "region": "us-east-1",
+    "detail": "VPC demo-vpc has only subnets in us-east-1a.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_flow_logs_enabled",
+    "resource": "vpc-043b150da773aee6f",
+    "region": "us-east-1",
+    "detail": "VPC DatatogAgentlessScanner Flow logs are disabled.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_flow_logs_enabled",
+    "resource": "vpc-0bdb9eda71f5243c0",
+    "region": "us-east-1",
+    "detail": "VPC demo-vpc Flow logs are disabled.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_multi_az_enabled",
+    "resource": "vpce-0d8f332047187b177",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-0d8f332047187b177 in VPC vpc-043b150da773aee6f does not have subnets in different AZs.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_multi_az_enabled",
+    "resource": "vpce-04a9c9d80e4e6b2e8",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-04a9c9d80e4e6b2e8 in VPC vpc-043b150da773aee6f does not have subnets in different AZs.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_for_ec2_enabled",
+    "resource": "vpc-043b150da773aee6f",
+    "region": "us-east-1",
+    "detail": "VPC vpc-043b150da773aee6f has no EC2 endpoint.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_for_ec2_enabled",
+    "resource": "vpc-0bdb9eda71f5243c0",
+    "region": "us-east-1",
+    "detail": "VPC vpc-0bdb9eda71f5243c0 has no EC2 endpoint.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_for_ec2_enabled",
+    "resource": "vpc-0e08d2fb6d2ac5b57",
+    "region": "us-east-1",
+    "detail": "VPC vpc-0e08d2fb6d2ac5b57 has no EC2 endpoint.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
     "service": "ssmincidents",
     "status": "FAIL",
     "check": "ssmincidents_enabled_with_plans",
-    "resource": "730883237055",
+    "resource": "552455647653",
     "region": "eu-west-1",
     "detail": "No SSM Incidents replication set exists.",
-    "provider": "Marketing Ops"
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "ssmincidents",
+    "service": "secretsmanager",
     "status": "FAIL",
-    "check": "ssmincidents_enabled_with_plans",
-    "resource": "932718745857",
-    "region": "eu-west-1",
-    "detail": "No SSM Incidents replication set exists.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "organizations",
-    "status": "FAIL",
-    "check": "organizations_opt_out_ai_services_policy",
-    "resource": "o-v327192ora",
-    "region": "eu-west-1",
-    "detail": "AWS Organization o-v327192ora has no opt-out policy for AI services.",
-    "provider": "amits"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ap-southeast-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ap-northeast-3",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ap-southeast-2",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ap-northeast-2",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
+    "check": "secretsmanager_secret_rotated_periodically",
+    "resource": "r1-agent/env",
     "region": "us-east-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
+    "detail": "Secret r1-agent/env has never been rotated.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "inspector2",
+    "service": "secretsmanager",
     "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "us-east-2",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
+    "check": "secretsmanager_secret_rotated_periodically",
+    "resource": "ScannerAPIKeySecret-Zzn2CWVuBXmR",
+    "region": "us-east-1",
+    "detail": "Secret ScannerAPIKeySecret-Zzn2CWVuBXmR has never been rotated.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "inspector2",
+    "service": "s3",
     "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ap-northeast-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "prowler-test-bucket-issue1616",
+    "region": "eu-west-1",
+    "detail": "S3 Bucket prowler-test-bucket-issue1616 has server access logging disabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "inspector2",
+    "service": "s3",
     "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "eu-north-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "prowler-reports-demo",
+    "region": "eu-west-1",
+    "detail": "S3 Bucket prowler-reports-demo has server access logging disabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "inspector2",
+    "service": "s3",
     "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "sa-east-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "prowler-cfn-templates-example",
+    "region": "eu-west-1",
+    "detail": "S3 Bucket prowler-cfn-templates-example has server access logging disabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "inspector2",
+    "service": "s3",
     "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "us-west-2",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "my-unique-bucket-3-272aefd11e43aa17",
+    "region": "us-east-1",
+    "detail": "S3 Bucket my-unique-bucket-3-272aefd11e43aa17 has server access logging disabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "inspector2",
+    "service": "s3",
     "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "us-west-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "my-unique-bucket-2-265e63aab78c9b96",
+    "region": "us-east-1",
+    "detail": "S3 Bucket my-unique-bucket-2-265e63aab78c9b96 has server access logging disabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "inspector2",
+    "service": "s3",
     "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ap-south-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "my-unique-bucket-1-a7a8e3b928071b25",
+    "region": "us-east-1",
+    "detail": "S3 Bucket my-unique-bucket-1-a7a8e3b928071b25 has server access logging disabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "inspector2",
+    "service": "s3",
     "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "eu-west-3",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "ca-central-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "medium",
-    "service": "inspector2",
-    "status": "FAIL",
-    "check": "inspector2_is_enabled",
-    "resource": "Inspector2",
-    "region": "eu-central-1",
-    "detail": "Inspector2 is not enabled in this account.",
-    "provider": "Marketing Ops"
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "demo-bucket-1763841210",
+    "region": "us-east-1",
+    "detail": "S3 Bucket demo-bucket-1763841210 has server access logging disabled.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
     "service": "trustedadvisor",
     "status": "FAIL",
     "check": "trustedadvisor_premium_support_plan_subscribed",
-    "resource": "730883237055",
+    "resource": "552455647653",
     "region": "us-east-1",
     "detail": "Amazon Web Services Premium Support Plan isn't subscribed.",
-    "provider": "Marketing Ops"
-  },
-  {
-    "sev": "low",
-    "service": "trustedadvisor",
-    "status": "FAIL",
-    "check": "trustedadvisor_premium_support_plan_subscribed",
-    "resource": "932718745857",
-    "region": "us-east-1",
-    "detail": "Amazon Web Services Premium Support Plan isn't subscribed.",
-    "provider": "amits"
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1398,159 +1367,9 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "ap-southeast-2",
-    "detail": "SageMaker Model Registry in region ap-southeast-2 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "ap-northeast-2",
-    "detail": "SageMaker Model Registry in region ap-northeast-2 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "ap-northeast-1",
-    "detail": "SageMaker Model Registry in region ap-northeast-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "us-west-2",
-    "detail": "SageMaker Model Registry in region us-west-2 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "ap-northeast-3",
-    "detail": "SageMaker Model Registry in region ap-northeast-3 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "eu-west-3",
-    "detail": "SageMaker Model Registry in region eu-west-3 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "us-east-2",
-    "detail": "SageMaker Model Registry in region us-east-2 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "ap-southeast-1",
-    "detail": "SageMaker Model Registry in region ap-southeast-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "sa-east-1",
-    "detail": "SageMaker Model Registry in region sa-east-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "ap-south-1",
-    "detail": "SageMaker Model Registry in region ap-south-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "us-west-1",
-    "detail": "SageMaker Model Registry in region us-west-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "us-east-1",
-    "detail": "SageMaker Model Registry in region us-east-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "ca-central-1",
-    "detail": "SageMaker Model Registry in region ca-central-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "eu-north-1",
-    "detail": "SageMaker Model Registry in region eu-north-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "eu-central-1",
-    "detail": "SageMaker Model Registry in region eu-central-1 has no Model Package Groups.",
-    "provider": "amits"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
-    "region": "eu-west-2",
-    "detail": "SageMaker Model Registry in region eu-west-2 has no Model Package Groups.",
-    "provider": "amits"
+    "region": "eu-south-2",
+    "detail": "SageMaker Model Registry in region eu-south-2 has no Model Package Groups.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1560,7 +1379,47 @@ const PROWLER_DATA = {
     "resource": "SageMaker Model Registry",
     "region": "eu-west-1",
     "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
-    "provider": "amits"
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "us-west-2",
+    "detail": "SageMaker Model Registry in region us-west-2 has no Model Package Groups.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "us-east-2",
+    "detail": "SageMaker Model Registry in region us-east-2 has no Model Package Groups.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
+    "region": "us-east-1",
+    "detail": "SageMaker Model Registry in region us-east-1 has no Model Package Groups.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "sa-east-1",
+    "detail": "No SageMaker monitoring schedules found in region sa-east-1.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "low",
@@ -1570,7 +1429,127 @@ const PROWLER_DATA = {
     "resource": "SageMaker Monitoring Schedules",
     "region": "ap-southeast-2",
     "detail": "No SageMaker monitoring schedules found in region ap-southeast-2.",
-    "provider": "amits"
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-northeast-1",
+    "detail": "No SageMaker monitoring schedules found in region ap-northeast-1.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-northeast-2",
+    "detail": "No SageMaker monitoring schedules found in region ap-northeast-2.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-southeast-1",
+    "detail": "No SageMaker monitoring schedules found in region ap-southeast-1.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-northeast-3",
+    "detail": "No SageMaker monitoring schedules found in region ap-northeast-3.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "us-west-1",
+    "detail": "No SageMaker monitoring schedules found in region us-west-1.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-south-1",
+    "detail": "No SageMaker monitoring schedules found in region ap-south-1.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "eu-central-1",
+    "detail": "No SageMaker monitoring schedules found in region eu-central-1.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "eu-south-2",
+    "detail": "No SageMaker monitoring schedules found in region eu-south-2.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "eu-central-2",
+    "detail": "No SageMaker monitoring schedules found in region eu-central-2.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "eu-north-1",
+    "detail": "No SageMaker monitoring schedules found in region eu-north-1.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "eu-west-3",
+    "detail": "No SageMaker monitoring schedules found in region eu-west-3.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ca-central-1",
+    "detail": "No SageMaker monitoring schedules found in region ca-central-1.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "informational",
@@ -1594,61 +1573,6 @@ const PROWLER_DATA = {
   }
 ],
   topCritical: [
-  {
-    "sev": "critical",
-    "check": "organizations_delegated_administrators",
-    "title": "AWS Organization has only trusted delegated administrators",
-    "resource": "o-v327192ora",
-    "region": "eu-west-1",
-    "risk": "Unapproved delegated administrators can alter **SCPs**, invite/move accounts, and create privileged roles, enabling **privilege escalation**. This undermines guardrails, risking loss of **integrity**, exposure of **confidentiality** across accounts, and impacts **availability** through organization-wide policy changes.",
-    "steps": [
-      "{'description': '1. Sign in to the AWS Management Console with the organization management account\\n2. Open AWS Organizations\\n3. In the left pane, select **Delegated administrators**\\n4. Select the untrusted account (by Account ID) from the list\\n5. For each service shown for that account, choose **Deregister delegated administrator** and confirm\\n6. Repeat for all untrusted accounts until only trusted accounts (or none) remain'}"
-    ]
-  },
-  {
-    "sev": "critical",
-    "check": "iam_root_mfa_enabled",
-    "title": "Root account has MFA enabled",
-    "resource": "<root_account>",
-    "region": "eu-west-1",
-    "risk": "Without **MFA**, compromise of the root password or access keys can lead to full **account takeover**. An attacker with root can disable protections, steal or delete data, change billing, and create persistent admins, undermining confidentiality, integrity, and availability.",
-    "steps": [
-      "{'description': '1. Sign in to the AWS Management Console as the root user (choose \"Sign in as root user\" and enter the account email)\\n2. Open the account menu (top right) and click \"Security credentials\"\\n3. In \"Multi-factor authentication (MFA)\", choose \"Assign MFA device\" (or \"Activate MFA\")\\n4. Select \"Authenticator app\" and click \"Next\"\\n5. Scan the QR code with your authenticator app and enter two consecutive MFA codes\\n6. Click \"Add MFA\" (or \"Assign MFA\") to complete'}"
-    ]
-  },
-  {
-    "sev": "critical",
-    "check": "iam_root_hardware_mfa_enabled",
-    "title": "Root account has a hardware MFA device enabled",
-    "resource": "<root_account>",
-    "region": "eu-west-1",
-    "risk": "Without **hardware MFA** on the root user:\n- No MFA: stolen password/keys enable full account takeover.\n- Virtual MFA: device compromise or backup restoration weakens second-factor assurance.\nAn attacker could delete resources, change policies, and disable logging, harming **confidentiality**, **integrity**, and **availability**.",
-    "steps": [
-      "{'description': '1. Sign in to the AWS Management Console as the root user\\n2. Open My Security Credentials: https://console.aws.amazon.com/iam/home?#/security_credentials\\n3. In the Multi-factor authentication (MFA) section, choose Activate/Assign MFA\\n4. Select a hardware option (Security key or Hardware TOTP token) and complete the prompts (for TOTP: enter the device serial and two consecutive codes)\\n5. After the hardware MFA is added, locate any Virtual MFA device listed for root and Deactivate/Remove it\\n6. Confirm only the hardware MFA remains assigned'}"
-    ]
-  },
-  {
-    "sev": "critical",
-    "check": "iam_aws_attached_policy_no_administrative_privileges",
-    "title": "Attached AWS-managed IAM policy does not allow '*:*' administrative privileges",
-    "resource": "AdministratorAccess",
-    "region": "eu-west-1",
-    "risk": "**Unrestricted `*:*` access** enables any action on any resource, risking:\n- Data exfiltration (**confidentiality**)\n- Unauthorized changes and policy tampering (**integrity**)\n- Service deletion or shutdown (**availability**)\nAttackers can disable logging, create backdoor principals, and expand lateral movement.",
-    "steps": [
-      "{'description': '1. In the AWS Console, go to IAM > Policies\\n2. Search for the flagged AWS-managed policy (e.g., AdministratorAccess) and open it\\n3. Click Attached entities\\n4. Select all Users, Groups, and Roles shown and click Detach\\n5. Confirm the policy shows 0 attached entities\\n6. Rerun the check to verify it passes'}"
-    ]
-  },
-  {
-    "sev": "critical",
-    "check": "iam_aws_attached_policy_no_administrative_privileges",
-    "title": "Attached AWS-managed IAM policy does not allow '*:*' administrative privileges",
-    "resource": "AdministratorAccess",
-    "region": "eu-west-1",
-    "risk": "**Unrestricted `*:*` access** enables any action on any resource, risking:\n- Data exfiltration (**confidentiality**)\n- Unauthorized changes and policy tampering (**integrity**)\n- Service deletion or shutdown (**availability**)\nAttackers can disable logging, create backdoor principals, and expand lateral movement.",
-    "steps": [
-      "{'description': '1. In the AWS Console, go to IAM > Policies\\n2. Search for the flagged AWS-managed policy (e.g., AdministratorAccess) and open it\\n3. Click Attached entities\\n4. Select all Users, Groups, and Roles shown and click Detach\\n5. Confirm the policy shows 0 attached entities\\n6. Rerun the check to verify it passes'}"
-    ]
-  },
   {
     "sev": "critical",
     "check": "s3_bucket_public_access",
@@ -1703,9 +1627,64 @@ const PROWLER_DATA = {
     "steps": [
       "{'description': '1. Sign in to the AWS Management Console as the root user (choose \"Sign in as root user\" and enter the account email)\\n2. Open the account menu (top right) and click \"Security credentials\"\\n3. In \"Multi-factor authentication (MFA)\", choose \"Assign MFA device\" (or \"Activate MFA\")\\n4. Select \"Authenticator app\" and click \"Next\"\\n5. Scan the QR code with your authenticator app and enter two consecutive MFA codes\\n6. Click \"Add MFA\" (or \"Assign MFA\") to complete'}"
     ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_root_hardware_mfa_enabled",
+    "title": "Root account has a hardware MFA device enabled",
+    "resource": "<root_account>",
+    "region": "eu-west-1",
+    "risk": "Without **hardware MFA** on the root user:\n- No MFA: stolen password/keys enable full account takeover.\n- Virtual MFA: device compromise or backup restoration weakens second-factor assurance.\nAn attacker could delete resources, change policies, and disable logging, harming **confidentiality**, **integrity**, and **availability**.",
+    "steps": [
+      "{'description': '1. Sign in to the AWS Management Console as the root user\\n2. Open My Security Credentials: https://console.aws.amazon.com/iam/home?#/security_credentials\\n3. In the Multi-factor authentication (MFA) section, choose Activate/Assign MFA\\n4. Select a hardware option (Security key or Hardware TOTP token) and complete the prompts (for TOTP: enter the device serial and two consecutive codes)\\n5. After the hardware MFA is added, locate any Virtual MFA device listed for root and Deactivate/Remove it\\n6. Confirm only the hardware MFA remains assigned'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_inline_policy_no_administrative_privileges",
+    "title": "Inline IAM policy does not allow '*:*' administrative privileges",
+    "resource": "prowler-blog-vulnerable-admin-role/dangerous-wildcard-policy",
+    "region": "eu-west-1",
+    "risk": "Granting `*:*` to an identity collapses **least privilege**, enabling total control over AWS. A compromised principal can exfiltrate data (**confidentiality**), alter configs or disable logging (**integrity**), and delete resources or keys (**availability**), enabling rapid **lateral movement** and persistent takeover.",
+    "steps": [
+      "{'description': '1. In the AWS Console, open IAM\\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\\n3. Select the entity, then open the Inline policies section\\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\\n5. Replace it with only the specific actions and specific resource ARNs required\\n6. Save changes'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_inline_policy_no_administrative_privileges",
+    "title": "Inline IAM policy does not allow '*:*' administrative privileges",
+    "resource": "privesc-demo-target-admin-role/privesc-demo-admin-policy",
+    "region": "eu-west-1",
+    "risk": "Granting `*:*` to an identity collapses **least privilege**, enabling total control over AWS. A compromised principal can exfiltrate data (**confidentiality**), alter configs or disable logging (**integrity**), and delete resources or keys (**availability**), enabling rapid **lateral movement** and persistent takeover.",
+    "steps": [
+      "{'description': '1. In the AWS Console, open IAM\\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\\n3. Select the entity, then open the Inline policies section\\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\\n5. Replace it with only the specific actions and specific resource ARNs required\\n6. Save changes'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_inline_policy_no_administrative_privileges",
+    "title": "Inline IAM policy does not allow '*:*' administrative privileges",
+    "resource": "privesc-demo-ec2-admin-role/privesc-demo-ec2-admin-policy",
+    "region": "eu-west-1",
+    "risk": "Granting `*:*` to an identity collapses **least privilege**, enabling total control over AWS. A compromised principal can exfiltrate data (**confidentiality**), alter configs or disable logging (**integrity**), and delete resources or keys (**availability**), enabling rapid **lateral movement** and persistent takeover.",
+    "steps": [
+      "{'description': '1. In the AWS Console, open IAM\\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\\n3. Select the entity, then open the Inline policies section\\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\\n5. Replace it with only the specific actions and specific resource ARNs required\\n6. Save changes'}"
+    ]
+  },
+  {
+    "sev": "critical",
+    "check": "iam_inline_policy_no_administrative_privileges",
+    "title": "Inline IAM policy does not allow '*:*' administrative privileges",
+    "resource": "AWSReservedSSO_ManagementAccess_6ab9972a4c6a515b/AwsSSOInlinePolicy",
+    "region": "eu-west-1",
+    "risk": "Granting `*:*` to an identity collapses **least privilege**, enabling total control over AWS. A compromised principal can exfiltrate data (**confidentiality**), alter configs or disable logging (**integrity**), and delete resources or keys (**availability**), enabling rapid **lateral movement** and persistent takeover.",
+    "steps": [
+      "{'description': '1. In the AWS Console, open IAM\\n2. Go to Users, Roles, or Groups (whichever has the inline policy)\\n3. Select the entity, then open the Inline policies section\\n4. Edit the inline policy JSON and remove any statement with \"Effect\": \"Allow\" and both \"Action\": \"*\" and \"Resource\": \"*\"\\n5. Replace it with only the specific actions and specific resource ARNs required\\n6. Save changes'}"
+    ]
   }
 ],
-  trend: [3912, 3926, 3919, 3908, 3903, 3905, 3910]
+  trend: [4272, 4286, 4279, 4268, 4263, 4265, 4270]
 };
 /* ==PROWLER_DATA_END== */
 
