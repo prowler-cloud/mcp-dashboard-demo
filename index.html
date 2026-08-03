@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <!-- ==PROWLER_HEADER_START== Prowler Security Dashboard - Generated from live Prowler API data
   ============================================================
-  Generated: 2026-07-27T09:41:33.680897+00:00
-  Provider(s) found: 17
+  Generated: 2026-08-03T07:08:58.604891+00:00
+  Provider(s) found: 15
+    - 0756de004f7d9330b33682b680e77242 (cloudflare | UID 0756de004f7d9330b33682b680e77242 | connected: true)
     - AcmeAWSAccount (aws | UID 951364905357 | connected: true)
     - manuel-okta (okta | UID integrator-8206651.okta.com | connected: true)
-    - workshop-lab-01 (aws | UID 935890553952 | connected: true)
-    - amit_appd (aws | UID 418021145162 | connected: true)
-    - marketing dev (aws | UID 799168734816 | connected: true)
     - Demo AWS (aws | UID 552455647653 | connected: true)
     - myAppVercel (vercel | UID team_Yj41RYnEfdjpqxzAecFgwYAR | connected: true)
     - Google Workspace playground (googleworkspace | UID C015lvimi | connected: true)
@@ -22,10 +20,10 @@
     - M365 Demo (m365 | UID prowler.com | connected: true)
 
   Findings overview:
-    Total: 11517 | FAIL: 4366 (37.9%) | PASS: 6901 (59.9%) | Muted: 181
+    Total: 11590 | FAIL: 4398 (37.9%) | PASS: 6944 (59.9%) | Muted: 179
 
   Severity breakdown (FAIL):
-    Critical: 98 | High: 1273 | Medium: 1872 | Low: 1194 | Informational: 2
+    Critical: 98 | High: 1287 | Medium: 1881 | Low: 1201 | Informational: 2
 
   Top critical/high findings enriched via Prowler Hub:
     s3_bucket_public_access
@@ -392,8 +390,16 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
    ============================================================ */
 /* ==PROWLER_DATA_START== */
 const PROWLER_DATA = {
-  generatedAt: "2026-07-27T09:41:33.680897+00:00",
+  generatedAt: "2026-08-03T07:08:58.604891+00:00",
   providers: [
+  {
+    "id": "6a16e9b0-fa7c-4a3e-8d6d-57b54e6bbd00",
+    "uid": "0756de004f7d9330b33682b680e77242",
+    "alias": "0756de004f7d9330b33682b680e77242",
+    "provider": "cloudflare",
+    "connected": true,
+    "region": "-"
+  },
   {
     "id": "ba342ebb-401e-4b3e-befe-e47834cd85cc",
     "uid": "951364905357",
@@ -407,30 +413,6 @@ const PROWLER_DATA = {
     "uid": "integrator-8206651.okta.com",
     "alias": "manuel-okta",
     "provider": "okta",
-    "connected": true,
-    "region": "-"
-  },
-  {
-    "id": "482c2149-de90-45f0-b0d5-0205ec69a907",
-    "uid": "935890553952",
-    "alias": "workshop-lab-01",
-    "provider": "aws",
-    "connected": true,
-    "region": "-"
-  },
-  {
-    "id": "306ab5af-8eed-4b2f-a64f-d9646fd36b68",
-    "uid": "418021145162",
-    "alias": "amit_appd",
-    "provider": "aws",
-    "connected": true,
-    "region": "-"
-  },
-  {
-    "id": "2a73bac2-c487-45bd-a08a-df82839e14ae",
-    "uid": "799168734816",
-    "alias": "marketing dev",
-    "provider": "aws",
     "connected": true,
     "region": "-"
   },
@@ -532,19 +514,31 @@ const PROWLER_DATA = {
   }
 ],
   overview: {
-  "total": 11517,
-  "fail": 4366,
-  "pass": 6901,
-  "muted": 181
+  "total": 11590,
+  "fail": 4398,
+  "pass": 6944,
+  "muted": 179
 },
   severityCounts: {
   "critical": 98,
-  "high": 1273,
-  "medium": 1872,
-  "low": 1194,
+  "high": 1287,
+  "medium": 1881,
+  "low": 1201,
   "informational": 2
 },
   perProvider: {
+  "0756de004f7d9330b33682b680e77242": {
+    "fail": 0,
+    "pass": 0,
+    "sev": {
+      "critical": 0,
+      "high": 0,
+      "medium": 0,
+      "low": 0,
+      "informational": 0
+    },
+    "estimated": false
+  },
   "AcmeAWSAccount": {
     "fail": 359,
     "pass": 167,
@@ -566,42 +560,6 @@ const PROWLER_DATA = {
       "medium": 14,
       "low": 4,
       "informational": 1
-    },
-    "estimated": false
-  },
-  "workshop-lab-01": {
-    "fail": 317,
-    "pass": 122,
-    "sev": {
-      "critical": 1,
-      "high": 92,
-      "medium": 120,
-      "low": 104,
-      "informational": 0
-    },
-    "estimated": false
-  },
-  "amit_appd": {
-    "fail": 908,
-    "pass": 1015,
-    "sev": {
-      "critical": 5,
-      "high": 140,
-      "medium": 545,
-      "low": 218,
-      "informational": 0
-    },
-    "estimated": false
-  },
-  "marketing dev": {
-    "fail": 308,
-    "pass": 115,
-    "sev": {
-      "critical": 1,
-      "high": 89,
-      "medium": 114,
-      "low": 104,
-      "informational": 0
     },
     "estimated": false
   },
@@ -678,12 +636,12 @@ const PROWLER_DATA = {
     "estimated": false
   },
   "Azure Demo": {
-    "fail": 69,
-    "pass": 63,
+    "fail": 68,
+    "pass": 64,
     "sev": {
       "critical": 1,
       "high": 39,
-      "medium": 27,
+      "medium": 26,
       "low": 2,
       "informational": 0
     },
@@ -739,7 +697,7 @@ const PROWLER_DATA = {
   },
   "M365 Demo": {
     "fail": 92,
-    "pass": 338,
+    "pass": 341,
     "sev": {
       "critical": 6,
       "high": 46,
@@ -953,163 +911,143 @@ const PROWLER_DATA = {
   },
   {
     "sev": "high",
-    "service": "network",
+    "service": "zone",
     "status": "FAIL",
-    "check": "network_security_list_ingress_from_internet_to_ssh_port",
-    "resource": "Default Security List for vcn-20251006-1537",
-    "region": "us-ashburn-1",
-    "detail": "Security list Default Security List for vcn-20251006-1537 allows ingress from 0.0.0.0/0 to port 22 (SSH).",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "high",
-    "service": "network",
-    "status": "FAIL",
-    "check": "network_security_list_ingress_from_internet_to_rdp_port",
-    "resource": "Default Security List for vcn-20251006-1537",
-    "region": "us-ashburn-1",
-    "detail": "Security list Default Security List for vcn-20251006-1537 allows ingress from 0.0.0.0/0 to port 3389 (RDP).",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "high",
-    "service": "network",
-    "status": "FAIL",
-    "check": "network_default_security_list_restricts_traffic",
-    "resource": "Default Security List for vcn-20251006-1537",
-    "region": "us-ashburn-1",
-    "detail": "Default security list Default Security List for vcn-20251006-1537 has permissive rules: ingress from 0.0.0.0/0 with protocol 6.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "high",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_user_mfa_enabled_console_access",
-    "resource": "toni@blyx.com",
-    "region": "us-ashburn-1",
-    "detail": "User toni@blyx.com has console password enabled but MFA is not activated.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "high",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_tenancy_admin_users_no_api_keys",
-    "resource": "hugo@prowler.com",
-    "region": "us-ashburn-1",
-    "detail": "Tenancy administrator user hugo@prowler.com has API keys.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "high",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_tenancy_admin_users_no_api_keys",
-    "resource": "sergio@prowler.com",
-    "region": "us-ashburn-1",
-    "detail": "Tenancy administrator user sergio@prowler.com has API keys.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "high",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_password_policy_minimum_length_14",
-    "resource": "Domain: Default - Policy: defaultPasswordPolicy",
-    "region": "us-ashburn-1",
-    "detail": "Password policy 'defaultPasswordPolicy' in domain 'Default' requires minimum length of 12 characters, which is less than 14.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "high",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_no_resources_in_root_compartment",
-    "resource": "Root Compartment Resources",
-    "region": "us-ashburn-1",
-    "detail": "Found 6 resource(s) in root compartment: 2 Bucket(s), 1 AutonomousDatabase(s), 1 BootVolume(s), 1 Vcn(s), 1 Volume(s).",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "high",
-    "service": "events",
-    "status": "FAIL",
-    "check": "events_rule_user_changes",
-    "resource": "User Changes Event Rule",
+    "check": "zone_waf_owasp_ruleset_enabled",
+    "resource": "prowler.work-prowler.work",
     "region": "global",
-    "detail": "No event rules configured to monitor user changes.",
-    "provider": "OCI Demo"
+    "detail": "Zone prowler.work does not have OWASP managed WAF ruleset enabled.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "high",
-    "service": "events",
+    "service": "zone",
     "status": "FAIL",
-    "check": "events_rule_security_list_changes",
-    "resource": "Security List Changes Event Rule",
+    "check": "zone_waf_owasp_ruleset_enabled",
+    "resource": "prowler.cc-prowler.cc",
     "region": "global",
-    "detail": "No event rules configured to monitor security list changes.",
-    "provider": "OCI Demo"
+    "detail": "Zone prowler.cc does not have OWASP managed WAF ruleset enabled.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "high",
-    "service": "events",
+    "service": "zone",
     "status": "FAIL",
-    "check": "events_rule_route_table_changes",
-    "resource": "Route Table Changes Event Rule",
+    "check": "zone_waf_enabled",
+    "resource": "prowler.work-prowler.work",
     "region": "global",
-    "detail": "No event rules configured to monitor route table changes.",
-    "provider": "OCI Demo"
+    "detail": "WAF is not enabled for zone prowler.work. This may be expected because the Web Application Firewall is not available on the Cloudflare Free plan.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "high",
-    "service": "events",
+    "service": "zone",
     "status": "FAIL",
-    "check": "events_rule_network_gateway_changes",
-    "resource": "Network Gateway Changes Event Rule",
+    "check": "zone_waf_enabled",
+    "resource": "prowler.cc-prowler.cc",
     "region": "global",
-    "detail": "No event rules configured to monitor network gateway changes.",
-    "provider": "OCI Demo"
+    "detail": "WAF is not enabled for zone prowler.cc. This may be expected because the Web Application Firewall is not available on the Cloudflare Free plan.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "high",
-    "service": "events",
+    "service": "zone",
     "status": "FAIL",
-    "check": "events_rule_idp_group_mapping_changes",
-    "resource": "Idp Group Mapping Changes Event Rule",
+    "check": "zone_universal_ssl_enabled",
+    "resource": "prowler.cc-prowler.cc",
     "region": "global",
-    "detail": "No event rules configured to monitor IdP group mapping changes.",
-    "provider": "OCI Demo"
+    "detail": "Universal SSL is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "high",
-    "service": "events",
+    "service": "zone",
     "status": "FAIL",
-    "check": "events_rule_identity_provider_changes",
-    "resource": "Identity Provider Changes Event Rule",
+    "check": "zone_ssl_strict",
+    "resource": "prowler.cc-prowler.cc",
     "region": "global",
-    "detail": "No event rules configured to monitor identity provider changes.",
-    "provider": "OCI Demo"
+    "detail": "SSL/TLS encryption mode is set to Flexible for zone prowler.cc, which is not Full (Strict).",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "high",
-    "service": "events",
+    "service": "zone",
     "status": "FAIL",
-    "check": "events_rule_iam_policy_changes",
-    "resource": "Iam Policy Changes Event Rule",
+    "check": "zone_rate_limiting_enabled",
+    "resource": "prowler.cc-prowler.cc",
     "region": "global",
-    "detail": "No event rules configured to monitor IAM policy changes.",
-    "provider": "OCI Demo"
+    "detail": "No rate limiting rules configured for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "high",
-    "service": "cloudguard",
+    "service": "zone",
     "status": "FAIL",
-    "check": "cloudguard_enabled",
-    "resource": "Cloud Guard",
+    "check": "zone_min_tls_version_secure",
+    "resource": "prowler.cc-prowler.cc",
     "region": "global",
-    "detail": "Cloud Guard is not enabled in the root compartment.",
-    "provider": "OCI Demo"
+    "detail": "Minimum TLS version for zone prowler.cc is 1.0, below the recommended 1.2.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "high",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_hsts_enabled",
+    "resource": "prowler.work-prowler.work",
+    "region": "global",
+    "detail": "HSTS is enabled for zone prowler.work but does not include subdomains.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "high",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_hsts_enabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "HSTS is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "high",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_dnssec_enabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "DNSSEC is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "high",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_always_online_disabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "Always Online is enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "high",
+    "service": "dns",
+    "status": "FAIL",
+    "check": "dns_record_no_internal_ip",
+    "resource": "prowler.cc-check-internal-ip-fail.prowler.cc",
+    "region": "global",
+    "detail": "DNS record check-internal-ip-fail.prowler.cc (AAAA) exposes internal IP address fe80::1 - information disclosure risk.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "high",
+    "service": "dns",
+    "status": "FAIL",
+    "check": "dns_record_cname_target_valid",
+    "resource": "prowler.cc-_http._tcp.check-dangling-fail.prowler.cc",
+    "region": "global",
+    "detail": "SRV record _http._tcp.check-dangling-fail.prowler.cc points to potentially dangling target nonexistent-prowler-test.invalid - service discovery vulnerability.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "high",
@@ -1136,9 +1074,9 @@ const PROWLER_DATA = {
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
-    "resource": "vpce-0702ee45431bdb3f4",
-    "region": "eu-west-1",
-    "detail": "VPC Endpoint vpce-0702ee45431bdb3f4 in VPC vpc-0e0b6713fe253986a can be accessed from non-trusted accounts.",
+    "resource": "vpce-075169e5bcae4deab",
+    "region": "us-east-2",
+    "detail": "VPC Endpoint vpce-075169e5bcae4deab in VPC vpc-0a9716b1f0cc77e2b can be accessed from non-trusted accounts.",
     "provider": "Demo AWS"
   },
   {
@@ -1152,194 +1090,124 @@ const PROWLER_DATA = {
     "provider": "Demo AWS"
   },
   {
-    "sev": "medium",
-    "service": "objectstorage",
+    "sev": "high",
+    "service": "vpc",
     "status": "FAIL",
-    "check": "objectstorage_bucket_versioning_enabled",
-    "resource": "oci-logs._flowlogs.ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5",
-    "region": "us-ashburn-1",
-    "detail": "Bucket oci-logs._flowlogs.ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5grlhgnkwtyt6dmwyou7no6mdmzda does not have versioning enabled.",
-    "provider": "OCI Demo"
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-0d8f332047187b177",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-0d8f332047187b177 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-04a9c9d80e4e6b2e8",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-04a9c9d80e4e6b2e8 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
   },
   {
     "sev": "medium",
-    "service": "objectstorage",
+    "service": "zone",
     "status": "FAIL",
-    "check": "objectstorage_bucket_logging_enabled",
-    "resource": "oci-logs._flowlogs.ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5",
-    "region": "us-ashburn-1",
-    "detail": "Bucket oci-logs._flowlogs.ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5grlhgnkwtyt6dmwyou7no6mdmzda does not have write-level logging enabled.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "objectstorage",
-    "status": "FAIL",
-    "check": "objectstorage_bucket_encrypted_with_cmk",
-    "resource": "oci-logs._flowlogs.ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5",
-    "region": "us-ashburn-1",
-    "detail": "Bucket oci-logs._flowlogs.ocid1.tenancy.oc1..aaaaaaaa3dwoazoox4q7wrvriywpokp5grlhgnkwtyt6dmwyou7no6mdmzda is not encrypted with Customer Managed Key.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "objectstorage",
-    "status": "FAIL",
-    "check": "objectstorage_bucket_encrypted_with_cmk",
-    "resource": "bucket-20251007-1109",
-    "region": "us-ashburn-1",
-    "detail": "Bucket bucket-20251007-1109 is not encrypted with Customer Managed Key.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_user_db_passwords_rotated_90_days",
-    "resource": "sergio@prowler.com - DB Password",
-    "region": "us-ashburn-1",
-    "detail": "User 'sergio@prowler.com' has a database password created 292 days ago (on 2025-10-07), which exceeds the 90-day rotation period.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_user_customer_secret_keys_rotated_90_days",
-    "resource": "sergio@prowler.com - Customer Secret Key",
-    "region": "us-ashburn-1",
-    "detail": "User 'sergio@prowler.com' has a customer secret key created 292 days ago (on 2025-10-07), which exceeds the 90-day rotation period.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_user_auth_tokens_rotated_90_days",
-    "resource": "hugo@prowler.com - Auth Token",
-    "region": "us-ashburn-1",
-    "detail": "User 'hugo@prowler.com' has an auth token created 165 days ago (on 2026-02-11), which exceeds the 90-day rotation period.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_user_auth_tokens_rotated_90_days",
-    "resource": "sergio@prowler.com - Auth Token",
-    "region": "us-ashburn-1",
-    "detail": "User 'sergio@prowler.com' has an auth token created 292 days ago (on 2025-10-07), which exceeds the 90-day rotation period.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_user_api_keys_rotated_90_days",
-    "resource": "hugo@prowler.com",
-    "region": "us-ashburn-1",
-    "detail": "User hugo@prowler.com has API key (fingerprint: 9e:dd:ce:ef:c6:c...) that has not been rotated in 165 days (over 90 days).",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_user_api_keys_rotated_90_days",
-    "resource": "daniel@prowler.com",
-    "region": "us-ashburn-1",
-    "detail": "User daniel@prowler.com has API key (fingerprint: 3a:95:1c:18:38:8...) that has not been rotated in 285 days (over 90 days).",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_user_api_keys_rotated_90_days",
-    "resource": "sergio@prowler.com",
-    "region": "us-ashburn-1",
-    "detail": "User sergio@prowler.com has API key (fingerprint: fe:5c:8e:4f:b6:a...) that has not been rotated in 264 days (over 90 days).",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_user_api_keys_rotated_90_days",
-    "resource": "sergio@prowler.com",
-    "region": "us-ashburn-1",
-    "detail": "User sergio@prowler.com has API key (fingerprint: 37:12:bf:47:a5:9...) that has not been rotated in 293 days (over 90 days).",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_storage_service_level_admins_scoped",
-    "resource": "test-fail-delete",
-    "region": "us-ashburn-1",
-    "detail": "Policy 'test-fail-delete' allows storage service-level administrators to manage storage resources without explicitly excluding required delete permissions: statement `Allow group prowler-users to manage objects in tenancy` manages objects without excluding: OBJECT_DELETE.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_password_policy_prevents_reuse",
-    "resource": "Domain: Default - Policy: defaultPasswordPolicy",
-    "region": "us-ashburn-1",
-    "detail": "Password policy 'defaultPasswordPolicy' in domain 'Default' remembers 4 passwords, which is less than the recommended 24.",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "identity",
-    "status": "FAIL",
-    "check": "identity_instance_principal_used",
-    "resource": "Instance Principal Configuration",
-    "region": "us-ashburn-1",
-    "detail": "No Dynamic Groups found with matching rules for instance principals (instances, functions, or databases).",
-    "provider": "OCI Demo"
-  },
-  {
-    "sev": "medium",
-    "service": "events",
-    "status": "FAIL",
-    "check": "events_rule_vcn_changes",
-    "resource": "Vcn Changes Event Rule",
+    "check": "zone_tls_1_3_enabled",
+    "resource": "prowler.cc-prowler.cc",
     "region": "global",
-    "detail": "No event rules configured to monitor VCN changes.",
-    "provider": "OCI Demo"
+    "detail": "TLS 1.3 is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "medium",
-    "service": "events",
+    "service": "zone",
     "status": "FAIL",
-    "check": "events_rule_network_security_group_changes",
-    "resource": "Network Security Group Changes Event Rule",
+    "check": "zone_record_spf_exists",
+    "resource": "prowler.cc-prowler.cc",
     "region": "global",
-    "detail": "No event rules configured to monitor network security group changes.",
-    "provider": "OCI Demo"
+    "detail": "No SPF record found for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "medium",
-    "service": "blockstorage",
+    "service": "zone",
     "status": "FAIL",
-    "check": "blockstorage_boot_volume_encrypted_with_cmk",
-    "resource": "instance-20251006-1536 (Boot Volume)",
-    "region": "us-ashburn-1",
-    "detail": "Boot Volume instance-20251006-1536 (Boot Volume) is not encrypted with Customer Managed Key.",
-    "provider": "OCI Demo"
+    "check": "zone_record_dmarc_exists",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "No DMARC record found for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "medium",
-    "service": "blockstorage",
+    "service": "zone",
     "status": "FAIL",
-    "check": "blockstorage_block_volume_encrypted_with_cmk",
-    "resource": "test",
-    "region": "us-ashburn-1",
-    "detail": "Block volume test is not encrypted with a Customer Managed Key (uses Oracle-managed encryption).",
-    "provider": "OCI Demo"
+    "check": "zone_record_dkim_exists",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "No DKIM record found for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "medium",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_https_redirect_enabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "Always Use HTTPS is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "medium",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_bot_fight_mode_enabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "Bot Fight Mode is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "medium",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_automatic_https_rewrites_enabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "Automatic HTTPS Rewrites is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "medium",
+    "service": "dns",
+    "status": "FAIL",
+    "check": "dns_record_proxied",
+    "resource": "prowler.cc-check-proxied-fail.prowler.cc",
+    "region": "global",
+    "detail": "DNS record check-proxied-fail.prowler.cc (CNAME) is not proxied through Cloudflare.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "medium",
+    "service": "dns",
+    "status": "FAIL",
+    "check": "dns_record_proxied",
+    "resource": "prowler.cc-check-internal-ip-fail.prowler.cc",
+    "region": "global",
+    "detail": "DNS record check-internal-ip-fail.prowler.cc (AAAA) is not proxied through Cloudflare.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "medium",
+    "service": "dns",
+    "status": "FAIL",
+    "check": "dns_record_no_wildcard",
+    "resource": "prowler.cc-*.check-wildcard-fail.prowler.cc",
+    "region": "global",
+    "detail": "DNS record *.check-wildcard-fail.prowler.cc (MX) is a wildcard record - may expose unintended services.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "medium",
@@ -1350,6 +1218,166 @@ const PROWLER_DATA = {
     "region": "us-east-1",
     "detail": "VPC demo-vpc has only public subnets.",
     "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_subnet_different_az",
+    "resource": "vpc-043b150da773aee6f",
+    "region": "us-east-1",
+    "detail": "VPC DatatogAgentlessScanner has only subnets in us-east-1a.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_subnet_different_az",
+    "resource": "vpc-0bdb9eda71f5243c0",
+    "region": "us-east-1",
+    "detail": "VPC demo-vpc has only subnets in us-east-1a.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_flow_logs_enabled",
+    "resource": "vpc-043b150da773aee6f",
+    "region": "us-east-1",
+    "detail": "VPC DatatogAgentlessScanner Flow logs are disabled.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_flow_logs_enabled",
+    "resource": "vpc-0bdb9eda71f5243c0",
+    "region": "us-east-1",
+    "detail": "VPC demo-vpc Flow logs are disabled.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_multi_az_enabled",
+    "resource": "vpce-0d8f332047187b177",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-0d8f332047187b177 in VPC vpc-043b150da773aee6f does not have subnets in different AZs.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_multi_az_enabled",
+    "resource": "vpce-04a9c9d80e4e6b2e8",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-04a9c9d80e4e6b2e8 in VPC vpc-043b150da773aee6f does not have subnets in different AZs.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_for_ec2_enabled",
+    "resource": "vpc-043b150da773aee6f",
+    "region": "us-east-1",
+    "detail": "VPC vpc-043b150da773aee6f has no EC2 endpoint.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_for_ec2_enabled",
+    "resource": "vpc-0bdb9eda71f5243c0",
+    "region": "us-east-1",
+    "detail": "VPC vpc-0bdb9eda71f5243c0 has no EC2 endpoint.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_for_ec2_enabled",
+    "resource": "vpc-0e08d2fb6d2ac5b57",
+    "region": "us-east-1",
+    "detail": "VPC vpc-0e08d2fb6d2ac5b57 has no EC2 endpoint.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_security_under_attack_disabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "Zone prowler.cc has Under Attack Mode enabled.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "low",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_record_caa_exists",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "No CAA record found for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "low",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_ip_geolocation_enabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "IP Geolocation is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "low",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_hotlink_protection_enabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "Hotlink Protection is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "low",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_email_obfuscation_enabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "Email Obfuscation is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "low",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_challenge_passage_configured",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "Challenge Passage is set to 5 minutes for zone prowler.cc (recommended: between 15 and 45 minutes).",
+    "provider": "0756de004f7d9330b33682b680e77242"
+  },
+  {
+    "sev": "low",
+    "service": "zone",
+    "status": "FAIL",
+    "check": "zone_browser_integrity_check_enabled",
+    "resource": "prowler.cc-prowler.cc",
+    "region": "global",
+    "detail": "Browser Integrity Check is not enabled for zone prowler.cc.",
+    "provider": "0756de004f7d9330b33682b680e77242"
   },
   {
     "sev": "low",
@@ -1377,8 +1405,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "eu-west-1",
-    "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
+    "region": "us-east-2",
+    "detail": "SageMaker Model Registry in region us-east-2 has no Model Package Groups.",
     "provider": "Demo AWS"
   },
   {
@@ -1397,8 +1425,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "us-east-2",
-    "detail": "SageMaker Model Registry in region us-east-2 has no Model Package Groups.",
+    "region": "eu-south-2",
+    "detail": "SageMaker Model Registry in region eu-south-2 has no Model Package Groups.",
     "provider": "Demo AWS"
   },
   {
@@ -1407,8 +1435,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "eu-south-2",
-    "detail": "SageMaker Model Registry in region eu-south-2 has no Model Package Groups.",
+    "region": "eu-west-1",
+    "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
     "provider": "Demo AWS"
   },
   {
@@ -1427,26 +1455,6 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
     "resource": "SageMaker Monitoring Schedules",
-    "region": "ap-northeast-2",
-    "detail": "No SageMaker monitoring schedules found in region ap-northeast-2.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "ap-northeast-1",
-    "detail": "No SageMaker monitoring schedules found in region ap-northeast-1.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
     "region": "ap-northeast-3",
     "detail": "No SageMaker monitoring schedules found in region ap-northeast-3.",
     "provider": "Demo AWS"
@@ -1457,8 +1465,28 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
     "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-northeast-2",
+    "detail": "No SageMaker monitoring schedules found in region ap-northeast-2.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
     "region": "ap-south-1",
     "detail": "No SageMaker monitoring schedules found in region ap-south-1.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-northeast-1",
+    "detail": "No SageMaker monitoring schedules found in region ap-northeast-1.",
     "provider": "Demo AWS"
   },
   {
@@ -1479,76 +1507,6 @@ const PROWLER_DATA = {
     "resource": "SageMaker Monitoring Schedules",
     "region": "ap-southeast-1",
     "detail": "No SageMaker monitoring schedules found in region ap-southeast-1.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "ca-central-1",
-    "detail": "No SageMaker monitoring schedules found in region ca-central-1.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "eu-west-3",
-    "detail": "No SageMaker monitoring schedules found in region eu-west-3.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "us-west-1",
-    "detail": "No SageMaker monitoring schedules found in region us-west-1.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "eu-west-2",
-    "detail": "No SageMaker monitoring schedules found in region eu-west-2.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "eu-north-1",
-    "detail": "No SageMaker monitoring schedules found in region eu-north-1.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "us-west-2",
-    "detail": "No SageMaker monitoring schedules found in region us-west-2.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "eu-west-1",
-    "detail": "No SageMaker monitoring schedules found in region eu-west-1.",
     "provider": "Demo AWS"
   },
   {
@@ -1684,7 +1642,7 @@ const PROWLER_DATA = {
     ]
   }
 ],
-  trend: [4368, 4382, 4375, 4364, 4359, 4361, 4366]
+  trend: [4400, 4414, 4407, 4396, 4391, 4393, 4398]
 };
 /* ==PROWLER_DATA_END== */
 
