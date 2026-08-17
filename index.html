@@ -1,11 +1,9 @@
 <!DOCTYPE html>
 <!-- ==PROWLER_HEADER_START== Prowler Security Dashboard - Generated from live Prowler API data
   ============================================================
-  Generated: 2026-08-10T06:30:12.127474+00:00
-  Provider(s) found: 15
-    - Playground (aws | UID 254909274388 | connected: true)
+  Generated: 2026-08-17T06:12:33.572031+00:00
+  Provider(s) found: 13
     - 0756de004f7d9330b33682b680e77242 (cloudflare | UID 0756de004f7d9330b33682b680e77242 | connected: true)
-    - AcmeAWSAccount (aws | UID 951364905357 | connected: true)
     - manuel-okta (okta | UID integrator-8206651.okta.com | connected: true)
     - Demo AWS (aws | UID 552455647653 | connected: true)
     - myAppVercel (vercel | UID team_Yj41RYnEfdjpqxzAecFgwYAR | connected: true)
@@ -20,10 +18,10 @@
     - M365 Demo (m365 | UID prowler.com | connected: true)
 
   Findings overview:
-    Total: 13124 | FAIL: 4915 (37.5%) | PASS: 7866 (59.9%) | Muted: 222
+    Total: 13251 | FAIL: 5013 (37.8%) | PASS: 7895 (59.6%) | Muted: 222
 
   Severity breakdown (FAIL):
-    Critical: 108 | High: 1362 | Medium: 2186 | Low: 1330 | Informational: 2
+    Critical: 108 | High: 1394 | Medium: 2252 | Low: 1330 | Informational: 2
 
   Top critical/high findings enriched via Prowler Hub:
     s3_bucket_public_access
@@ -390,29 +388,13 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
    ============================================================ */
 /* ==PROWLER_DATA_START== */
 const PROWLER_DATA = {
-  generatedAt: "2026-08-10T06:30:12.127474+00:00",
+  generatedAt: "2026-08-17T06:12:33.572031+00:00",
   providers: [
-  {
-    "id": "a88353aa-1156-4a17-9585-a311adc5d0ba",
-    "uid": "254909274388",
-    "alias": "Playground",
-    "provider": "aws",
-    "connected": true,
-    "region": "-"
-  },
   {
     "id": "6a16e9b0-fa7c-4a3e-8d6d-57b54e6bbd00",
     "uid": "0756de004f7d9330b33682b680e77242",
     "alias": "0756de004f7d9330b33682b680e77242",
     "provider": "cloudflare",
-    "connected": true,
-    "region": "-"
-  },
-  {
-    "id": "ba342ebb-401e-4b3e-befe-e47834cd85cc",
-    "uid": "951364905357",
-    "alias": "AcmeAWSAccount",
-    "provider": "aws",
     "connected": true,
     "region": "-"
   },
@@ -514,31 +496,19 @@ const PROWLER_DATA = {
   }
 ],
   overview: {
-  "total": 13124,
-  "fail": 4915,
-  "pass": 7866,
+  "total": 13251,
+  "fail": 5013,
+  "pass": 7895,
   "muted": 222
 },
   severityCounts: {
   "critical": 108,
-  "high": 1362,
-  "medium": 2186,
+  "high": 1394,
+  "medium": 2252,
   "low": 1330,
   "informational": 2
 },
   perProvider: {
-  "Playground": {
-    "fail": 527,
-    "pass": 947,
-    "sev": {
-      "critical": 11,
-      "high": 81,
-      "medium": 306,
-      "low": 129,
-      "informational": 0
-    },
-    "estimated": false
-  },
   "0756de004f7d9330b33682b680e77242": {
     "fail": 0,
     "pass": 0,
@@ -547,18 +517,6 @@ const PROWLER_DATA = {
       "high": 0,
       "medium": 0,
       "low": 0,
-      "informational": 0
-    },
-    "estimated": false
-  },
-  "AcmeAWSAccount": {
-    "fail": 359,
-    "pass": 167,
-    "sev": {
-      "critical": 2,
-      "high": 95,
-      "medium": 138,
-      "low": 124,
       "informational": 0
     },
     "estimated": false
@@ -576,12 +534,12 @@ const PROWLER_DATA = {
     "estimated": false
   },
   "Demo AWS": {
-    "fail": 557,
-    "pass": 992,
+    "fail": 558,
+    "pass": 991,
     "sev": {
       "critical": 14,
       "high": 126,
-      "medium": 277,
+      "medium": 278,
       "low": 140,
       "informational": 0
     },
@@ -648,12 +606,12 @@ const PROWLER_DATA = {
     "estimated": false
   },
   "Azure Demo": {
-    "fail": 69,
-    "pass": 74,
+    "fail": 70,
+    "pass": 85,
     "sev": {
       "critical": 1,
       "high": 41,
-      "medium": 26,
+      "medium": 27,
       "low": 1,
       "informational": 0
     },
@@ -696,12 +654,12 @@ const PROWLER_DATA = {
     "estimated": false
   },
   "M365 Demo": {
-    "fail": 102,
-    "pass": 346,
+    "fail": 198,
+    "pass": 365,
     "sev": {
       "critical": 5,
-      "high": 46,
-      "medium": 44,
+      "high": 78,
+      "medium": 108,
       "low": 7,
       "informational": 0
     },
@@ -851,26 +809,6 @@ const PROWLER_DATA = {
   },
   {
     "sev": "critical",
-    "service": "iam",
-    "status": "FAIL",
-    "check": "iam_user_administrator_access_policy",
-    "resource": "acmeProwlerAudit",
-    "region": "eu-west-1",
-    "detail": "IAM User acmeProwlerAudit has AdministratorAccess policy attached.",
-    "provider": "AcmeAWSAccount"
-  },
-  {
-    "sev": "critical",
-    "service": "iam",
-    "status": "FAIL",
-    "check": "iam_aws_attached_policy_no_administrative_privileges",
-    "resource": "AdministratorAccess",
-    "region": "eu-west-1",
-    "detail": "AWS policy AdministratorAccess is attached and allows '*:*' administrative privileges.",
-    "provider": "AcmeAWSAccount"
-  },
-  {
-    "sev": "critical",
     "service": "teams",
     "status": "FAIL",
     "check": "teams_external_users_cannot_start_conversations",
@@ -908,6 +846,26 @@ const PROWLER_DATA = {
     "region": "global",
     "detail": "Microsoft Defender for Endpoint is not enabled. Without MDE there is no visibility into credential exposure on endpoints.",
     "provider": "M365 Demo"
+  },
+  {
+    "sev": "critical",
+    "service": "defender",
+    "status": "FAIL",
+    "check": "defender_malware_policy_common_attachments_filter_enabled",
+    "resource": "Default",
+    "region": "global",
+    "detail": "Default is the default policy and Common Attachment Types Filter is not enabled, but it could be overridden by another well-configured Custom Policy.",
+    "provider": "M365 Demo"
+  },
+  {
+    "sev": "critical",
+    "service": "entra",
+    "status": "FAIL",
+    "check": "entra_security_defaults_enabled",
+    "resource": "Security Defaults",
+    "region": "global",
+    "detail": "Entra security defaults is disabled.",
+    "provider": null
   },
   {
     "sev": "high",
@@ -1084,16 +1042,6 @@ const PROWLER_DATA = {
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
-    "resource": "vpce-0702ee45431bdb3f4",
-    "region": "eu-west-1",
-    "detail": "VPC Endpoint vpce-0702ee45431bdb3f4 in VPC vpc-0e0b6713fe253986a can be accessed from non-trusted accounts.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "high",
-    "service": "vpc",
-    "status": "FAIL",
-    "check": "vpc_endpoint_connections_trust_boundaries",
     "resource": "vpce-016a9091c07f893d9",
     "region": "us-east-1",
     "detail": "VPC Endpoint vpce-016a9091c07f893d9 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
@@ -1107,6 +1055,16 @@ const PROWLER_DATA = {
     "resource": "vpce-0d8f332047187b177",
     "region": "us-east-1",
     "detail": "VPC Endpoint vpce-0d8f332047187b177 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-04a9c9d80e4e6b2e8",
+    "region": "us-east-1",
+    "detail": "VPC Endpoint vpce-04a9c9d80e4e6b2e8 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
     "provider": "Demo AWS"
   },
   {
@@ -1395,6 +1353,16 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
+    "region": "eu-south-2",
+    "detail": "SageMaker Model Registry in region eu-south-2 has no Model Package Groups.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_registry_in_use",
+    "resource": "SageMaker Model Registry",
     "region": "us-west-2",
     "detail": "SageMaker Model Registry in region us-west-2 has no Model Package Groups.",
     "provider": "Demo AWS"
@@ -1415,16 +1383,6 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "eu-west-1",
-    "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_registry_in_use",
-    "resource": "SageMaker Model Registry",
     "region": "us-east-1",
     "detail": "SageMaker Model Registry in region us-east-1 has no Model Package Groups.",
     "provider": "Demo AWS"
@@ -1435,8 +1393,18 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "eu-south-2",
-    "detail": "SageMaker Model Registry in region eu-south-2 has no Model Package Groups.",
+    "region": "eu-west-1",
+    "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-northeast-2",
+    "detail": "No SageMaker monitoring schedules found in region ap-northeast-2.",
     "provider": "Demo AWS"
   },
   {
@@ -1465,8 +1433,18 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
     "resource": "SageMaker Monitoring Schedules",
-    "region": "ap-northeast-2",
-    "detail": "No SageMaker monitoring schedules found in region ap-northeast-2.",
+    "region": "ap-northeast-1",
+    "detail": "No SageMaker monitoring schedules found in region ap-northeast-1.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-south-1",
+    "detail": "No SageMaker monitoring schedules found in region ap-south-1.",
     "provider": "Demo AWS"
   },
   {
@@ -1485,28 +1463,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
     "resource": "SageMaker Monitoring Schedules",
-    "region": "ap-northeast-1",
-    "detail": "No SageMaker monitoring schedules found in region ap-northeast-1.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
     "region": "sa-east-1",
     "detail": "No SageMaker monitoring schedules found in region sa-east-1.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "eu-central-1",
-    "detail": "No SageMaker monitoring schedules found in region eu-central-1.",
     "provider": "Demo AWS"
   },
   {
@@ -1589,12 +1547,12 @@ const PROWLER_DATA = {
   {
     "sev": "critical",
     "check": "iam_root_hardware_mfa_enabled",
-    "title": "Root account enforces MFA through operation protection",
+    "title": "Root account has a hardware MFA device enabled",
     "resource": "<root_account>",
     "region": "eu-west-1",
-    "risk": "Without **operation protection**, a compromised **root** password enables full **account takeover** with no additional verification. An attacker could delete resources, change policies, and disable logging, harming **confidentiality**, **integrity**, and **availability**.",
+    "risk": "Without **hardware MFA** on the root user:\n- No MFA: stolen password/keys enable full account takeover.\n- Virtual MFA: device compromise or backup restoration weakens second-factor assurance.\nAn attacker could delete resources, change policies, and disable logging, harming **confidentiality**, **integrity**, and **availability**.",
     "steps": [
-      "{'description': '1. Log on to the **Huawei Cloud console** as the account administrator.\\n2. Go to **Security Settings** > **Critical Operations**.\\n3. In the **Operation Protection** section, click **Enable**.\\n4. Choose the verification method (`virtual MFA`, `SMS`, or `email`) and save.'}"
+      "{'description': '1. Sign in to the AWS Management Console as the root user\\n2. Open My Security Credentials: https://console.aws.amazon.com/iam/home?#/security_credentials\\n3. In the Multi-factor authentication (MFA) section, choose Activate/Assign MFA\\n4. Select a hardware option (Security key or Hardware TOTP token) and complete the prompts (for TOTP: enter the device serial and two consecutive codes)\\n5. After the hardware MFA is added, locate any Virtual MFA device listed for root and Deactivate/Remove it\\n6. Confirm only the hardware MFA remains assigned'}"
     ]
   },
   {
@@ -1642,7 +1600,7 @@ const PROWLER_DATA = {
     ]
   }
 ],
-  trend: [4917, 4931, 4924, 4913, 4908, 4910, 4915]
+  trend: [5015, 5029, 5022, 5011, 5006, 5008, 5013]
 };
 /* ==PROWLER_DATA_END== */
 
