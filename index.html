@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <!-- ==PROWLER_HEADER_START== Prowler Security Dashboard - Generated from live Prowler API data
   ============================================================
-  Generated: 2026-09-07T06:17:43.466513+00:00
+  Generated: 2026-09-14T06:17:58.434182+00:00
   Provider(s) found: 11
     - 0756de004f7d9330b33682b680e77242 (cloudflare | UID 0756de004f7d9330b33682b680e77242 | connected: true)
     - manuel-okta (okta | UID integrator-8206651.okta.com | connected: true)
@@ -16,10 +16,10 @@
     - M365 Demo (m365 | UID prowler.com | connected: true)
 
   Findings overview:
-    Total: 9663 | FAIL: 2865 (29.6%) | PASS: 6405 (66.3%) | Muted: 225
+    Total: 9381 | FAIL: 2816 (30.0%) | PASS: 6171 (65.8%) | Muted: 226
 
   Severity breakdown (FAIL):
-    Critical: 96 | High: 905 | Medium: 1244 | Low: 695 | Informational: 2
+    Critical: 95 | High: 887 | Medium: 1222 | Low: 688 | Informational: 2
 
   Top critical/high findings enriched via Prowler Hub:
     s3_bucket_public_access
@@ -386,7 +386,7 @@ tbody tr:hover{background:rgba(110,231,183,0.04)}
    ============================================================ */
 /* ==PROWLER_DATA_START== */
 const PROWLER_DATA = {
-  generatedAt: "2026-09-07T06:17:43.466513+00:00",
+  generatedAt: "2026-09-14T06:17:58.434182+00:00",
   providers: [
   {
     "id": "6a16e9b0-fa7c-4a3e-8d6d-57b54e6bbd00",
@@ -478,16 +478,16 @@ const PROWLER_DATA = {
   }
 ],
   overview: {
-  "total": 9663,
-  "fail": 2865,
-  "pass": 6405,
-  "muted": 225
+  "total": 9381,
+  "fail": 2816,
+  "pass": 6171,
+  "muted": 226
 },
   severityCounts: {
-  "critical": 96,
-  "high": 905,
-  "medium": 1244,
-  "low": 695,
+  "critical": 95,
+  "high": 887,
+  "medium": 1222,
+  "low": 688,
   "informational": 2
 },
   perProvider: {
@@ -516,13 +516,13 @@ const PROWLER_DATA = {
     "estimated": false
   },
   "Demo AWS": {
-    "fail": 559,
-    "pass": 1018,
+    "fail": 510,
+    "pass": 785,
     "sev": {
-      "critical": 14,
-      "high": 136,
-      "medium": 269,
-      "low": 140,
+      "critical": 13,
+      "high": 118,
+      "medium": 246,
+      "low": 133,
       "informational": 0
     },
     "estimated": false
@@ -588,12 +588,12 @@ const PROWLER_DATA = {
     "estimated": false
   },
   "OCI Demo": {
-    "fail": 35,
-    "pass": 42,
+    "fail": 36,
+    "pass": 41,
     "sev": {
       "critical": 0,
       "high": 16,
-      "medium": 19,
+      "medium": 20,
       "low": 0,
       "informational": 0
     },
@@ -750,16 +750,6 @@ const PROWLER_DATA = {
     "service": "ec2",
     "status": "FAIL",
     "check": "ec2_instance_port_ssh_exposed_to_internet",
-    "resource": "i-0aeeaa92b3fb95a35",
-    "region": "us-east-1",
-    "detail": "Instance i-0aeeaa92b3fb95a35 has SSH exposed to 0.0.0.0/0 on public IP address 52.22.247.240 in public subnet subnet-05d3a7b8f85214922.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "critical",
-    "service": "ec2",
-    "status": "FAIL",
-    "check": "ec2_instance_port_ssh_exposed_to_internet",
     "resource": "i-05075b63eb51baacb",
     "region": "us-east-1",
     "detail": "Instance i-05075b63eb51baacb has SSH exposed to 0.0.0.0/0 on public IP address 34.228.30.208 in public subnet subnet-05484df59f9616ab6.",
@@ -824,6 +814,16 @@ const PROWLER_DATA = {
     "region": "global",
     "detail": "Entra security defaults is disabled.",
     "provider": null
+  },
+  {
+    "sev": "critical",
+    "service": "clusters",
+    "status": "FAIL",
+    "check": "clusters_encryption_at_rest_enabled",
+    "resource": "europe_north-Cluster0",
+    "region": "global",
+    "detail": "Cluster Cluster0 in project TestProject has encryption at rest explicitly disabled.",
+    "provider": "MongoDB Atlas Demo"
   },
   {
     "sev": "high",
@@ -980,36 +980,6 @@ const PROWLER_DATA = {
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
-    "resource": "vpce-016a9091c07f893d9",
-    "region": "us-east-1",
-    "detail": "VPC Endpoint vpce-016a9091c07f893d9 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "high",
-    "service": "vpc",
-    "status": "FAIL",
-    "check": "vpc_endpoint_connections_trust_boundaries",
-    "resource": "vpce-0d8f332047187b177",
-    "region": "us-east-1",
-    "detail": "VPC Endpoint vpce-0d8f332047187b177 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "high",
-    "service": "vpc",
-    "status": "FAIL",
-    "check": "vpc_endpoint_connections_trust_boundaries",
-    "resource": "vpce-04a9c9d80e4e6b2e8",
-    "region": "us-east-1",
-    "detail": "VPC Endpoint vpce-04a9c9d80e4e6b2e8 in VPC vpc-043b150da773aee6f can be accessed from non-trusted accounts.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "high",
-    "service": "vpc",
-    "status": "FAIL",
-    "check": "vpc_endpoint_connections_trust_boundaries",
     "resource": "vpce-0ce201ccf913f1fd5",
     "region": "us-east-1",
     "detail": "VPC Endpoint vpce-0ce201ccf913f1fd5 in VPC vpc-0e08d2fb6d2ac5b57 can be accessed from non-trusted accounts.",
@@ -1020,9 +990,39 @@ const PROWLER_DATA = {
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-089bbc2b35cb0968f",
+    "region": "us-west-2",
+    "detail": "VPC Endpoint vpce-089bbc2b35cb0968f in VPC vpc-0b87b9e8e03804e58 can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
     "resource": "vpce-0702ee45431bdb3f4",
     "region": "eu-west-1",
     "detail": "VPC Endpoint vpce-0702ee45431bdb3f4 in VPC vpc-0e0b6713fe253986a can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "vpc",
+    "status": "FAIL",
+    "check": "vpc_endpoint_connections_trust_boundaries",
+    "resource": "vpce-075169e5bcae4deab",
+    "region": "us-east-2",
+    "detail": "VPC Endpoint vpce-075169e5bcae4deab in VPC vpc-0a9716b1f0cc77e2b can be accessed from non-trusted accounts.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "high",
+    "service": "sns",
+    "status": "FAIL",
+    "check": "sns_topics_kms_encryption_at_rest_enabled",
+    "resource": "aws-controltower-SecurityNotifications",
+    "region": "us-east-1",
+    "detail": "SNS topic aws-controltower-SecurityNotifications is not encrypted.",
     "provider": "Demo AWS"
   },
   {
@@ -1140,16 +1140,6 @@ const PROWLER_DATA = {
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_subnet_different_az",
-    "resource": "vpc-043b150da773aee6f",
-    "region": "us-east-1",
-    "detail": "VPC DatatogAgentlessScanner has only subnets in us-east-1a.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "medium",
-    "service": "vpc",
-    "status": "FAIL",
-    "check": "vpc_subnet_different_az",
     "resource": "vpc-0bdb9eda71f5243c0",
     "region": "us-east-1",
     "detail": "VPC demo-vpc has only subnets in us-east-1a.",
@@ -1160,49 +1150,9 @@ const PROWLER_DATA = {
     "service": "vpc",
     "status": "FAIL",
     "check": "vpc_flow_logs_enabled",
-    "resource": "vpc-043b150da773aee6f",
-    "region": "us-east-1",
-    "detail": "VPC DatatogAgentlessScanner Flow logs are disabled.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "medium",
-    "service": "vpc",
-    "status": "FAIL",
-    "check": "vpc_flow_logs_enabled",
     "resource": "vpc-0bdb9eda71f5243c0",
     "region": "us-east-1",
     "detail": "VPC demo-vpc Flow logs are disabled.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "medium",
-    "service": "vpc",
-    "status": "FAIL",
-    "check": "vpc_endpoint_multi_az_enabled",
-    "resource": "vpce-0d8f332047187b177",
-    "region": "us-east-1",
-    "detail": "VPC Endpoint vpce-0d8f332047187b177 in VPC vpc-043b150da773aee6f does not have subnets in different AZs.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "medium",
-    "service": "vpc",
-    "status": "FAIL",
-    "check": "vpc_endpoint_multi_az_enabled",
-    "resource": "vpce-04a9c9d80e4e6b2e8",
-    "region": "us-east-1",
-    "detail": "VPC Endpoint vpce-04a9c9d80e4e6b2e8 in VPC vpc-043b150da773aee6f does not have subnets in different AZs.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "medium",
-    "service": "vpc",
-    "status": "FAIL",
-    "check": "vpc_endpoint_for_ec2_enabled",
-    "resource": "vpc-043b150da773aee6f",
-    "region": "us-east-1",
-    "detail": "VPC vpc-043b150da773aee6f has no EC2 endpoint.",
     "provider": "Demo AWS"
   },
   {
@@ -1223,6 +1173,56 @@ const PROWLER_DATA = {
     "resource": "vpc-0e08d2fb6d2ac5b57",
     "region": "us-east-1",
     "detail": "VPC vpc-0e08d2fb6d2ac5b57 has no EC2 endpoint.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "ssmincidents",
+    "status": "FAIL",
+    "check": "ssmincidents_enabled_with_plans",
+    "resource": "552455647653",
+    "region": "eu-west-1",
+    "detail": "No SSM Incidents replication set exists.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "secretsmanager",
+    "status": "FAIL",
+    "check": "secretsmanager_secret_rotated_periodically",
+    "resource": "r1-agent/env",
+    "region": "us-east-1",
+    "detail": "Secret r1-agent/env has never been rotated.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "s3",
+    "status": "FAIL",
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "prowler-test-bucket-issue1616",
+    "region": "eu-west-1",
+    "detail": "S3 Bucket prowler-test-bucket-issue1616 has server access logging disabled.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "s3",
+    "status": "FAIL",
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "prowler-reports-demo",
+    "region": "eu-west-1",
+    "detail": "S3 Bucket prowler-reports-demo has server access logging disabled.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "medium",
+    "service": "s3",
+    "status": "FAIL",
+    "check": "s3_bucket_server_access_logging_enabled",
+    "resource": "prowler-cfn-templates-example",
+    "region": "eu-west-1",
+    "detail": "S3 Bucket prowler-cfn-templates-example has server access logging disabled.",
     "provider": "Demo AWS"
   },
   {
@@ -1321,8 +1321,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "eu-west-1",
-    "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
+    "region": "us-west-2",
+    "detail": "SageMaker Model Registry in region us-west-2 has no Model Package Groups.",
     "provider": "Demo AWS"
   },
   {
@@ -1331,8 +1331,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_registry_in_use",
     "resource": "SageMaker Model Registry",
-    "region": "us-west-2",
-    "detail": "SageMaker Model Registry in region us-west-2 has no Model Package Groups.",
+    "region": "eu-west-1",
+    "detail": "SageMaker Model Registry in region eu-west-1 has no Model Package Groups.",
     "provider": "Demo AWS"
   },
   {
@@ -1361,8 +1361,28 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
     "resource": "SageMaker Monitoring Schedules",
+    "region": "ap-northeast-1",
+    "detail": "No SageMaker monitoring schedules found in region ap-northeast-1.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
     "region": "ap-southeast-2",
     "detail": "No SageMaker monitoring schedules found in region ap-southeast-2.",
+    "provider": "Demo AWS"
+  },
+  {
+    "sev": "low",
+    "service": "sagemaker",
+    "status": "FAIL",
+    "check": "sagemaker_models_monitor_enabled",
+    "resource": "SageMaker Monitoring Schedules",
+    "region": "sa-east-1",
+    "detail": "No SageMaker monitoring schedules found in region sa-east-1.",
     "provider": "Demo AWS"
   },
   {
@@ -1381,26 +1401,6 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
     "resource": "SageMaker Monitoring Schedules",
-    "region": "ap-southeast-1",
-    "detail": "No SageMaker monitoring schedules found in region ap-southeast-1.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
-    "region": "ap-northeast-1",
-    "detail": "No SageMaker monitoring schedules found in region ap-northeast-1.",
-    "provider": "Demo AWS"
-  },
-  {
-    "sev": "low",
-    "service": "sagemaker",
-    "status": "FAIL",
-    "check": "sagemaker_models_monitor_enabled",
-    "resource": "SageMaker Monitoring Schedules",
     "region": "ap-northeast-3",
     "detail": "No SageMaker monitoring schedules found in region ap-northeast-3.",
     "provider": "Demo AWS"
@@ -1411,8 +1411,8 @@ const PROWLER_DATA = {
     "status": "FAIL",
     "check": "sagemaker_models_monitor_enabled",
     "resource": "SageMaker Monitoring Schedules",
-    "region": "sa-east-1",
-    "detail": "No SageMaker monitoring schedules found in region sa-east-1.",
+    "region": "ap-southeast-1",
+    "detail": "No SageMaker monitoring schedules found in region ap-southeast-1.",
     "provider": "Demo AWS"
   },
   {
@@ -1558,7 +1558,7 @@ const PROWLER_DATA = {
     ]
   }
 ],
-  trend: [2867, 2881, 2874, 2863, 2858, 2860, 2865]
+  trend: [2818, 2832, 2825, 2814, 2809, 2811, 2816]
 };
 /* ==PROWLER_DATA_END== */
 
